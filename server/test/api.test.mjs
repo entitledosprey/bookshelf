@@ -563,6 +563,27 @@ test('notes are searchable', async () => {
   assert.equal(found[0].id, id);
 });
 
+test('a deleted username is immediately free to register again', async () => {
+  resetThrottle();
+  const A = { Authorization: `Bearer ${token}` };
+
+  const made = await json('/api/v1/auth/register', {
+    method: 'POST', body: JSON.stringify({ username: 'ephemeral', password: 'a-good-passphrase' }),
+  });
+  assert.equal(made.status, 201);
+
+  const id = (await json('/api/v1/admin/users', { headers: A })).body
+    .find((u) => u.username === 'ephemeral').id;
+  assert.equal((await json(`/api/v1/admin/users/${id}`, { method: 'DELETE', headers: A })).status, 200);
+
+  resetThrottle();
+  const again = await json('/api/v1/auth/register', {
+    method: 'POST', body: JSON.stringify({ username: 'ephemeral', password: 'a-good-passphrase' }),
+  });
+  assert.equal(again.status, 201, 'deleting an account must free its username');
+  assert.notEqual(again.body.user.id, id, 'and it is a genuinely new account');
+});
+
 test('unknown API endpoints 404 as JSON', async () => {
   const { status, body } = await json('/api/v1/nope');
   assert.equal(status, 404);

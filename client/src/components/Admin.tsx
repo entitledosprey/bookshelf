@@ -19,6 +19,11 @@ export function Admin({ me, onClose }: { me: Me; onClose: () => void }) {
   const [tab, setTab] = useState<'users' | 'syncs' | 'server'>('users');
   // Two-step delete: the first click arms it, the second carries it out.
   const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
+  // Per-row feedback. The panel's own message sits at the top of a long
+  // scrollable dialog, so a failure on a row further down was invisible --
+  // which made a delete that never happened look like one that had.
+  const [rowMsg, setRowMsg] = useState<{ id: number; text: string; ok: boolean } | null>(null);
+  const [busyRow, setBusyRow] = useState<number | null>(null);
 
   const load = useCallback(async () => {
     try {
@@ -46,15 +51,35 @@ export function Admin({ me, onClose }: { me: Me; onClose: () => void }) {
     catch (e) { setErr(e instanceof ApiError ? e.message : 'That did not work.'); }
   };
 
+  /**
+   * Run an action belonging to one person's row, reporting the outcome next to
+   * the buttons that triggered it rather than only at the top of the dialog.
+   */
+  const rowAct = async (id: number, fn: () => Promise<unknown>, success: string) => {
+    setBusyRow(id); setRowMsg(null); setMsg(''); setErr('');
+    try {
+      await fn();
+      await load();
+      setRowMsg({ id, text: success, ok: true });
+    } catch (e) {
+      setRowMsg({
+        id,
+        // A dropped connection (a restart mid-request, say) is not an ApiError.
+        text: e instanceof ApiError ? e.message : 'That did not reach the server. Nothing changed; try again.',
+        ok: false,
+      });
+    } finally {
+      setBusyRow(null);
+    }
+  };
+
   const resetPassword = (u: AdminUser) => {
     // Generated rather than typed: an administrator should never be choosing,
     // seeing twice, or reusing someone else's password.
     const pw = Array.from(crypto.getRandomValues(new Uint8Array(12)))
       .map((b) => 'abcdefghjkmnpqrstuvwxyz23456789'[b % 30]).join('');
-    void act(async () => {
-      await api.admin.resetPassword(u.id, pw);
-      setMsg(`New password for ${u.username}: ${pw} — copy it now, it is not stored anywhere.`);
-    }, '');
+    void rowAct(u.id, () => api.admin.resetPassword(u.id, pw),
+      `New password for ${u.username}: ${pw} — copy it now, it is not stored anywhere.`);
   };
 
   const fmt = (d: string | null) => (d ? new Date(d).toLocaleString() : '—');
@@ -108,33 +133,39 @@ export function Admin({ me, onClose }: { me: Me; onClose: () => void }) {
                   <dt>Sessions</dt><dd>{u.sessions}</dd>
                 </dl>
                 <div className="row">
-                  <button className="btn btn-ghost" disabled={!u.goodreads_user_id}
-                    onClick={() => act(() => api.admin.syncUser(u.id), `Sync queued for ${u.username}.`)}>
+                  <button className="btn btn-ghost" disabled={!u.goodreads_user_id || busyRow === u.id}
+                    onClick={() => rowAct(u.id, () => api.admin.syncUser(u.id), `Sync queued for ${u.username}.`)}>
                     Sync now
                   </button>
-                  <button className="btn btn-ghost" onClick={() => resetPassword(u)}>
+                  <button className="btn btn-ghost" disabled={busyRow === u.id}
+                          onClick={() => resetPassword(u)}>
                     Reset password
                   </button>
-                  <button className="btn btn-ghost" disabled={!u.sessions}
-                    onClick={() => act(() => api.admin.signOutUser(u.id), `${u.username} signed out everywhere.`)}>
+                  <button className="btn btn-ghost" disabled={!u.sessions || busyRow === u.id}
+                    onClick={() => rowAct(u.id, () => api.admin.signOutUser(u.id), `${u.username} signed out everywhere.`)}>
                     Sign out everywhere
                   </button>
-                  <button className="btn btn-ghost"
-                    onClick={() => act(() => api.admin.patchUser(u.id, { isAdmin: !u.is_admin }),
+                  <button className="btn btn-ghost" disabled={busyRow === u.id}
+                    onClick={() => rowAct(u.id, () => api.admin.patchUser(u.id, { isAdmin: !u.is_admin }),
                       `${u.username} is ${u.is_admin ? 'no longer' : 'now'} an administrator.`)}>
                     {u.is_admin ? 'Remove admin' : 'Make admin'}
                   </button>
                   {u.id !== me.id && (
-                    <button className="btn btn-ghost danger"
+                    <button className="btn btn-ghost danger" disabled={busyRow === u.id}
                       onClick={() => {
                         if (confirmDelete !== u.id) { setConfirmDelete(u.id); return; }
-                        setConfirmDelete(null);
-                        void act(() => api.admin.deleteUser(u.id), `Deleted ${u.username}.`);
+                        // Stays armed until the delete actually succeeds, so a
+                        // failed request cannot look like a completed one.
+                        void rowAct(u.id, () => api.admin.deleteUser(u.id), `Deleted ${u.username}.`)
+                          .then(() => setConfirmDelete(null));
                       }}>
-                      {confirmDelete === u.id ? 'Really delete?' : 'Delete'}
+                      {busyRow === u.id ? 'Working' : confirmDelete === u.id ? 'Really delete?' : 'Delete'}
                     </button>
                   )}
                 </div>
+                {rowMsg?.id === u.id && (
+                  <p className={rowMsg.ok ? 'ok' : 'error'} role="status">{rowMsg.text}</p>
+                )}
               </div>
             ))}
           </section>
