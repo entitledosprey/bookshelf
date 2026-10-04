@@ -1,6 +1,6 @@
 import express from 'express';
 import { getDb } from '../db.js';
-import { wrap, HttpError } from '../http.js';
+import { wrap, HttpError, isoNow } from '../http.js';
 import { requireUser } from '../auth/middleware.js';
 import { hashPalette } from '../palette.js';
 
@@ -36,7 +36,8 @@ const SELECT = `
     c.swatches_json, c.is_dark, c.is_grayscale, c.width AS cover_w, c.height AS cover_h,
     CASE WHEN o.palette_bg IS NOT NULL THEN 'override' ELSE c.palette_source END AS eff_palette_source,
     c.status AS cover_status,
-    ub.exclusive_shelf, ub.user_shelves, ub.user_rating, ub.user_date_added
+    ub.exclusive_shelf, ub.user_shelves, ub.user_rating, ub.user_date_added,
+    ub.my_rating, ub.notes, ub.notes_updated_at
   FROM user_books ub
   JOIN books b           ON b.book_id = ub.book_id
   LEFT JOIN covers c     ON c.book_id = ub.book_id
@@ -70,6 +71,10 @@ function toBook(r) {
     published: r.published ?? null,
     averageRating: r.avg_rating ?? null,
     userRating: r.user_rating ?? null,
+    // Yours, entered here, kept separate from the Goodreads rating above.
+    myRating: r.my_rating ?? null,
+    notes: r.notes ?? '',
+    notesUpdatedAt: r.notes_updated_at ?? null,
     exclusiveShelf: r.exclusive_shelf || 'read',
     shelves: (r.user_shelves || '').split(',').map((s) => s.trim()).filter(Boolean),
     dateAdded: r.user_date_added ?? null,
@@ -106,7 +111,10 @@ router.get('/', requireUser, wrap(async (req, res) => {
     books = books.filter((b) =>
       b.title.toLowerCase().includes(q) ||
       b.author.toLowerCase().includes(q) ||
-      (b.series ?? '').toLowerCase().includes(q));
+      (b.series ?? '').toLowerCase().includes(q) ||
+      // Your own notes are searchable too: it is often the only place you
+      // recorded why a book mattered.
+      b.notes.toLowerCase().includes(q));
   }
   const shelf = String(req.query.shelf ?? '').trim();
   if (shelf) books = books.filter((b) => b.exclusiveShelf === shelf || b.shelves.includes(shelf));
@@ -129,6 +137,51 @@ router.get('/', requireUser, wrap(async (req, res) => {
   };
 
   res.json({ books, sections, totals });
+}));
+
+/**
+ * Your rating and your notes for one book.
+ *
+ * Deliberately a separate column from the Goodreads rating: that one is
+ * overwritten by every sync, and these are not.
+ */
+router.patch('/:bookId', requireUser, wrap(async (req, res) => {
+  const db = getDb();
+  const owned = db.prepare('SELECT 1 FROM user_books WHERE user_id = ? AND book_id = ?')
+    .get(req.user.id, req.params.bookId);
+  if (!owned) throw new HttpError(404, 'book not found on your shelf');
+
+  const body = req.body ?? {};
+  const sets = [];
+  const vals = [];
+
+  if (body.myRating !== undefined) {
+    if (body.myRating === null) {
+      sets.push('my_rating = NULL');
+    } else {
+      const n = Number(body.myRating);
+      if (!Number.isInteger(n) || n < 1 || n > 5) {
+        throw new HttpError(400, 'a rating is a whole number of stars from 1 to 5, or null to clear it');
+      }
+      sets.push('my_rating = ?');
+      vals.push(n);
+    }
+  }
+
+  if (body.notes !== undefined) {
+    const notes = String(body.notes ?? '');
+    if (notes.length > 20000) throw new HttpError(400, 'that note is too long');
+    sets.push('notes = ?', 'notes_updated_at = ?');
+    vals.push(notes, notes.trim() ? isoNow() : null);
+  }
+
+  if (!sets.length) throw new HttpError(400, 'nothing to update');
+
+  vals.push(req.user.id, req.params.bookId);
+  db.prepare(`UPDATE user_books SET ${sets.join(', ')} WHERE user_id = ? AND book_id = ?`).run(...vals);
+
+  const row = db.prepare(`${SELECT} AND ub.book_id = ?`).get(req.user.id, req.params.bookId);
+  res.json(toBook(row));
 }));
 
 router.get('/:bookId', requireUser, wrap(async (req, res) => {

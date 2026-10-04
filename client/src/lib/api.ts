@@ -83,6 +83,10 @@ export const api = {
   books: () => call<ShelfResponse>('/books'),
   book: (id: string) => call<Book>(`/books/${id}`),
 
+  /** Your own rating and notes. Separate from anything Goodreads sends. */
+  saveBook: (id: string, body: { myRating?: number | null; notes?: string }) =>
+    call<Book>(`/books/${id}`, { method: 'PATCH', body: JSON.stringify(body) }),
+
   /** The public shelf shown before sign-in. No credentials required. */
   demoBooks: () => call<ShelfResponse & { demo: true }>('/demo/books'),
 

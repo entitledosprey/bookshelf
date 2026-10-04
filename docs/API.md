@@ -61,6 +61,7 @@ in a signed-in account's shelf.
 | --- | --- | --- | --- |
 | `GET` | `/books` | session | `{ books, sections, totals }`. Optional `?q=` and `?shelf=`. |
 | `GET` | `/books/:bookId` | session | One `Book`, `404` if not on this user's shelf. |
+| `PATCH` | `/books/:bookId` | session | `{ myRating?, notes? }` → the updated `Book`. `myRating` is 1-5 or `null` to clear; notes cap at 20000 characters. `404` for a book not on your shelf. |
 | `GET` | `/covers/:bookId` | session | The cached image. `ETag`, `Cache-Control: private, immutable`. `404` when no cover was found. |
 
 `sections` splits the shelf into `library` (read and currently-reading) and
@@ -83,6 +84,9 @@ A `Book` looks like this:
   "published": 1941,
   "averageRating": 4.38,
   "userRating": 5,
+  "myRating": 4,
+  "notes": "Lent to Sam, March.",
+  "notesUpdatedAt": "2026-10-04T17:12:03.000Z",
   "exclusiveShelf": "read",
   "shelves": ["adventure", "history"],
   "dateAdded": "2026-09-11T17:07:58.000Z",
@@ -115,6 +119,9 @@ A `Book` looks like this:
 * **`geometry.source`** is `heuristic` for most books. Say so in the UI rather
   than presenting an estimate as a measurement — `confidence` is 0.95 for fully
   measured, 0.6 for estimated from a real page count, 0.2 for no page count.
+* **`myRating`** and **`notes`** are the reader's own, entered in this app and
+  **never touched by a sync** — unlike `userRating`, which mirrors Goodreads and
+  is overwritten on every run. `?q=` searches notes as well as title and author.
 * **`palettePending`** means enrichment has not run yet; the `palette` supplied
   is a seeded fallback so the book is still renderable.
 * **`binding`** `ebook` and `audiobook` get a fixed slim thickness, never a page

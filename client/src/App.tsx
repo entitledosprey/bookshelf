@@ -215,6 +215,11 @@ export function App() {
           neighbours={neighbours}
           onClose={onClose}
           onNavigate={(b) => setOpenId(b.id)}
+          readOnly={isDemo}
+          onSaved={(updated) =>
+            setData((d) => (d
+              ? { ...d, books: d.books.map((b) => (b.id === updated.id ? updated : b)) }
+              : d))}
         />
       )}
     </div>

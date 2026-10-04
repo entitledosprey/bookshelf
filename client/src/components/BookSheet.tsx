@@ -1,11 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Book } from '../types';
+import { api, ApiError } from '../lib/api';
+import { Stars } from './Stars';
 
 interface Props {
   book: Book;
   neighbours: { prev: Book | null; next: Book | null };
   onClose: () => void;
   onNavigate: (book: Book) => void;
+  /** Demo books are read-only: there is no account to save against. */
+  readOnly?: boolean;
+  onSaved?: (book: Book) => void;
 }
 
 const mm = (v: number) => `${Math.round(v)} mm`;
@@ -24,9 +29,31 @@ function provenance(book: Book): string {
   }
 }
 
-export function BookSheet({ book, neighbours, onClose, onNavigate }: Props) {
+export function BookSheet({ book, neighbours, onClose, onNavigate, readOnly, onSaved }: Props) {
   const ref = useRef<HTMLDialogElement>(null);
   const [failed, setFailed] = useState(false);
+  const [notes, setNotes] = useState(book.notes);
+  const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  const [saveError, setSaveError] = useState('');
+
+  const save = async (body: { myRating?: number | null; notes?: string }) => {
+    setSaveState('saving');
+    setSaveError('');
+    try {
+      const updated = await api.saveBook(book.id, body);
+      onSaved?.(updated);
+      setSaveState('saved');
+    } catch (e) {
+      setSaveState('error');
+      setSaveError(e instanceof ApiError ? e.message : 'Could not save that.');
+    }
+  };
+
+  // Save notes when the field loses focus, so nothing is lost by closing the
+  // sheet, and nothing is written on every keystroke.
+  const saveNotesIfChanged = () => {
+    if (notes !== book.notes) void save({ notes });
+  };
 
   useEffect(() => {
     const el = ref.current;
@@ -44,8 +71,11 @@ export function BookSheet({ book, neighbours, onClose, onNavigate }: Props) {
 
   useEffect(() => {
     setFailed(false);
+    setNotes(book.notes);
+    setSaveState('idle');
+    setSaveError('');
     if (ref.current) ref.current.scrollTop = 0;
-  }, [book.id]);
+  }, [book.id, book.notes]);
 
   const pal = book.palette!;
   const thickness = Math.max(6, book.geometry.thicknessMm * 0.9);
@@ -117,12 +147,11 @@ export function BookSheet({ book, neighbours, onClose, onNavigate }: Props) {
             <span className="provenance">{provenance(book)}</span>
           </dd>
           {book.published && <><dt>Published</dt><dd>{book.published}</dd></>}
-          {book.userRating ? (
-            <><dt>Your rating</dt>
-              <dd className="rating">{'★'.repeat(book.userRating)}{'☆'.repeat(5 - book.userRating)}</dd></>
-          ) : null}
+          {/* Your own Goodreads star rating is deliberately not shown: the
+              rating that matters here is the one you give below, and the
+              community average is the only outside opinion worth the space. */}
           {book.averageRating && (
-            <><dt>Average</dt><dd>{book.averageRating.toFixed(2)}</dd></>
+            <><dt>Average</dt><dd>{book.averageRating.toFixed(2)} <span className="hint">on Goodreads</span></dd></>
           )}
           {!book.hasCover && (
             <><dt>Cover</dt><dd className="provenance">
@@ -132,6 +161,39 @@ export function BookSheet({ book, neighbours, onClose, onNavigate }: Props) {
             </dd></>
           )}
         </dl>
+
+        {!readOnly && (
+          <section className="mine">
+            <div className="mine-head">
+              <h3>Your rating</h3>
+              <span className="save-state" aria-live="polite">
+                {saveState === 'saving' ? 'Saving' : saveState === 'saved' ? 'Saved' : ''}
+              </span>
+            </div>
+            <Stars value={book.myRating} onChange={(v) => void save({ myRating: v })} />
+
+            <h3>Your notes</h3>
+            <textarea
+              className="field notes"
+              value={notes}
+              rows={4}
+              placeholder="Why you kept it, who lent it to you, where you stopped."
+              aria-label="Your notes about this book"
+              onChange={(e) => setNotes(e.target.value)}
+              onBlur={saveNotesIfChanged}
+            />
+            <div className="row">
+              <button type="button" className="btn" disabled={notes === book.notes || saveState === 'saving'}
+                      onClick={() => void save({ notes })}>
+                {notes === book.notes ? 'Notes saved' : 'Save notes'}
+              </button>
+              {book.notesUpdatedAt && notes === book.notes && (
+                <span className="hint">last edited {new Date(book.notesUpdatedAt).toLocaleDateString()}</span>
+              )}
+            </div>
+            {saveError && <p className="error">{saveError}</p>}
+          </section>
+        )}
 
         <div className="sheet-actions">
           <button type="button" className="btn" onClick={onClose}>Close</button>

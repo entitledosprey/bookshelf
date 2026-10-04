@@ -97,7 +97,12 @@ CREATE TABLE IF NOT EXISTS user_books (
   book_id         TEXT NOT NULL REFERENCES books(book_id) ON DELETE CASCADE,
   exclusive_shelf TEXT NOT NULL DEFAULT 'read',
   user_shelves    TEXT NOT NULL DEFAULT '',
+  -- user_rating mirrors Goodreads and is overwritten by every sync.
   user_rating     INTEGER,
+  -- my_rating and notes are yours, entered here. The merge never touches them.
+  my_rating       INTEGER,
+  notes           TEXT NOT NULL DEFAULT '',
+  notes_updated_at TEXT,
   user_date_added TEXT,
   first_seen_at   TEXT NOT NULL,
   last_seen_at    TEXT NOT NULL,
@@ -186,6 +191,17 @@ function migrate(database) {
     database.exec('UPDATE users SET is_admin = 1 WHERE id = (SELECT MIN(id) FROM users)');
   }
   database.exec('CREATE UNIQUE INDEX IF NOT EXISTS idx_users_username ON users(username)');
+
+  // Personal rating and notes, kept apart from the Goodreads rating so a sync
+  // can never overwrite what you wrote.
+  const ubCols = cols('user_books');
+  if (!ubCols.includes('my_rating')) {
+    database.exec('ALTER TABLE user_books ADD COLUMN my_rating INTEGER');
+  }
+  if (!ubCols.includes('notes')) {
+    database.exec("ALTER TABLE user_books ADD COLUMN notes TEXT NOT NULL DEFAULT ''");
+    database.exec('ALTER TABLE user_books ADD COLUMN notes_updated_at TEXT');
+  }
 }
 
 let db = null;

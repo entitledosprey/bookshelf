@@ -459,6 +459,78 @@ test('deleting a user removes their shelf but keeps shared book rows', async () 
   assert.ok(!(await json('/api/v1/admin/users', { headers: A })).body.some((u) => u.username === 'latecomer'));
 });
 
+test('you can rate a book and write notes on it', async () => {
+  const A = { Authorization: `Bearer ${token}` };
+  const first = (await json('/api/v1/books', { headers: A })).body.books[0];
+
+  const rated = await json(`/api/v1/books/${first.id}`, {
+    method: 'PATCH', headers: A,
+    body: JSON.stringify({ myRating: 4, notes: 'Borrowed from Dad. Return it.' }),
+  });
+  assert.equal(rated.status, 200);
+  assert.equal(rated.body.myRating, 4);
+  assert.match(rated.body.notes, /Return it/);
+  assert.ok(rated.body.notesUpdatedAt, 'writing a note should stamp a time');
+
+  // ...and it is there on the next read.
+  const reread = (await json('/api/v1/books', { headers: A })).body.books.find((b) => b.id === first.id);
+  assert.equal(reread.myRating, 4);
+  assert.match(reread.notes, /Return it/);
+});
+
+test('your rating is separate from the Goodreads rating', async () => {
+  const A = { Authorization: `Bearer ${token}` };
+  const b = (await json('/api/v1/books', { headers: A })).body.books.find((x) => x.myRating === 4);
+  assert.ok(b, 'the rated book should still be there');
+  assert.notEqual(b.myRating, b.userRating, 'the two ratings are different fields');
+});
+
+test('a rating must be 1-5 or null, and notes have a ceiling', async () => {
+  const A = { Authorization: `Bearer ${token}` };
+  const id = (await json('/api/v1/books', { headers: A })).body.books[0].id;
+  for (const bad of [0, 6, 2.5, 'four']) {
+    const r = await json(`/api/v1/books/${id}`, {
+      method: 'PATCH', headers: A, body: JSON.stringify({ myRating: bad }),
+    });
+    assert.equal(r.status, 400, `${bad} should be rejected`);
+  }
+  const long = await json(`/api/v1/books/${id}`, {
+    method: 'PATCH', headers: A, body: JSON.stringify({ notes: 'x'.repeat(20001) }),
+  });
+  assert.equal(long.status, 400);
+
+  // null clears the rating.
+  const cleared = await json(`/api/v1/books/${id}`, {
+    method: 'PATCH', headers: A, body: JSON.stringify({ myRating: null }),
+  });
+  assert.equal(cleared.status, 200);
+  assert.equal(cleared.body.myRating, null);
+});
+
+test('you cannot rate or annotate a book that is not on your shelf', async () => {
+  resetThrottle();
+  const reg = await json('/api/v1/auth/register', {
+    method: 'POST', body: JSON.stringify({ username: 'stranger', password: 'a-good-passphrase' }),
+  });
+  const mine = (await json('/api/v1/books', { headers: { Authorization: `Bearer ${token}` } })).body.books[0];
+  const r = await json(`/api/v1/books/${mine.id}`, {
+    method: 'PATCH', headers: { Authorization: `Bearer ${reg.body.token}` },
+    body: JSON.stringify({ myRating: 1, notes: 'should not be possible' }),
+  });
+  assert.equal(r.status, 404, "another account's book must not be writable");
+});
+
+test('notes are searchable', async () => {
+  const A = { Authorization: `Bearer ${token}` };
+  const id = (await json('/api/v1/books', { headers: A })).body.books[1].id;
+  await json(`/api/v1/books/${id}`, {
+    method: 'PATCH', headers: A, body: JSON.stringify({ notes: 'zarquon lending pile' }),
+  });
+  const found = (await json('/api/v1/books?q=zarquon', { headers: A })).body.books;
+  assert.equal(found.length, 1);
+  assert.equal(found[0].id, id);
+});
+
 test('unknown API endpoints 404 as JSON', async () => {
   const { status, body } = await json('/api/v1/nope');
   assert.equal(status, 404);

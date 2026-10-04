@@ -70,6 +70,10 @@ export function demoShelf(limit = 48) {
       exclusiveShelf: 'read',
       shelves: [],
       userRating: null,
+      // The demo shelf belongs to nobody, so there is nothing to rate or note.
+      myRating: null,
+      notes: '',
+      notesUpdatedAt: null,
       averageRating: null,
       dateAdded: null,
       palettePending: false,

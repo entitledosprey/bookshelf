@@ -47,6 +47,10 @@ dark academia is heavy joinery with a brass rail along each board and a deep
 recess. Headroom, board thickness, upright width and shelf spacing are all
 theme tokens.
 
+**You can rate a book and keep notes on it.** Both are yours, stored per
+account and separate from anything Goodreads sends, so a sync can never
+overwrite them. Notes are searchable alongside titles and authors.
+
 **Bibliographic data is shared between accounts, reading state is not.** Two
 users who own the same book share one cover download, one metadata lookup and
 one palette extraction; their ratings and shelves stay separate, and no user can

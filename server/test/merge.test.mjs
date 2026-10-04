@@ -116,6 +116,40 @@ test('deleting a user removes their shelf but not the shared books', () => {
   assert.equal(getDb().prepare('SELECT COUNT(*) n FROM books').get().n, 1);
 });
 
+test('a sync never overwrites your own rating or notes', () => {
+  // The whole reason these live in separate columns from user_rating: the
+  // Goodreads rating is refreshed on every sync, and yours must not be.
+  const u = user();
+  mergeBooks({ userId: u, items: [book({ userRating: 3 })], exclusiveShelf: 'read' });
+  getDb().prepare(`UPDATE user_books SET my_rating = 5, notes = ?, notes_updated_at = '2026-01-01'
+                   WHERE user_id = ? AND book_id = '34'`)
+    .run('Reread this every winter. The Moria chapter still gets me.', u);
+
+  // A later sync where Goodreads reports a different rating and new shelves.
+  mergeBooks({ userId: u, items: [book({ userRating: 1, shelves: ['fantasy', 'reread'] })], exclusiveShelf: 'read' });
+
+  const row = getDb().prepare("SELECT * FROM user_books WHERE user_id = ? AND book_id = '34'").get(u);
+  assert.equal(row.user_rating, 1, 'the Goodreads rating should follow Goodreads');
+  assert.equal(row.my_rating, 5, 'your own rating must survive the sync');
+  assert.match(row.notes, /Moria/, 'your notes must survive the sync');
+  assert.equal(row.notes_updated_at, '2026-01-01');
+  assert.equal(row.user_shelves, 'fantasy, reread');
+});
+
+test('ratings and notes are per user, not per book', () => {
+  const a = user(1, 'a@example.test');
+  const b = user(2, 'b@example.test');
+  mergeBooks({ userId: a, items: [book()], exclusiveShelf: 'read' });
+  mergeBooks({ userId: b, items: [book()], exclusiveShelf: 'read' });
+
+  getDb().prepare("UPDATE user_books SET my_rating = 5, notes = 'loved it' WHERE user_id = ? AND book_id = '34'").run(a);
+  getDb().prepare("UPDATE user_books SET my_rating = 2, notes = 'not for me' WHERE user_id = ? AND book_id = '34'").run(b);
+
+  const rows = getDb().prepare('SELECT user_id, my_rating, notes FROM user_books ORDER BY user_id').all();
+  assert.deepEqual(rows.map((r) => r.my_rating), [5, 2]);
+  assert.deepEqual(rows.map((r) => r.notes), ['loved it', 'not for me']);
+});
+
 test('a missing page count still produces a renderable book', () => {
   const u = user();
   mergeBooks({ userId: u, items: [book({ pages: null })], exclusiveShelf: 'read' });

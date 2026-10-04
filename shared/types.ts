@@ -74,7 +74,13 @@ export interface Book {
   pages: number | null;
   published: number | null;
   averageRating: number | null;
+  /** Your Goodreads rating. Overwritten by every sync. */
   userRating: number | null;
+  /** Your rating entered here, 1-5. Never touched by a sync. */
+  myRating: number | null;
+  /** Your notes on this book. Never touched by a sync. */
+  notes: string;
+  notesUpdatedAt: string | null;
   exclusiveShelf: ExclusiveShelf;
   shelves: string[];
   dateAdded: string | null;
