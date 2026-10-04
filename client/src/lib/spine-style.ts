@@ -69,7 +69,10 @@ export function presentation(book: Book, opts: { leaning?: boolean; height: numb
   return {
     className: `s-${book.spineStyle}`,
     updown,
-    lean: opts.leaning ? (4 + leanRoll * 5) * (leanRoll < 0.5 ? -1 : 1) : null,
+    // Always leans RIGHT, into the empty part of the shelf -- a book cannot
+    // lean left against the ones holding it up. Kept shallow: past about 7
+    // degrees it reads as falling over rather than resting.
+    lean: opts.leaning ? 3 + leanRoll * 4 : null,
     plateText: luminance(book.palette!.accent) > 0.45 ? '#15110d' : '#f4efe6',
     // Only put the author on a spine with room for it, as a binder would.
     showAuthor: opts.height * textSpan > 150 && book.displayTitle.length < 46,

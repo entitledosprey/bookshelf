@@ -10,6 +10,8 @@ import { router as booksRouter } from './routes/books.js';
 import { router as coversRouter } from './routes/covers.js';
 import { router as syncRouter } from './routes/sync.js';
 import { router as adminRouter } from './routes/admin.js';
+import { router as demoRouter } from './routes/demo.js';
+import { seedDemo } from './demo/seed.js';
 import { startScheduler, requestSync, syncRunning, nextSyncAt } from './scheduler.js';
 import { pendingCount } from './enrich/worker.js';
 
@@ -62,6 +64,8 @@ export function createApp() {
   app.use('/api/v1/covers', coversRouter);
   app.use('/api/v1/sync', syncRouter);
   app.use('/api/v1/admin', adminRouter);
+  // Public: the shelf a visitor sees before they have an account.
+  app.use('/api/v1/demo', demoRouter);
 
   app.use('/api', (_req, _res, next) => next(new HttpError(404, 'no such endpoint')));
 
@@ -88,6 +92,8 @@ export function createApp() {
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   openDb();
+  // Baked into the image, so this needs no network and is instant.
+  console.log(`[demo] seeded ${seedDemo()} demo books`);
   for (const w of configWarnings()) console.warn('[config]', w);
   const app = createApp();
   app.listen(config.port, '0.0.0.0', () => {

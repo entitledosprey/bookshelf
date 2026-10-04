@@ -114,7 +114,8 @@ export interface Prefs {
 
 export interface Me {
   id: number;
-  email: string;
+  username: string;
+  email: string | null;
   goodreadsUserId: string | null;
   isAdmin: boolean;
   prefs: Prefs;

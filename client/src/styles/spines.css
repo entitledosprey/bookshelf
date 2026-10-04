@@ -250,7 +250,15 @@
   box-shadow: inset 2px 0 4px -2px rgba(0,0,0,.5), inset -2px 0 4px -2px rgba(0,0,0,.5);
 }
 
-/* To-read books lean, as unshelved books do. Seeded per book. */
-.book[data-lean] { transform: rotate(var(--lean)); transform-origin: bottom left; }
+/* The last book or two on a partly filled shelf lean into the gap, as real ones
+   do. The pivot is the bottom-RIGHT corner: that is the edge that stays in
+   contact with the board as the book tips right. Pivoting on the left lifts the
+   book off the shelf and lets it overlap its neighbour. */
+.book[data-lean] {
+  transform: rotate(var(--lean));
+  transform-origin: bottom right;
+  /* Room for the tilted top edge so it never crosses the book beside it. */
+  margin-left: 0.5rem;
+}
 .book[data-lean]:hover { transform: rotate(var(--lean)) translateY(-3px); }
 

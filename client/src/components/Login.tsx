@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import { api, ApiError } from '../lib/api';
 import type { Me } from '../types';
+import { GoodreadsUserIdHelp, GoodreadsRssHelp } from './GoodreadsHelp';
 
 /**
  * Accounts are invite-only: there is no open signup, so this screen asks for a
  * code rather than offering to create one.
  */
-export function Login({ onSignedIn }: { onSignedIn: (me: Me) => void }) {
+export function Login({ onSignedIn, onCancel }: { onSignedIn: (me: Me) => void; onCancel?: () => void }) {
   const [mode, setMode] = useState<'login' | 'register'>('login');
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [inviteCode, setInviteCode] = useState('');
   const [goodreadsUserId, setGoodreadsUserId] = useState('');
   const [goodreadsRssKey, setGoodreadsRssKey] = useState('');
   const [error, setError] = useState('');
@@ -22,8 +22,8 @@ export function Login({ onSignedIn }: { onSignedIn: (me: Me) => void }) {
     setError('');
     try {
       const res = mode === 'login'
-        ? await api.login(email, password)
-        : await api.register({ inviteCode, email, password, goodreadsUserId, goodreadsRssKey });
+        ? await api.login(username, password)
+        : await api.register({ username, password, goodreadsUserId, goodreadsRssKey });
       onSignedIn(res.user);
     } catch (err) {
       setError(err instanceof ApiError ? err.message : 'Something went wrong. Try again.');
@@ -40,20 +40,13 @@ export function Login({ onSignedIn }: { onSignedIn: (me: Me) => void }) {
       <form onSubmit={submit}>
         {error && <p className="error">{error}</p>}
 
-        {mode === 'register' && (
-          <label>
-            Invite code
-            <input className="field" value={inviteCode} required
-                   autoComplete="off" spellCheck={false}
-                   onChange={(e) => setInviteCode(e.target.value.toUpperCase())} />
-          </label>
-        )}
-
         <label>
-          Email
-          <input className="field" type="email" value={email} required
-                 autoComplete="email"
-                 onChange={(e) => setEmail(e.target.value)} />
+          Username
+          <input className="field" value={username} required
+                 autoComplete="username" spellCheck={false}
+                 pattern="[A-Za-z0-9][A-Za-z0-9_\-]{2,31}"
+                 placeholder="3-32 letters, numbers, - or _"
+                 onChange={(e) => setUsername(e.target.value)} />
         </label>
 
         <label>
@@ -66,22 +59,26 @@ export function Login({ onSignedIn }: { onSignedIn: (me: Me) => void }) {
 
         {mode === 'register' && (
           <>
+            <p className="hint">
+              You can add your Goodreads details now or later from your account.
+              Without them you will see the sample shelf.
+            </p>
             <label>
-              Goodreads user id
-              <input className="field" value={goodreadsUserId} required
-                     inputMode="numeric" placeholder="e.g. 152185079"
-                     onChange={(e) => setGoodreadsUserId(e.target.value.trim())} />
-              <span className="hint">
-                The number in your Goodreads profile URL, like
-                goodreads.com/user/show/<strong>152185079</strong>-your-name
-              </span>
+              Goodreads user id <span className="hint">— optional</span>
+              <input className="field" value={goodreadsUserId}
+                     placeholder="152185079 or your profile URL"
+                     onChange={(e) => setGoodreadsUserId(e.target.value)} />
             </label>
+            <GoodreadsUserIdHelp />
+
             <label>
               Goodreads RSS key <span className="hint">— only if your profile is private</span>
               <input className="field" value={goodreadsRssKey}
                      autoComplete="off" spellCheck={false}
-                     onChange={(e) => setGoodreadsRssKey(e.target.value.trim())} />
+                     placeholder="paste your RSS link, or leave empty"
+                     onChange={(e) => setGoodreadsRssKey(e.target.value)} />
             </label>
+            <GoodreadsRssHelp />
           </>
         )}
 
@@ -92,11 +89,17 @@ export function Login({ onSignedIn }: { onSignedIn: (me: Me) => void }) {
         </button>
       </form>
 
+      {onCancel && (
+        <p className="switch">
+          <button onClick={onCancel}>Back to the sample shelf</button>
+        </p>
+      )}
+
       <p className="switch">
         {mode === 'login' ? (
-          <>Have an invite code? <button onClick={() => setMode('register')}>Set up your shelf</button></>
+          <>New here? <button onClick={() => setMode('register')}>Create an account</button></>
         ) : (
-          <>Already set up? <button onClick={() => setMode('login')}>Sign in</button></>
+          <>Already have an account? <button onClick={() => setMode('login')}>Sign in</button></>
         )}
       </p>
     </div>

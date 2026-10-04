@@ -7,6 +7,8 @@ import { Bookcase } from './components/Bookcase';
 import { BookSheet } from './components/BookSheet';
 import { Controls } from './components/Controls';
 import { SyncStatus } from './components/SyncStatus';
+import { Account } from './components/Account';
+import { Admin } from './components/Admin';
 
 export function App() {
   const [me, setMe] = useState<Me | null>(null);
@@ -16,6 +18,11 @@ export function App() {
   const [query, setQuery] = useState('');
   const [openId, setOpenId] = useState<string | null>(null);
   const [error, setError] = useState('');
+  // Visitors see a demo shelf first; this flips to the sign-in form on request.
+  const [showLogin, setShowLogin] = useState(false);
+  const [showAccount, setShowAccount] = useState(false);
+  const [showAdmin, setShowAdmin] = useState(false);
+  const isDemo = !me;
   const lastFocused = useRef<HTMLElement | null>(null);
 
   const prefs: Prefs = me?.prefs ?? { theme: 'wood', order: 'author', scale: 1.6 };
@@ -44,7 +51,21 @@ export function App() {
     }
   }, []);
 
-  useEffect(() => { if (me) void load(); }, [me, load]);
+  const loadDemo = useCallback(async () => {
+    try {
+      setData(await api.demoBooks());
+      setStatus(null);
+      setError('');
+    } catch {
+      setError('Could not load the demo shelf.');
+    }
+  }, []);
+
+  useEffect(() => {
+    if (booting) return;
+    if (me) void load();
+    else void loadDemo();
+  }, [me, booting, load, loadDemo]);
 
   // While a sync or enrichment is in flight, refresh so spines fill in.
   useEffect(() => {
@@ -95,7 +116,17 @@ export function App() {
   };
 
   if (booting) return <div className="app" aria-busy="true" />;
-  if (!me) return <div className="app"><Login onSignedIn={setMe} /></div>;
+
+  if (showLogin && !me) {
+    return (
+      <div className="app">
+        <Login
+          onSignedIn={(u) => { setShowLogin(false); setMe(u); }}
+          onCancel={() => setShowLogin(false)}
+        />
+      </div>
+    );
+  }
 
   const total = data?.totals.books ?? 0;
 
@@ -104,20 +135,45 @@ export function App() {
       <header className="topbar">
         <h1 className="wordmark">Bookshelf</h1>
         <span className="count">
-          {total > 0 ? `${total} ${total === 1 ? 'book' : 'books'}` : ''}
+          {isDemo
+            ? 'a sample shelf'
+            : total > 0 ? `${total} ${total === 1 ? 'book' : 'books'}` : ''}
         </span>
         <span className="topbar-spacer" />
-        <button className="btn btn-ghost" onClick={() => api.logout().then(() => setMe(null))}>
-          Sign out
-        </button>
+        {isDemo ? (
+          <button className="btn" onClick={() => setShowLogin(true)}>Sign in</button>
+        ) : (
+          <>
+            {me.isAdmin && (
+              <button className="btn btn-ghost" onClick={() => setShowAdmin(true)}>Admin</button>
+            )}
+            <button className="btn btn-ghost" onClick={() => setShowAccount(true)}>Account</button>
+            <button className="btn btn-ghost" onClick={() => api.logout().then(() => setMe(null))}>
+              Sign out
+            </button>
+          </>
+        )}
       </header>
 
       <Controls query={query} onQuery={setQuery} prefs={prefs} onPrefs={savePrefs} />
 
       {error && <p className="notice">{error}</p>}
-      <SyncStatus status={status} pending={data?.totals.enrichPending ?? 0} onSync={runSync} />
 
-      {data && total === 0 && !status?.running ? (
+      {isDemo && (
+        <p className="notice">
+          These are real books, picked at random, to show what the shelf looks like.{' '}
+          <button className="btn btn-ghost" onClick={() => setShowLogin(true)}>
+            Sign in
+          </button>{' '}
+          to see your own Goodreads library here.
+        </p>
+      )}
+
+      {!isDemo && (
+        <SyncStatus status={status} pending={data?.totals.enrichPending ?? 0} onSync={runSync} />
+      )}
+
+      {!isDemo && data && total === 0 && !status?.running ? (
         <div className="empty">
           <h2>Your shelf is empty</h2>
           <p>
@@ -139,6 +195,19 @@ export function App() {
           onOpen={onOpen}
         />
       ) : null}
+
+      {me?.isAdmin && showAdmin && (
+        <Admin me={me} onClose={() => setShowAdmin(false)} />
+      )}
+
+      {me && showAccount && (
+        <Account
+          me={me}
+          onUpdated={setMe}
+          onClose={() => setShowAccount(false)}
+          onSync={() => { setShowAccount(false); void runSync(); }}
+        />
+      )}
 
       {openBook && (
         <BookSheet

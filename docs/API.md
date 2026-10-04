@@ -21,19 +21,39 @@ Errors are always `{ "error": "lower-case sentence" }` with a meaningful status.
 
 ## Authentication
 
-Accounts are invite-only; there is no open signup.
+Signup is open. The **first account created on an instance becomes the
+administrator**; an administrator can close signups afterwards.
 
 | Method | Path | Auth | Notes |
 | --- | --- | --- | --- |
-| `GET` | `/auth/config` | — | `{ invitesEnabled }`. False when `ADMIN_API_KEY` is unset. |
-| `POST` | `/auth/register` | invite code | `{ inviteCode, email, password, goodreadsUserId, goodreadsRssKey? }` → `201 { token, expiresAt, user }`. Queues the account's first sync. |
-| `POST` | `/auth/login` | — | `{ email, password }` → `{ token, expiresAt, user }`. Also sets the cookie. |
+| `GET` | `/auth/config` | — | `{ signupsEnabled }`. |
+| `POST` | `/auth/register` | — | `{ username, password, goodreadsUserId?, goodreadsRssKey? }` → `201 { token, expiresAt, user }`. `403` when signups are closed. Queues a first sync if Goodreads details were given. |
+| `POST` | `/auth/login` | — | `{ username, password }` → `{ token, expiresAt, user }`. Also sets the cookie. |
 | `POST` | `/auth/logout` | session | `204`. Revokes the token server-side. |
 | `GET` | `/auth/me` | session | The `Me` object. |
-| `PATCH` | `/auth/prefs` | session | `{ theme?, order?, scale? }` → the merged `Prefs`. Unknown values are `400`. |
+| `PATCH` | `/auth/prefs` | session | `{ theme?, order?, scale? }` → the merged `Prefs`. |
+| `PATCH` | `/auth/account` | session | `{ goodreadsUserId?, goodreadsRssKey? }` → `Me`. Both accept a pasted URL. |
+| `POST` | `/auth/password` | session | `{ currentPassword, newPassword }`. Revokes every OTHER session. |
 
-`password` must be at least 8 characters. Login returns the same message for a
-wrong password and an unknown account, so account existence is not leaked.
+Usernames are 3–32 characters of letters, numbers, `-` and `_`, lowercased and
+unique. Passwords must be at least 8 characters. Login returns the same message
+for a wrong password and an unknown account, so account existence is not leaked.
+
+A Goodreads user id must be the **number** from the profile URL; a display name
+is rejected with a message saying so, because it otherwise produces a bare 404
+from Goodreads that is baffling to diagnose.
+
+## The demo shelf
+
+Public, no credentials. This is what a visitor sees before signing in.
+
+| Method | Path | Notes |
+| --- | --- | --- |
+| `GET` | `/demo/books` | A random sample of real books, same shape as `/books` plus `demo: true`. Never cached. |
+| `GET` | `/demo/covers/:bookId` | Demo cover art only; real users' covers are not reachable here. |
+
+Demo books carry ids prefixed `demo-`, live in their own table, and never appear
+in a signed-in account's shelf.
 
 ## Books
 
@@ -115,14 +135,21 @@ ended on a short page, which proves the whole library was enumerated.
 
 ## Admin
 
-Requires the `X-Admin-Key` header. With `ADMIN_API_KEY` unset every route here
-returns `404` and the rest of the app runs normally.
+Two ways in: a **session belonging to an account flagged `is_admin`** (what the
+admin panel uses), or the `X-Admin-Key` header as break-glass for scripting.
+Anonymous requests get `401`; a signed-in non-admin gets `403`.
 
 | Method | Path | Notes |
 | --- | --- | --- |
-| `POST` | `/admin/invites` | `201 { code, expiresAt }`. Single use. |
-| `GET` | `/admin/invites` | The last 50, with who used them. |
-| `GET` | `/admin/users` | Accounts with book counts and last sync. |
+| `GET` | `/admin/overview` | Store, enrichment and demo totals; active rate-limit cooldowns; measured feed capability; whether signups are open. |
+| `GET` | `/admin/users` | Accounts with book counts, session counts and last sync status. Never returns password hashes or stored RSS keys — only whether a key exists. |
+| `GET` | `/admin/runs` | The last 30 sync runs across all accounts. |
+| `PATCH` | `/admin/users/:id` | `{ isAdmin?, goodreadsUserId? }`. Refuses to demote the last administrator. |
+| `POST` | `/admin/users/:id/password` | `{ newPassword }`. Also revokes all of that user's sessions. |
+| `POST` | `/admin/users/:id/signout` | Revokes sessions without changing the password. |
+| `POST` | `/admin/users/:id/sync` | Queues a sync for that account. |
+| `DELETE` | `/admin/users/:id` | Removes the account, its shelf and sessions. Shared `books` rows survive. Refuses the last administrator or your own account. |
+| `PATCH` | `/admin/settings` | `{ signupsEnabled }`. |
 | `PATCH` | `/admin/books/:bookId` | Writes `book_overrides`; every read path prefers these, so re-enrichment can never undo a manual fix. |
 | `POST` | `/admin/reenrich` | `{ bookIds? }` or all. Use after bumping `PALETTE_VERSION`. |
 

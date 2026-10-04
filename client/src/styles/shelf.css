@@ -276,3 +276,11 @@ select.field { flex: 0 0 auto; }
   color: var(--ink);
   margin: 0 0 var(--sp-2);
 }
+
+/* A failed sync is the one notice that should actually catch the eye: it
+   usually means a detail in the account needs correcting. */
+.notice-loud {
+  border-left-color: var(--accent);
+  border-left-width: 3px;
+  color: var(--ink);
+}

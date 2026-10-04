@@ -3,6 +3,7 @@ import { config } from './config.js';
 import { syncUser } from './goodreads/sync.js';
 import { drainEnrichment, pendingCount } from './enrich/worker.js';
 import { pruneExpiredSessions } from './auth/sessions.js';
+import { drainDemoCovers, demoCoversPending } from './demo/covers.js';
 
 /**
  * In-process scheduler. One container, one long-lived process, so a module
@@ -84,6 +85,35 @@ function enqueueDueUsers() {
  */
 const MAX_TIMEOUT_MS = 2_147_483_647; // ~24.8 days
 
+/**
+ * Demo cover art gets its OWN short-interval loop that stops as soon as the set
+ * is complete, rather than riding the 12-hour sync tick -- at 8 covers per tick
+ * that would have taken days to fill a 92-book demo shelf.
+ *
+ * Spine colour is already baked into the fixture, so this only adds the
+ * tap-to-open artwork and never blocks the demo shelf from rendering.
+ */
+function startDemoCovers() {
+  let timer = null;
+  const tick = async () => {
+    try {
+      if (demoCoversPending() === 0) {
+        console.log('[demo] cover art complete');
+        return; // self-terminating: nothing left to fetch
+      }
+      const d = await drainDemoCovers({ limit: 8 });
+      if (d.fetched) console.log(`[demo] fetched ${d.fetched} cover(s), ${demoCoversPending()} remaining`);
+    } catch (err) {
+      console.error('[demo] cover fetch failed:', err?.message ?? err);
+    }
+    timer = setTimeout(tick, 20_000);
+    timer.unref?.();
+  };
+  timer = setTimeout(tick, 3_000);
+  timer.unref?.();
+  return () => clearTimeout(timer);
+}
+
 export function startScheduler() {
   const intervalMs = Math.min(
     MAX_TIMEOUT_MS,
@@ -114,9 +144,11 @@ export function startScheduler() {
 
   // First pass shortly after boot, so a fresh container fills its shelf without
   // waiting out a whole interval.
-  const boot = setTimeout(tick, 15_000);
+  const boot = setTimeout(tick, 8_000);
   boot.unref?.();
   schedule();
 
-  return () => { clearTimeout(timer); clearTimeout(boot); };
+  const stopDemo = startDemoCovers();
+
+  return () => { clearTimeout(timer); clearTimeout(boot); stopDemo(); };
 }

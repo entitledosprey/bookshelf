@@ -29,19 +29,27 @@ export function requireUser(req, _res, next) {
 }
 
 /**
- * Admin routes are keyed, not account-based. With ADMIN_API_KEY unset the whole
- * surface 404s -- an unset subsystem stays inert rather than half-open.
+ * Admin access, two ways in:
+ *
+ *  - a signed-in user whose account is flagged is_admin, which is what the
+ *    admin panel in the UI uses; the first account created owns the instance
+ *  - the ADMIN_API_KEY header, kept as break-glass for scripting and for
+ *    recovering an instance with no usable admin account
  *
  * Header only, never a query parameter: a key in a URL lands in nginx access
  * logs and browser history.
  */
 export function requireAdmin(req, _res, next) {
-  if (!config.adminApiKey) return next(new HttpError(404, 'not found'));
-  const given = req.get('x-admin-key') ?? '';
-  if (!given || !safeEqual(given, config.adminApiKey)) {
-    return next(new HttpError(401, 'invalid admin key'));
+  const user = userForToken(tokenFromRequest(req));
+  if (user?.is_admin) {
+    req.user = user;
+    req.token = tokenFromRequest(req);
+    return next();
   }
-  next();
+  const given = req.get('x-admin-key') ?? '';
+  if (config.adminApiKey && given && safeEqual(given, config.adminApiKey)) return next();
+  // Do not advertise the surface to someone who is simply not an admin.
+  return next(new HttpError(user ? 403 : 401, 'administrator access required'));
 }
 
 /** In-memory throttle. Keyed by ip+bucket; nginx limit_req is the outer layer. */

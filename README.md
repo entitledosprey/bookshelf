@@ -4,7 +4,9 @@ Your Goodreads library, rendered as a bookshelf: spines sized to each book's
 real page count and physical dimensions, coloured from its real cover art. Tap a
 spine to see the cover.
 
-Multi-user, invite-only, self-hosted as a single container.
+Multi-user and self-hosted as a single container. Visitors who are not signed
+in get a sample shelf of real books, so the site shows what it is rather than
+asking for an account first.
 
 ![A bookcase of spines sized to each book's real dimensions, in the warm library theme](docs/shelf.jpg)
 
@@ -57,15 +59,32 @@ cp .env.example .env     # set ADMIN_API_KEY at minimum
 docker compose up -d
 ```
 
-Then mint an invite and hand it to someone:
+Then open the site and create an account with a username and a password. **The
+first account created becomes the administrator**, so make it yours before
+sharing the URL.
 
-```bash
-curl -X POST -H "X-Admin-Key: $ADMIN_API_KEY" https://your-host/api/v1/admin/invites
-```
+Goodreads details are optional at signup and can be added later from the account
+panel. The user id is the number in `goodreads.com/user/show/`**`152185079`**`-name`
+— a display name will not work. A private profile also needs the RSS key from the
+feed link at the bottom of its My Books page. Both fields accept a pasted URL and
+pull the value out of it.
 
-They register with that code, their email, a password, and their Goodreads user
-id — the number in `goodreads.com/user/show/`**`152185079`**`-name`. A private
-profile also needs the RSS key from the feed link on its shelf page.
+### Administration
+
+Any administrator gets an **Admin** button in the top bar:
+
+- **People** — who has an account, their Goodreads details, book counts, last
+  sync and its error if it failed. Reset a password, sign someone out
+  everywhere, trigger their sync, grant or remove admin, or delete an account.
+  The last remaining administrator cannot be demoted or deleted.
+- **Syncs** — the last 30 runs across all accounts, with what each one fetched.
+- **Server** — store and enrichment totals, active rate-limit cooldowns, what
+  the running system has measured about the Goodreads feed, and a switch to
+  close new signups.
+
+Deleting an account removes that person's shelf and sessions but keeps the
+shared `books` rows, since other accounts may shelve the same titles and
+re-fetching covers and palettes is expensive.
 
 The container expects to sit behind a reverse proxy; `nginx/bookshelf.conf` is a
 server block for an existing nginx edge stack.
@@ -77,7 +96,7 @@ value leaves its subsystem inert rather than crashing:
 
 | Variable | Effect when empty |
 | --- | --- |
-| `ADMIN_API_KEY` | `/api/v1/admin/*` returns 404; no invites can be minted |
+| `ADMIN_API_KEY` | admin routes still work for signed-in administrators; only the break-glass header is disabled |
 | `GOOGLE_BOOKS_API_KEY` | Google Books rate-limits almost immediately; Open Library carries enrichment |
 | `CONTACT_EMAIL` | Open Library applies its lower anonymous rate limit (identified requests get 3×) |
 | `ENRICH_ENABLED=false` | Spines use Goodreads covers and heuristic geometry only |
@@ -119,6 +138,11 @@ client/src/
 
 ## Known limits
 
+- Signup is open by design, and each account adds polling load against
+  Goodreads. Every outbound request is serialised through one 1.5s-spaced
+  queue, so syncs get slower as more people join rather than getting the
+  instance rate-limited. Close signups from the admin panel if that becomes a
+  problem.
 - The Goodreads RSS feed is unofficial. It works well today, and the local store
   means a break degrades to a stale shelf rather than an empty one, but it could
   change without notice.

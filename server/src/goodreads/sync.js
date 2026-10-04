@@ -57,6 +57,17 @@ export async function syncUser(user, { trigger = 'schedule' } = {}) {
         key: user.goodreads_rss_key || '',
       })) {
         if (page.status !== 200) {
+          // A 404 on the first page means the feed URL itself is wrong, which
+          // in practice means the Goodreads user id is wrong -- most often a
+          // display name typed in where the numeric id belongs. Say so, rather
+          // than reporting a bare status code nobody can act on.
+          if (page.status === 404 && page.page === 1) {
+            throw new Error(
+              `Goodreads has no shelves at user id "${user.goodreads_user_id}". ` +
+              'Open your Goodreads profile and use the NUMBER from the address ' +
+              '(goodreads.com/user/show/152185079-your-name), not your display name.',
+            );
+          }
           notes.push(`${shelf}: HTTP ${page.status} on page ${page.page}`);
           break;
         }

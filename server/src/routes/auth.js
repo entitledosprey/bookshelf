@@ -1,5 +1,6 @@
 import express from 'express';
-import { getDb } from '../db.js';
+import { createHash } from 'node:crypto';
+import { getDb, metaGet } from '../db.js';
 import { config } from '../config.js';
 import { HttpError, wrap, isoNow, reqStr } from '../http.js';
 import { scryptHash, scryptVerify } from '../auth/passwords.js';
@@ -17,62 +18,74 @@ const prefsOf = (row) => {
 
 export const meJson = (row) => ({
   id: row.id,
-  email: row.email,
+  username: row.username,
+  email: row.email ?? null,
   goodreadsUserId: row.goodreads_user_id ?? null,
   isAdmin: !!row.is_admin,
   prefs: prefsOf(row),
   lastSyncAt: row.last_sync_at ?? null,
 });
 
+export const USERNAME_RE = /^[a-z0-9][a-z0-9_-]{2,31}$/;
+
+/** Signups can be closed by an administrator without redeploying. */
+export const signupsEnabled = () => (metaGet('signups_enabled') ?? 'true') !== 'false';
+
 /**
- * Registration is invite-only: there is no open signup, so the abuse surface is
- * whoever you hand a code to, and Goodreads polling stays bounded.
+ * Open registration: a username and a password, nothing else required.
+ *
+ * Goodreads details are optional here so someone can get in and look around
+ * first; the account settings panel collects them afterwards.
  */
-router.post('/register', throttle({ bucket: 'register', max: 10 }), wrap(async (req, res) => {
-  const db = getDb();
-  const code = reqStr(req.body, 'inviteCode', { max: 64 });
-  const email = reqStr(req.body, 'email', { max: 200 }).toLowerCase();
-  const password = reqStr(req.body, 'password', { max: 200 });
-  const goodreadsUserId = reqStr(req.body, 'goodreadsUserId', { max: 64, required: false });
-  const rssKey = reqStr(req.body, 'goodreadsRssKey', { max: 128, required: false });
+router.post('/register', throttle({ bucket: 'register', max: 5, windowMs: 600_000 }),
+  wrap(async (req, res) => {
+    const db = getDb();
+    if (!signupsEnabled()) throw new HttpError(403, 'new accounts are closed on this server');
 
-  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) throw new HttpError(400, 'that does not look like an email address');
-  if (password.length < 8) throw new HttpError(400, 'password must be at least 8 characters');
+    const username = reqStr(req.body, 'username', { max: 32 }).toLowerCase();
+    const password = reqStr(req.body, 'password', { max: 200 });
+    const goodreadsUserId = reqStr(req.body, 'goodreadsUserId', { max: 200, required: false });
+    const rssKey = reqStr(req.body, 'goodreadsRssKey', { max: 200, required: false });
 
-  const invite = db.prepare('SELECT * FROM invites WHERE code = ?').get(code);
-  if (!invite) throw new HttpError(400, 'unknown invite code');
-  if (invite.used_by) throw new HttpError(400, 'that invite code has already been used');
-  if (new Date(invite.expires_at) <= new Date()) throw new HttpError(400, 'that invite code has expired');
+    if (!USERNAME_RE.test(username)) {
+      throw new HttpError(400, 'usernames are 3-32 characters: letters, numbers, dashes and underscores');
+    }
+    if (password.length < 8) throw new HttpError(400, 'password must be at least 8 characters');
 
-  if (db.prepare('SELECT 1 FROM users WHERE email = ?').get(email)) {
-    throw new HttpError(409, 'an account with that email already exists');
-  }
+    if (db.prepare('SELECT 1 FROM users WHERE username = ?').get(username)) {
+      throw new HttpError(409, 'that username is taken');
+    }
 
-  const id = db.prepare(`INSERT INTO users
-      (email, password_hash, goodreads_user_id, goodreads_rss_key, prefs_json, created_at)
-      VALUES (?,?,?,?,?,?)`)
-    .run(email, scryptHash(password), goodreadsUserId || null, rssKey || null,
-         JSON.stringify(DEFAULT_PREFS), isoNow()).lastInsertRowid;
+    // Accept a pasted profile URL or RSS link rather than demanding the raw id.
+    const { id: grId, error: grError } = parseGoodreadsUserId(goodreadsUserId);
+    if (grError) throw new HttpError(400, grError);
+    const grKey = parseRssKey(rssKey);
 
-  db.prepare('UPDATE invites SET used_by = ?, used_at = ? WHERE code = ?').run(id, isoNow(), code);
+    // The first account to exist runs the instance.
+    const isFirst = db.prepare('SELECT COUNT(*) n FROM users').get().n === 0;
 
-  const { token, expiresAt } = issueSession(id, req.get('user-agent'));
-  res.setHeader('Set-Cookie', sessionCookie(token, expiresAt));
-  const row = db.prepare('SELECT * FROM users WHERE id = ?').get(id);
+    const id = db.prepare(`INSERT INTO users
+        (username, password_hash, goodreads_user_id, goodreads_rss_key, is_admin, prefs_json, created_at)
+        VALUES (?,?,?,?,?,?,?)`)
+      .run(username, scryptHash(password), grId || null, grKey || null,
+           isFirst ? 1 : 0, JSON.stringify(DEFAULT_PREFS), isoNow()).lastInsertRowid;
 
-  // Queue this user's first sync without blocking the response.
-  req.app.locals.requestSync?.(id, 'register');
+    const { token, expiresAt } = issueSession(id, req.get('user-agent'));
+    res.setHeader('Set-Cookie', sessionCookie(token, expiresAt));
+    const row = db.prepare('SELECT * FROM users WHERE id = ?').get(id);
 
-  res.status(201).json({ token, expiresAt, user: meJson(row) });
-}));
+    if (grId) req.app.locals.requestSync?.(id, 'register');
+
+    res.status(201).json({ token, expiresAt, user: meJson(row) });
+  }));
 
 router.post('/login', throttle({ bucket: 'login', max: 10 }), wrap(async (req, res) => {
-  const email = reqStr(req.body, 'email', { max: 200 }).toLowerCase();
+  const username = reqStr(req.body, 'username', { max: 200 }).toLowerCase();
   const password = reqStr(req.body, 'password', { max: 200 });
-  const row = getDb().prepare('SELECT * FROM users WHERE email = ?').get(email);
+  const row = getDb().prepare('SELECT * FROM users WHERE username = ?').get(username);
   // Same message either way: do not reveal which accounts exist.
   if (!row || !scryptVerify(password, row.password_hash)) {
-    throw new HttpError(401, 'incorrect email or password');
+    throw new HttpError(401, 'incorrect username or password');
   }
   const { token, expiresAt } = issueSession(row.id, req.get('user-agent'));
   res.setHeader('Set-Cookie', sessionCookie(token, expiresAt));
@@ -112,7 +125,90 @@ router.patch('/prefs', requireUser, wrap(async (req, res) => {
   res.json(next);
 }));
 
+/**
+ * Accept the raw numeric id, or a pasted profile URL, which is what people
+ * actually have in their clipboard. Rejects a display name outright: entering
+ * one produces a 404 from Goodreads that is otherwise baffling to diagnose.
+ */
+export function parseGoodreadsUserId(raw) {
+  const v = String(raw ?? '').trim();
+  if (!v) return { id: '' };
+  const fromUrl = v.match(/goodreads\.com\/user\/show\/(\d+)/);
+  const id = fromUrl ? fromUrl[1] : v;
+  if (!/^\d+$/.test(id)) {
+    return {
+      error: 'that should be the NUMBER from your profile URL, not your name — ' +
+             'open your Goodreads profile and copy the number from goodreads.com/user/show/152185079-your-name',
+    };
+  }
+  return { id };
+}
+
+/** Accept the key on its own or the whole RSS link it came from. */
+export function parseRssKey(raw) {
+  const v = String(raw ?? '').trim();
+  if (!v) return '';
+  const m = v.match(/[?&]key=([^&\s]+)/);
+  return m ? decodeURIComponent(m[1]) : v;
+}
+
+/**
+ * Update Goodreads details. Changing the user id or key invalidates nothing --
+ * the store is append-only -- so a correction simply means the next sync walks
+ * the new shelves and adds whatever it finds.
+ */
+router.patch('/account', requireUser, wrap(async (req, res) => {
+  const body = req.body ?? {};
+  const fields = [];
+  const values = [];
+
+  if (body.goodreadsUserId !== undefined) {
+    const { id, error } = parseGoodreadsUserId(body.goodreadsUserId);
+    if (error) throw new HttpError(400, error);
+    fields.push('goodreads_user_id = ?');
+    values.push(id || null);
+  }
+
+  if (body.goodreadsRssKey !== undefined) {
+    const key = parseRssKey(body.goodreadsRssKey);
+    if (key.length > 128) throw new HttpError(400, 'that key does not look right');
+    fields.push('goodreads_rss_key = ?');
+    values.push(key || null);
+  }
+
+  if (!fields.length) throw new HttpError(400, 'nothing to update');
+
+  values.push(req.user.id);
+  getDb().prepare(`UPDATE users SET ${fields.join(', ')} WHERE id = ?`).run(...values);
+  const row = getDb().prepare('SELECT * FROM users WHERE id = ?').get(req.user.id);
+  res.json(meJson(row));
+}));
+
+/**
+ * Change password. Requires the current one, and revokes every OTHER session so
+ * a password change actually ends access from anywhere else.
+ */
+router.post('/password', requireUser, throttle({ bucket: 'password', max: 10 }),
+  wrap(async (req, res) => {
+    const current = reqStr(req.body, 'currentPassword', { max: 200 });
+    const next = reqStr(req.body, 'newPassword', { max: 200 });
+    if (next.length < 8) throw new HttpError(400, 'the new password must be at least 8 characters');
+    if (!scryptVerify(current, req.user.password_hash)) {
+      throw new HttpError(401, 'that is not your current password');
+    }
+    if (current === next) throw new HttpError(400, 'the new password must be different');
+
+    getDb().prepare('UPDATE users SET password_hash = ? WHERE id = ?')
+      .run(scryptHash(next), req.user.id);
+
+    // Keep this session alive, drop the rest.
+    getDb().prepare('DELETE FROM sessions WHERE user_id = ? AND token_sha256 != ?')
+      .run(req.user.id, createHash('sha256').update(req.token).digest('hex'));
+
+    res.json({ ok: true });
+  }));
+
 /** Also expose whether registration is even possible, so the UI can explain. */
 router.get('/config', (_req, res) => {
-  res.json({ invitesEnabled: !!config.adminApiKey });
+  res.json({ signupsEnabled: signupsEnabled() });
 });

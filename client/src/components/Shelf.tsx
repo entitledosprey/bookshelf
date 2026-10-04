@@ -14,7 +14,11 @@ interface Props {
 /** One board and the books standing on it. */
 export function Shelf({ row, scale, partial, openId, onOpen }: Props) {
   const h = rowHeight(row, scale);
-  const leanFrom = partial ? Math.max(0, row.length - 2) : row.length;
+  // Books only lean when there are enough of them for leaning to look like
+  // resting rather than collapsing. On a nearly empty shelf a real person uses
+  // a bookend, so the books simply stand.
+  const canLean = partial && row.length >= 8;
+  const leanFrom = canLean ? Math.max(0, row.length - 2) : row.length;
 
   return (
     <div

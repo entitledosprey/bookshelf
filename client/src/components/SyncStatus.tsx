@@ -27,8 +27,9 @@ export function SyncStatus({ status, pending, onSync }: {
 
   if (run.status === 'failed') {
     return (
-      <p className="notice">
-        The last sync failed: {run.error || 'unknown error'}. The shelf below is unaffected.{' '}
+      <p className="notice notice-loud">
+        <strong>The last sync failed.</strong> {run.error || 'Unknown error.'}{' '}
+        Your shelf below is unaffected — nothing stored is ever deleted.{' '}
         <button className="btn btn-ghost" onClick={onSync}>Try again</button>
       </p>
     );

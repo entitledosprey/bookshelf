@@ -1,0 +1,3682 @@
+[
+ {
+  "id": "demo-11513126",
+  "title": "The Left Hand of Darkness",
+  "displayTitle": "The Left Hand of Darkness",
+  "shortTitle": "The Left Hand of Darkness",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Ursula K. Le Guin",
+  "authorSort": "Le Guin, Ursula K.",
+  "authorShort": "U. K. Le Guin",
+  "isbn": "9780441478026",
+  "pages": 304,
+  "published": null,
+  "binding": "mass-market",
+  "geometry": {
+   "heightMm": 174,
+   "widthMm": 106,
+   "thicknessMm": 13.7,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#d1d6b7",
+   "accent": "#358396",
+   "fg": "#242716",
+   "swatches": [
+    "#454841",
+    "#83afac",
+    "#ced4b2",
+    "#358396",
+    "#798e82"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "two-tone-split",
+  "seed": 1721417445,
+  "coverUrl": "https://covers.openlibrary.org/b/id/11513126-L.jpg"
+ },
+ {
+  "id": "demo-14565843",
+  "title": "Dune",
+  "displayTitle": "Dune",
+  "shortTitle": "Dune",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Frank Herbert",
+  "authorSort": "Herbert, Frank",
+  "authorShort": "F. Herbert",
+  "isbn": "9780441013593",
+  "pages": 544,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 30.1,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#85291f",
+   "accent": "#cbe9f0",
+   "fg": "#cbe9f0",
+   "swatches": [
+    "#892b20",
+    "#db4929",
+    "#df6732",
+    "#dd9d4d",
+    "#cbe9f0"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "publisher-footer",
+  "seed": 2640467265,
+  "coverUrl": "https://covers.openlibrary.org/b/id/14565843-L.jpg"
+ },
+ {
+  "id": "demo-284192",
+  "title": "Neuromancer",
+  "displayTitle": "Neuromancer",
+  "shortTitle": "Neuromancer",
+  "series": null,
+  "seriesPosition": null,
+  "author": "William Gibson",
+  "authorSort": "Gibson, William",
+  "authorShort": "W. Gibson",
+  "isbn": "0441012035",
+  "pages": 371,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 21,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#3e3827",
+   "accent": "#f5f5e4",
+   "fg": "#f5f5e4",
+   "swatches": [
+    "#383223",
+    "#6b643b",
+    "#999054",
+    "#c0b679",
+    "#f5f5e4"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "allcaps-sans-top",
+  "seed": 1995882560,
+  "coverUrl": "https://covers.openlibrary.org/b/id/284192-L.jpg"
+ },
+ {
+  "id": "demo-392508",
+  "title": "Snow Crash",
+  "displayTitle": "Snow Crash",
+  "shortTitle": "Snow Crash",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Neal Stephenson",
+  "authorSort": "Stephenson, Neal",
+  "authorShort": "N. Stephenson",
+  "isbn": "849620832X",
+  "pages": 460,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 25.7,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#231e38",
+   "accent": "#faf9f4",
+   "fg": "#faf9f4",
+   "swatches": [
+    "#27223e",
+    "#7e7052",
+    "#a2987c",
+    "#d2ad70",
+    "#faf9f4"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "classic-serif-centred",
+  "seed": 1671916809,
+  "coverUrl": "https://covers.openlibrary.org/b/id/392508-L.jpg"
+ },
+ {
+  "id": "demo-13135778",
+  "title": "The Dispossessed",
+  "displayTitle": "The Dispossessed",
+  "shortTitle": "The Dispossessed",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Ursula K. Le Guin",
+  "authorSort": "Le Guin, Ursula K.",
+  "authorShort": "U. K. Le Guin",
+  "isbn": "1473228417",
+  "pages": 336,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 19.2,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#efe6b3",
+   "accent": "#51462c",
+   "fg": "#51462c",
+   "swatches": [
+    "#fefdf5",
+    "#f7f3da",
+    "#e9e0a8",
+    "#51462c",
+    "#c2bb7f"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "allcaps-sans-top",
+  "seed": 2332818728,
+  "coverUrl": "https://covers.openlibrary.org/b/id/13135778-L.jpg"
+ },
+ {
+  "id": "demo-10655638",
+  "title": "Hyperion",
+  "displayTitle": "Hyperion",
+  "shortTitle": "Hyperion",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Dan Simmons",
+  "authorSort": "Simmons, Dan",
+  "authorShort": "D. Simmons",
+  "isbn": "1491514973",
+  "pages": 481,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 26.8,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#dfd3b1",
+   "accent": "#19100f",
+   "fg": "#19100f",
+   "swatches": [
+    "#19100f",
+    "#c1a19a",
+    "#e0d4b4",
+    "#6e594b",
+    "#b17c74"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "allcaps-sans-top",
+  "seed": 3977056718,
+  "coverUrl": "https://covers.openlibrary.org/b/id/10655638-L.jpg"
+ },
+ {
+  "id": "demo-14612610",
+  "title": "Foundation",
+  "displayTitle": "Foundation",
+  "shortTitle": "Foundation",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Isaac Asimov",
+  "authorSort": "Asimov, Isaac",
+  "authorShort": "I. Asimov",
+  "isbn": "0307749711",
+  "pages": 240,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 14.1,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#201413",
+   "accent": "#91815c",
+   "fg": "#91815c",
+   "swatches": [
+    "#0d0808",
+    "#341a11",
+    "#504739",
+    "#63736a",
+    "#91815c"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "stacked-slab",
+  "seed": 1512405977,
+  "coverUrl": "https://covers.openlibrary.org/b/id/14612610-L.jpg"
+ },
+ {
+  "id": "demo-826936",
+  "title": "A Wizard of Earthsea",
+  "displayTitle": "A Wizard of Earthsea",
+  "shortTitle": "A Wizard of Earthsea",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Ursula K. Le Guin",
+  "authorSort": "Le Guin, Ursula K.",
+  "authorShort": "U. K. Le Guin",
+  "isbn": "1574535587",
+  "pages": 205,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 12.3,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#1b1818",
+   "accent": "#dfc3d1",
+   "fg": "#dfc3d1",
+   "swatches": [
+    "#1b1818",
+    "#5b5a5e",
+    "#757a81",
+    "#848d93",
+    "#a7aaac"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "allcaps-sans-top",
+  "seed": 121621054,
+  "coverUrl": "https://covers.openlibrary.org/b/id/826936-L.jpg"
+ },
+ {
+  "id": "demo-8178146",
+  "title": "The Fellowship of the Ring",
+  "displayTitle": "The Fellowship of the Ring",
+  "shortTitle": "The Fellowship of the Ring",
+  "series": null,
+  "seriesPosition": null,
+  "author": "J.R.R. Tolkien",
+  "authorSort": "Tolkien, J.R.R.",
+  "authorShort": "J. Tolkien",
+  "isbn": "9781500410223",
+  "pages": 466,
+  "published": null,
+  "binding": "trade-paperback",
+  "geometry": {
+   "heightMm": 198,
+   "widthMm": 129,
+   "thicknessMm": 27.8,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#47cff4",
+   "accent": "#3d5666",
+   "fg": "#0f272e",
+   "swatches": [
+    "#46cff4",
+    "#48cdf2",
+    "#60bed9",
+    "#3d5666",
+    "#6194a6"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "classic-serif-centred",
+  "seed": 534196586,
+  "coverUrl": "https://covers.openlibrary.org/b/id/8178146-L.jpg"
+ },
+ {
+  "id": "demo-14626140",
+  "title": "The Hobbit",
+  "displayTitle": "The Hobbit",
+  "shortTitle": "The Hobbit",
+  "series": null,
+  "seriesPosition": null,
+  "author": "J.R.R. Tolkien",
+  "authorSort": "Tolkien, J.R.R.",
+  "authorShort": "J. Tolkien",
+  "isbn": "9785878600125",
+  "pages": 542,
+  "published": null,
+  "binding": "trade-paperback",
+  "geometry": {
+   "heightMm": 198,
+   "widthMm": 129,
+   "thicknessMm": 32.2,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#5b3740",
+   "accent": "#aaa591",
+   "fg": "#ffffff",
+   "swatches": [
+    "#212426",
+    "#59363f",
+    "#aaa591",
+    "#37645f",
+    "#a16459"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "banded-plate",
+  "seed": 3345372666,
+  "coverUrl": "https://covers.openlibrary.org/b/id/14626140-L.jpg"
+ },
+ {
+  "id": "demo-525391",
+  "title": "Jonathan Strange & Mr Norrell",
+  "displayTitle": "Jonathan Strange & Mr Norrell",
+  "shortTitle": "Jonathan Strange & Mr Norrell",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Susanna Clarke",
+  "authorSort": "Clarke, Susanna",
+  "authorShort": "S. Clarke",
+  "isbn": "1472835174",
+  "pages": 864,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 47,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#172227",
+   "accent": "#bcbfe6",
+   "fg": "#bcbfe6",
+   "swatches": [
+    "#000000",
+    "#020202",
+    "#fbfbfb",
+    "#111111",
+    "#8e8e8e"
+   ],
+   "isDark": true,
+   "isGrayscale": true,
+   "source": "grayscale-cloth"
+  },
+  "spineStyle": "banded-plate",
+  "seed": 4059646786,
+  "coverUrl": "https://covers.openlibrary.org/b/id/525391-L.jpg"
+ },
+ {
+  "id": "demo-15248718",
+  "title": "Piranesi",
+  "displayTitle": "Piranesi",
+  "shortTitle": "Piranesi",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Susanna Clarke",
+  "authorSort": "Clarke, Susanna",
+  "authorShort": "S. Clarke",
+  "isbn": "1635575648",
+  "pages": 272,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 15.8,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#161947",
+   "accent": "#dce18a",
+   "fg": "#dce18a",
+   "swatches": [
+    "#181a4b",
+    "#303c8d",
+    "#5d6070",
+    "#bab490",
+    "#dce18a"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "stacked-slab",
+  "seed": 3865101694,
+  "coverUrl": "https://covers.openlibrary.org/b/id/15248718-L.jpg"
+ },
+ {
+  "id": "demo-14850768",
+  "title": "The Name of the Wind",
+  "displayTitle": "The Name of the Wind",
+  "shortTitle": "The Name of the Wind",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Patrick Rothfuss",
+  "authorSort": "Rothfuss, Patrick",
+  "authorShort": "P. Rothfuss",
+  "isbn": "0575081406",
+  "pages": 672,
+  "published": null,
+  "binding": "trade-paperback",
+  "geometry": {
+   "heightMm": 197,
+   "widthMm": 128,
+   "thicknessMm": 45,
+   "source": "openlibrary",
+   "confidence": 0.95
+  },
+  "palette": {
+   "bg": "#292d27",
+   "accent": "#ced3b5",
+   "fg": "#ced3b5",
+   "swatches": [
+    "#2b2f29",
+    "#33382f",
+    "#54513f",
+    "#747f5a",
+    "#ced3b5"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "stacked-slab",
+  "seed": 2739043521,
+  "coverUrl": "https://covers.openlibrary.org/b/id/14850768-L.jpg"
+ },
+ {
+  "id": "demo-10708158",
+  "title": "American Gods",
+  "displayTitle": "American Gods",
+  "shortTitle": "American Gods",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Neil Gaiman",
+  "authorSort": "Gaiman, Neil",
+  "authorShort": "N. Gaiman",
+  "isbn": "1538462087",
+  "pages": 576,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 31.8,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#dbd0c7",
+   "accent": "#6e2c27",
+   "fg": "#6e2c27",
+   "swatches": [
+    "#dbd1c9",
+    "#d8a39b",
+    "#d27c75",
+    "#6e2c27",
+    "#d84a44"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "classic-serif-centred",
+  "seed": 3410276440,
+  "coverUrl": "https://covers.openlibrary.org/b/id/10708158-L.jpg"
+ },
+ {
+  "id": "demo-13823593",
+  "title": "Good Omens",
+  "displayTitle": "Good Omens",
+  "shortTitle": "Good Omens",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Neil Gaiman",
+  "authorSort": "Gaiman, Neil",
+  "authorShort": "N. Gaiman",
+  "isbn": "5041604827",
+  "pages": 512,
+  "published": null,
+  "binding": "hardcover",
+  "geometry": {
+   "heightMm": 235,
+   "widthMm": 155,
+   "thicknessMm": 37,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#954032",
+   "accent": "#f1deb1",
+   "fg": "#f1deb1",
+   "swatches": [
+    "#392830",
+    "#934031",
+    "#d2d1ca",
+    "#928383",
+    "#dc8c68"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "allcaps-sans-top",
+  "seed": 982540890,
+  "coverUrl": "https://covers.openlibrary.org/b/id/13823593-L.jpg"
+ },
+ {
+  "id": "demo-6397580",
+  "title": "Mrs Dalloway",
+  "displayTitle": "Mrs Dalloway",
+  "shortTitle": "Mrs Dalloway",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Virginia Woolf",
+  "authorSort": "Woolf, Virginia",
+  "authorShort": "V. Woolf",
+  "isbn": "9798463434654",
+  "pages": 224,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 13.3,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#338a6e",
+   "accent": "#f0f3eb",
+   "fg": "#0b0b0b",
+   "swatches": [
+    "#1b1f17",
+    "#525632",
+    "#348d70",
+    "#82b3a4",
+    "#f0f3eb"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "classic-serif-centred",
+  "seed": 2156412608,
+  "coverUrl": "https://covers.openlibrary.org/b/id/6397580-L.jpg"
+ },
+ {
+  "id": "demo-8231846",
+  "title": "To the Lighthouse",
+  "displayTitle": "To the Lighthouse",
+  "shortTitle": "To the Lighthouse",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Virginia Woolf",
+  "authorSort": "Woolf, Virginia",
+  "authorShort": "V. Woolf",
+  "isbn": "9798734589137",
+  "pages": 242,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 14.2,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#b3ad81",
+   "accent": "#030635",
+   "fg": "#030635",
+   "swatches": [
+    "#b5b084",
+    "#5c9982",
+    "#448a7d",
+    "#030635",
+    "#285261"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "stacked-slab",
+  "seed": 3818633120,
+  "coverUrl": "https://covers.openlibrary.org/b/id/8231846-L.jpg"
+ },
+ {
+  "id": "demo-8261367",
+  "title": "Beloved",
+  "displayTitle": "Beloved",
+  "shortTitle": "Beloved",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Toni Morrison",
+  "authorSort": "Morrison, Toni",
+  "authorShort": "T. Morrison",
+  "isbn": "9780099511656",
+  "pages": 352,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 20,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#bdbaa9",
+   "accent": "#5b0d0b",
+   "fg": "#5b0d0b",
+   "swatches": [
+    "#c0bcac",
+    "#5b0d0b",
+    "#b1b1a2",
+    "#4a4840",
+    "#a6a194"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "stacked-slab",
+  "seed": 2207022864,
+  "coverUrl": "https://covers.openlibrary.org/b/id/8261367-L.jpg"
+ },
+ {
+  "id": "demo-10512449",
+  "title": "Song of Solomon",
+  "displayTitle": "Song of Solomon",
+  "shortTitle": "Song of Solomon",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Toni Morrison",
+  "authorSort": "Morrison, Toni",
+  "authorShort": "T. Morrison",
+  "isbn": "9782267043372",
+  "pages": 464,
+  "published": null,
+  "binding": "trade-paperback",
+  "geometry": {
+   "heightMm": 198,
+   "widthMm": 129,
+   "thicknessMm": 27.7,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#feff49",
+   "accent": "#313840",
+   "fg": "#313840",
+   "swatches": [
+    "#feff50",
+    "#fbfb5c",
+    "#313840",
+    "#93886e",
+    "#d6d2a1"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "banded-plate",
+  "seed": 2350207911,
+  "coverUrl": "https://covers.openlibrary.org/b/id/10512449-L.jpg"
+ },
+ {
+  "id": "demo-592222",
+  "title": "Things Fall Apart",
+  "displayTitle": "Things Fall Apart",
+  "shortTitle": "Things Fall Apart",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Chinua Achebe",
+  "authorSort": "Achebe, Chinua",
+  "authorShort": "C. Achebe",
+  "isbn": "0808592777",
+  "pages": 192,
+  "published": null,
+  "binding": "hardcover",
+  "geometry": {
+   "heightMm": 198.1,
+   "widthMm": 129.5,
+   "thicknessMm": 22.9,
+   "source": "openlibrary",
+   "confidence": 0.95
+  },
+  "palette": {
+   "bg": "#ef9639",
+   "accent": "#643c3d",
+   "fg": "#2e1f0f",
+   "swatches": [
+    "#ef9a40",
+    "#643c3d",
+    "#a2463c",
+    "#a25443",
+    "#df7f43"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "cloth-stamped",
+  "seed": 4236584734,
+  "coverUrl": "https://covers.openlibrary.org/b/id/592222-L.jpg"
+ },
+ {
+  "id": "demo-95742",
+  "title": "The Remains of the Day",
+  "displayTitle": "The Remains of the Day",
+  "shortTitle": "The Remains of the Day",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Kazuo Ishiguro",
+  "authorSort": "Ishiguro, Kazuo",
+  "authorShort": "K. Ishiguro",
+  "isbn": "9780571322732",
+  "pages": 272,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 15.8,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#e9deb9",
+   "accent": "#280d0b",
+   "fg": "#280d0b",
+   "swatches": [
+    "#ece3c4",
+    "#280d0b",
+    "#462820",
+    "#7e5644",
+    "#b48f70"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "banded-plate",
+  "seed": 1042398276,
+  "coverUrl": "https://covers.openlibrary.org/b/id/95742-L.jpg"
+ },
+ {
+  "id": "demo-10434020",
+  "title": "Never Let Me Go",
+  "displayTitle": "Never Let Me Go",
+  "shortTitle": "Never Let Me Go",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Kazuo Ishiguro",
+  "authorSort": "Ishiguro, Kazuo",
+  "authorShort": "K. Ishiguro",
+  "isbn": "0307400999",
+  "pages": 304,
+  "published": null,
+  "binding": "trade-paperback",
+  "geometry": {
+   "heightMm": 198,
+   "widthMm": 129,
+   "thicknessMm": 18.6,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#e1cd71",
+   "accent": "#401d10",
+   "fg": "#401d10",
+   "swatches": [
+    "#a57b31",
+    "#c3a041",
+    "#e2d079",
+    "#401d10",
+    "#895725"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "allcaps-sans-top",
+  "seed": 684243808,
+  "coverUrl": "https://covers.openlibrary.org/b/id/10434020-L.jpg"
+ },
+ {
+  "id": "demo-12394681",
+  "title": "Klara and the Sun",
+  "displayTitle": "Klara and the Sun",
+  "shortTitle": "Klara and the Sun",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Kazuo Ishiguro",
+  "authorSort": "Ishiguro, Kazuo",
+  "authorShort": "K. Ishiguro",
+  "isbn": "0593318188",
+  "pages": 334,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 19.1,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#e22332",
+   "accent": "#f5ecb4",
+   "fg": "#ffffff",
+   "swatches": [
+    "#e22332",
+    "#f22736",
+    "#e52e38",
+    "#e9b98f",
+    "#f5ecb4"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "allcaps-sans-top",
+  "seed": 580727680,
+  "coverUrl": "https://covers.openlibrary.org/b/id/12394681-L.jpg"
+ },
+ {
+  "id": "demo-14348537",
+  "title": "Pride and Prejudice",
+  "displayTitle": "Pride and Prejudice",
+  "shortTitle": "Pride and Prejudice",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Jane Austen",
+  "authorSort": "Austen, Jane",
+  "authorShort": "J. Austen",
+  "isbn": "9781092633550",
+  "pages": 351,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 20,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#a11110",
+   "accent": "#f4ddaf",
+   "fg": "#f4ddaf",
+   "swatches": [
+    "#9a1110",
+    "#d77d48",
+    "#a01716",
+    "#a93522",
+    "#cf743f"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "stacked-slab",
+  "seed": 1810134136,
+  "coverUrl": "https://covers.openlibrary.org/b/id/14348537-L.jpg"
+ },
+ {
+  "id": "demo-12641862",
+  "title": "Emma",
+  "displayTitle": "Emma",
+  "shortTitle": "Emma",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Jane Austen",
+  "authorSort": "Austen, Jane",
+  "authorShort": "J. Austen",
+  "isbn": "9780395051153",
+  "pages": 380,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 21.5,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#300503",
+   "accent": "#ded6cb",
+   "fg": "#ded6cb",
+   "swatches": [
+    "#1f0402",
+    "#ded6cb",
+    "#a8a19b",
+    "#423a36",
+    "#706a66"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "two-tone-split",
+  "seed": 3208053204,
+  "coverUrl": "https://covers.openlibrary.org/b/id/12641862-L.jpg"
+ },
+ {
+  "id": "demo-8235363",
+  "title": "Jane Eyre",
+  "displayTitle": "Jane Eyre",
+  "shortTitle": "Jane Eyre",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Charlotte Brontë",
+  "authorSort": "Brontë, Charlotte",
+  "authorShort": "C. Brontë",
+  "isbn": "9798518833760",
+  "pages": 480,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 26.8,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#bb8050",
+   "accent": "#472810",
+   "fg": "#2c1d11",
+   "swatches": [
+    "#b87c4a",
+    "#472810",
+    "#663f22",
+    "#7d5535",
+    "#a36c41"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "classic-serif-centred",
+  "seed": 1049246758,
+  "coverUrl": "https://covers.openlibrary.org/b/id/8235363-L.jpg"
+ },
+ {
+  "id": "demo-12818862",
+  "title": "Wuthering Heights",
+  "displayTitle": "Wuthering Heights",
+  "shortTitle": "Wuthering Heights",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Emily Brontë",
+  "authorSort": "Brontë, Emily",
+  "authorShort": "E. Brontë",
+  "isbn": "0760732647",
+  "pages": 318,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 18.2,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#1b1925",
+   "accent": "#d9bfe3",
+   "fg": "#d9bfe3",
+   "swatches": [
+    "#1a1924",
+    "#201f26",
+    "#252529",
+    "#2a2a2d",
+    "#3e3834"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "classic-serif-centred",
+  "seed": 1169824320,
+  "coverUrl": "https://covers.openlibrary.org/b/id/12818862-L.jpg"
+ },
+ {
+  "id": "demo-13322313",
+  "title": "Great Expectations",
+  "displayTitle": "Great Expectations",
+  "shortTitle": "Great Expectations",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Charles Dickens",
+  "authorSort": "Dickens, Charles",
+  "authorShort": "C. Dickens",
+  "isbn": "0870865102",
+  "pages": 104,
+  "published": null,
+  "binding": "trade-paperback",
+  "geometry": {
+   "heightMm": 195.6,
+   "widthMm": 124.5,
+   "thicknessMm": 7.6,
+   "source": "openlibrary",
+   "confidence": 0.95
+  },
+  "palette": {
+   "bg": "#232411",
+   "accent": "#d1ebb7",
+   "fg": "#d1ebb7",
+   "swatches": [
+    "#242411",
+    "#2b2b17",
+    "#30301c",
+    "#363621",
+    "#534e34"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "classic-serif-centred",
+  "seed": 1015341203,
+  "coverUrl": "https://covers.openlibrary.org/b/id/13322313-L.jpg"
+ },
+ {
+  "id": "demo-8237810",
+  "title": "Bleak House",
+  "displayTitle": "Bleak House",
+  "shortTitle": "Bleak House",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Charles Dickens",
+  "authorSort": "Dickens, Charles",
+  "authorShort": "C. Dickens",
+  "isbn": "9780394605203",
+  "pages": 836,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 45.5,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#69504b",
+   "accent": "#e3d0a5",
+   "fg": "#e3d0a5",
+   "swatches": [
+    "#3a3937",
+    "#6c524d",
+    "#857365",
+    "#c6b18a",
+    "#e3d0a5"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "banded-plate",
+  "seed": 2697212374,
+  "coverUrl": "https://covers.openlibrary.org/b/id/8237810-L.jpg"
+ },
+ {
+  "id": "demo-13574063",
+  "title": "Moby-Dick",
+  "displayTitle": "Moby-Dick",
+  "shortTitle": "Moby-Dick",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Herman Melville",
+  "authorSort": "Melville, Herman",
+  "authorShort": "H. Melville",
+  "isbn": "9788467732009",
+  "pages": 72,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 6,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#9bd4e7",
+   "accent": "#4b2832",
+   "fg": "#4b2832",
+   "swatches": [
+    "#9bd4e7",
+    "#4b2832",
+    "#477483",
+    "#3eafd1",
+    "#97adb5"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "allcaps-sans-top",
+  "seed": 1078648491,
+  "coverUrl": "https://covers.openlibrary.org/b/id/13574063-L.jpg"
+ },
+ {
+  "id": "demo-8955841",
+  "title": "The Great Gatsby",
+  "displayTitle": "The Great Gatsby",
+  "shortTitle": "The Great Gatsby",
+  "series": null,
+  "seriesPosition": null,
+  "author": "F. Scott Fitzgerald",
+  "authorSort": "Fitzgerald, F. Scott",
+  "authorShort": "F. S. Fitzgerald",
+  "isbn": "8490628645",
+  "pages": 185,
+  "published": null,
+  "binding": "trade-paperback",
+  "geometry": {
+   "heightMm": 198,
+   "widthMm": 129,
+   "thicknessMm": 11.8,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#e8e0ba",
+   "accent": "#574938",
+   "fg": "#574938",
+   "swatches": [
+    "#f4f1df",
+    "#26221f",
+    "#574938",
+    "#897550",
+    "#bca055"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "stacked-slab",
+  "seed": 2716486485,
+  "coverUrl": "https://covers.openlibrary.org/b/id/8955841-L.jpg"
+ },
+ {
+  "id": "demo-78741",
+  "title": "The Sun Also Rises",
+  "displayTitle": "The Sun Also Rises",
+  "shortTitle": "The Sun Also Rises",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Ernest Hemingway",
+  "authorSort": "Hemingway, Ernest",
+  "authorShort": "E. Hemingway",
+  "isbn": "9788408010098",
+  "pages": 249,
+  "published": null,
+  "binding": "trade-paperback",
+  "geometry": {
+   "heightMm": 185.4,
+   "widthMm": 116.8,
+   "thicknessMm": 15.2,
+   "source": "openlibrary",
+   "confidence": 0.95
+  },
+  "palette": {
+   "bg": "#faf6a6",
+   "accent": "#685b3b",
+   "fg": "#685b3b",
+   "swatches": [
+    "#faf7a8",
+    "#f7efa4",
+    "#ded9a6",
+    "#685b3b",
+    "#a6a071"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "publisher-footer",
+  "seed": 1725616193,
+  "coverUrl": "https://covers.openlibrary.org/b/id/78741-L.jpg"
+ },
+ {
+  "id": "demo-9255320",
+  "title": "East of Eden",
+  "displayTitle": "East of Eden",
+  "shortTitle": "East of Eden",
+  "series": null,
+  "seriesPosition": null,
+  "author": "John Steinbeck",
+  "authorSort": "Steinbeck, John",
+  "authorShort": "J. Steinbeck",
+  "isbn": "9780142000656",
+  "pages": 601,
+  "published": null,
+  "binding": "hardcover",
+  "geometry": {
+   "heightMm": 235,
+   "widthMm": 155,
+   "thicknessMm": 42.8,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#e5d6bd",
+   "accent": "#3f5313",
+   "fg": "#3f5313",
+   "swatches": [
+    "#f4eee4",
+    "#c2c4bb",
+    "#737878",
+    "#1c1f1c",
+    "#494c49"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "cloth-stamped",
+  "seed": 208418065,
+  "coverUrl": "https://covers.openlibrary.org/b/id/9255320-L.jpg"
+ },
+ {
+  "id": "demo-12715895",
+  "title": "The Grapes of Wrath",
+  "displayTitle": "The Grapes of Wrath",
+  "shortTitle": "The Grapes of Wrath",
+  "series": null,
+  "seriesPosition": null,
+  "author": "John Steinbeck",
+  "authorSort": "Steinbeck, John",
+  "authorShort": "J. Steinbeck",
+  "isbn": "9780582461536",
+  "pages": 608,
+  "published": null,
+  "binding": "hardcover",
+  "geometry": {
+   "heightMm": 200.7,
+   "widthMm": 137.2,
+   "thicknessMm": 33,
+   "source": "openlibrary",
+   "confidence": 0.95
+  },
+  "palette": {
+   "bg": "#d5ad3e",
+   "accent": "#2f1a1b",
+   "fg": "#2f1a1b",
+   "swatches": [
+    "#2f1a1b",
+    "#822e23",
+    "#d3aa37",
+    "#ae6940",
+    "#d4791a"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "two-tone-split",
+  "seed": 860768786,
+  "coverUrl": "https://covers.openlibrary.org/b/id/12715895-L.jpg"
+ },
+ {
+  "id": "demo-6468653",
+  "title": "Catch-22",
+  "displayTitle": "Catch-22",
+  "shortTitle": "Catch-22",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Joseph Heller",
+  "authorSort": "Heller, Joseph",
+  "authorShort": "J. Heller",
+  "isbn": "9780224602679",
+  "pages": 448,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 25.1,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#052138",
+   "accent": "#bcbca1",
+   "fg": "#bcbca1",
+   "swatches": [
+    "#041c30",
+    "#044368",
+    "#0e4e6b",
+    "#bab097",
+    "#bcbca1"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "stacked-slab",
+  "seed": 1145574979,
+  "coverUrl": "https://covers.openlibrary.org/b/id/6468653-L.jpg"
+ },
+ {
+  "id": "demo-4992387",
+  "title": "Slaughterhouse-Five",
+  "displayTitle": "Slaughterhouse-Five",
+  "shortTitle": "Slaughterhouse-Five",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Kurt Vonnegut",
+  "authorSort": "Vonnegut, Kurt",
+  "authorShort": "K. Vonnegut",
+  "isbn": "9780613647885",
+  "pages": 203,
+  "published": null,
+  "binding": "hardcover",
+  "geometry": {
+   "heightMm": 198.1,
+   "widthMm": 132.1,
+   "thicknessMm": 27.9,
+   "source": "openlibrary",
+   "confidence": 0.95
+  },
+  "palette": {
+   "bg": "#463d3c",
+   "accent": "#c9c19e",
+   "fg": "#c9c19e",
+   "swatches": [
+    "#4c4140",
+    "#977c67",
+    "#a2866f",
+    "#a7907b",
+    "#c9c19e"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "cloth-stamped",
+  "seed": 78175440,
+  "coverUrl": "https://covers.openlibrary.org/b/id/4992387-L.jpg"
+ },
+ {
+  "id": "demo-12709654",
+  "title": "Catʼs Cradle",
+  "displayTitle": "Catʼs Cradle",
+  "shortTitle": "Catʼs Cradle",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Kurt Vonnegut",
+  "authorSort": "Vonnegut, Kurt",
+  "authorShort": "K. Vonnegut",
+  "isbn": "957708169X",
+  "pages": 334,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 19.1,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#a39885",
+   "accent": "#474e5b",
+   "fg": "#23201a",
+   "swatches": [
+    "#a19683",
+    "#474e5b",
+    "#6f767d",
+    "#b0683a",
+    "#9d8875"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "classic-serif-centred",
+  "seed": 3288207138,
+  "coverUrl": "https://covers.openlibrary.org/b/id/12709654-L.jpg"
+ },
+ {
+  "id": "demo-9267242",
+  "title": "Nineteen Eighty-Four",
+  "displayTitle": "Nineteen Eighty-Four",
+  "shortTitle": "Nineteen Eighty-Four",
+  "series": null,
+  "seriesPosition": null,
+  "author": "George Orwell",
+  "authorSort": "Orwell, George",
+  "authorShort": "G. Orwell",
+  "isbn": "9781974272846",
+  "pages": 470,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 26.2,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#aca397",
+   "accent": "#3d312b",
+   "fg": "#3d312b",
+   "swatches": [
+    "#aea599",
+    "#90867a",
+    "#7e7568",
+    "#3d312b",
+    "#6e6558"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "classic-serif-centred",
+  "seed": 1506807998,
+  "coverUrl": "https://covers.openlibrary.org/b/id/9267242-L.jpg"
+ },
+ {
+  "id": "demo-11261770",
+  "title": "Animal Farm",
+  "displayTitle": "Animal Farm",
+  "shortTitle": "Animal Farm",
+  "series": null,
+  "seriesPosition": null,
+  "author": "George Orwell",
+  "authorSort": "Orwell, George",
+  "authorShort": "G. Orwell",
+  "isbn": "9781722837273",
+  "pages": 80,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 6,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#b9b2a8",
+   "accent": "#4c312b",
+   "fg": "#4c312b",
+   "swatches": [
+    "#020102",
+    "#a0988e",
+    "#b6afa5",
+    "#090908",
+    "#4c312b"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "two-tone-split",
+  "seed": 3025863176,
+  "coverUrl": "https://covers.openlibrary.org/b/id/11261770-L.jpg"
+ },
+ {
+  "id": "demo-700495",
+  "title": "Brave New World",
+  "displayTitle": "Brave New World",
+  "shortTitle": "Brave New World",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Aldous Huxley",
+  "authorSort": "Huxley, Aldous",
+  "authorShort": "A. Huxley",
+  "isbn": "0899664237",
+  "pages": 240,
+  "published": null,
+  "binding": "hardcover",
+  "geometry": {
+   "heightMm": 221,
+   "widthMm": 144.8,
+   "thicknessMm": 17.8,
+   "source": "openlibrary",
+   "confidence": 0.95
+  },
+  "palette": {
+   "bg": "#3e5973",
+   "accent": "#c9a227",
+   "fg": "#ffffff",
+   "swatches": [
+    "#3e5973",
+    "#415d77",
+    "#446079",
+    "#46627c",
+    "#49657f"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "allcaps-sans-top",
+  "seed": 742765533,
+  "coverUrl": "https://covers.openlibrary.org/b/id/700495-L.jpg"
+ },
+ {
+  "id": "demo-13459113",
+  "title": "Fahrenheit 451",
+  "displayTitle": "Fahrenheit 451",
+  "shortTitle": "Fahrenheit 451",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Ray Bradbury",
+  "authorSort": "Bradbury, Ray",
+  "authorShort": "R. Bradbury",
+  "isbn": "841825260X",
+  "pages": 218,
+  "published": null,
+  "binding": "trade-paperback",
+  "geometry": {
+   "heightMm": 198,
+   "widthMm": 129,
+   "thicknessMm": 13.7,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#36030e",
+   "accent": "#f8dfb1",
+   "fg": "#f8dfb1",
+   "swatches": [
+    "#37030e",
+    "#f8dfb1",
+    "#d2744b",
+    "#541c20",
+    "#bc1e20"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "banded-plate",
+  "seed": 2416875685,
+  "coverUrl": "https://covers.openlibrary.org/b/id/13459113-L.jpg"
+ },
+ {
+  "id": "demo-15154097",
+  "title": "The Handmaidʼs Tale",
+  "displayTitle": "The Handmaidʼs Tale",
+  "shortTitle": "The Handmaidʼs Tale",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Margaret Atwood",
+  "authorSort": "Atwood, Margaret",
+  "authorShort": "M. Atwood",
+  "isbn": "9781984899668",
+  "pages": 315,
+  "published": null,
+  "binding": "trade-paperback",
+  "geometry": {
+   "heightMm": 198,
+   "widthMm": 129,
+   "thicknessMm": 19.2,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#670909",
+   "accent": "#a69880",
+   "fg": "#a69880",
+   "swatches": [
+    "#630909",
+    "#1a0e10",
+    "#a69880",
+    "#111113",
+    "#672b1e"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "classic-serif-centred",
+  "seed": 872338337,
+  "coverUrl": "https://covers.openlibrary.org/b/id/15154097-L.jpg"
+ },
+ {
+  "id": "demo-12507658",
+  "title": "Oryx and Crake",
+  "displayTitle": "Oryx and Crake",
+  "shortTitle": "Oryx and Crake",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Margaret Atwood",
+  "authorSort": "Atwood, Margaret",
+  "authorShort": "M. Atwood",
+  "isbn": "9780747562597",
+  "pages": 378,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 21.4,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#1a1919",
+   "accent": "#948770",
+   "fg": "#948770",
+   "swatches": [
+    "#131212",
+    "#382e23",
+    "#754d35",
+    "#816845",
+    "#948770"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "stacked-slab",
+  "seed": 1237852559,
+  "coverUrl": "https://covers.openlibrary.org/b/id/12507658-L.jpg"
+ },
+ {
+  "id": "demo-9425514",
+  "title": "Blood Meridian",
+  "displayTitle": "Blood Meridian",
+  "shortTitle": "Blood Meridian",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Cormac McCarthy",
+  "authorSort": "McCarthy, Cormac",
+  "authorShort": "C. McCarthy",
+  "isbn": "9780330544580",
+  "pages": 353,
+  "published": null,
+  "binding": "trade-paperback",
+  "geometry": {
+   "heightMm": 198,
+   "widthMm": 129,
+   "thicknessMm": 21.4,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#bbb8dc",
+   "accent": "#391939",
+   "fg": "#391939",
+   "swatches": [
+    "#b8b5da",
+    "#391939",
+    "#652c55",
+    "#8a6690",
+    "#a48ab3"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "foil-rule",
+  "seed": 254054769,
+  "coverUrl": "https://covers.openlibrary.org/b/id/9425514-L.jpg"
+ },
+ {
+  "id": "demo-9306376",
+  "title": "The Road",
+  "displayTitle": "The Road",
+  "shortTitle": "The Road",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Cormac McCarthy",
+  "authorSort": "McCarthy, Cormac",
+  "authorShort": "C. McCarthy",
+  "isbn": "9781436100793",
+  "pages": 256,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 15,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#2a1414",
+   "accent": "#ebb8d1",
+   "fg": "#ebb8d1",
+   "swatches": [
+    "#0a0a0a",
+    "#2f1716",
+    "#532625",
+    "#645f57",
+    "#d6cfcf"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "banded-plate",
+  "seed": 485951846,
+  "coverUrl": "https://covers.openlibrary.org/b/id/9306376-L.jpg"
+ },
+ {
+  "id": "demo-2380041",
+  "title": "Infinite Jest",
+  "displayTitle": "Infinite Jest",
+  "shortTitle": "Infinite Jest",
+  "series": null,
+  "seriesPosition": null,
+  "author": "David Foster Wallace",
+  "authorSort": "Wallace, David Foster",
+  "authorShort": "D. F. Wallace",
+  "isbn": "0316811173",
+  "pages": 1079,
+  "published": null,
+  "binding": "trade-paperback",
+  "geometry": {
+   "heightMm": 198,
+   "widthMm": 129,
+   "thicknessMm": 62.9,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#90c2e6",
+   "accent": "#952b1c",
+   "fg": "#0f212e",
+   "swatches": [
+    "#98c6e8",
+    "#68a9db",
+    "#64a1d7",
+    "#952b1c",
+    "#8c87a4"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "publisher-footer",
+  "seed": 2337443603,
+  "coverUrl": "https://covers.openlibrary.org/b/id/2380041-L.jpg"
+ },
+ {
+  "id": "demo-14896222",
+  "title": "White Teeth",
+  "displayTitle": "White Teeth",
+  "shortTitle": "White Teeth",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Zadie Smith",
+  "authorSort": "Smith, Zadie",
+  "authorShort": "Z. Smith",
+  "isbn": "0241141028",
+  "pages": 480,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 26.8,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#b7caba",
+   "accent": "#927150",
+   "fg": "#1a231c",
+   "swatches": [
+    "#b8cbbb",
+    "#c91b38",
+    "#94b05b",
+    "#927150",
+    "#da655b"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "allcaps-sans-top",
+  "seed": 2663946205,
+  "coverUrl": "https://covers.openlibrary.org/b/id/14896222-L.jpg"
+ },
+ {
+  "id": "demo-9158357",
+  "title": "Normal People",
+  "displayTitle": "Normal People",
+  "shortTitle": "Normal People",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Sally Rooney",
+  "authorSort": "Rooney, Sally",
+  "authorShort": "S. Rooney",
+  "isbn": "0571334652",
+  "pages": 304,
+  "published": null,
+  "binding": "trade-paperback",
+  "geometry": {
+   "heightMm": 198,
+   "widthMm": 129,
+   "thicknessMm": 18.6,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#9f393a",
+   "accent": "#f2e7d3",
+   "fg": "#f2e7d3",
+   "swatches": [
+    "#a33b3b",
+    "#e3473f",
+    "#df4b42",
+    "#ca635c",
+    "#f2e7d3"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "classic-serif-centred",
+  "seed": 2415387713,
+  "coverUrl": "https://covers.openlibrary.org/b/id/9158357-L.jpg"
+ },
+ {
+  "id": "demo-9146337",
+  "title": "A Little Life",
+  "displayTitle": "A Little Life",
+  "shortTitle": "A Little Life",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Hanya Yanagihara",
+  "authorSort": "Yanagihara, Hanya",
+  "authorShort": "H. Yanagihara",
+  "isbn": "1101972424",
+  "pages": 800,
+  "published": null,
+  "binding": "trade-paperback",
+  "geometry": {
+   "heightMm": 198,
+   "widthMm": 129,
+   "thicknessMm": 46.9,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#131d31",
+   "accent": "#d3dae3",
+   "fg": "#d3dae3",
+   "swatches": [
+    "#141e32",
+    "#48576a",
+    "#7f8ca0",
+    "#9ba5b9",
+    "#d3dae3"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "foil-rule",
+  "seed": 1216943640,
+  "coverUrl": "https://covers.openlibrary.org/b/id/9146337-L.jpg"
+ },
+ {
+  "id": "demo-14827487",
+  "title": "The Secret History",
+  "displayTitle": "The Secret History",
+  "shortTitle": "The Secret History",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Donna Tartt",
+  "authorSort": "Tartt, Donna",
+  "authorShort": "D. Tartt",
+  "isbn": "9788372980281",
+  "pages": 653,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 35.9,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#cfbcae",
+   "accent": "#645446",
+   "fg": "#261d17",
+   "swatches": [
+    "#aa9b92",
+    "#cfbcae",
+    "#f2ebe7",
+    "#32302f",
+    "#645446"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "allcaps-sans-top",
+  "seed": 3905768422,
+  "coverUrl": "https://covers.openlibrary.org/b/id/14827487-L.jpg"
+ },
+ {
+  "id": "demo-10339307",
+  "title": "The Goldfinch",
+  "displayTitle": "The Goldfinch",
+  "shortTitle": "The Goldfinch",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Donna Tartt",
+  "authorSort": "Tartt, Donna",
+  "authorShort": "D. Tartt",
+  "isbn": "9782259221863",
+  "pages": 795,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 43.3,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#a1906d",
+   "accent": "#16100d",
+   "fg": "#16100d",
+   "swatches": [
+    "#a49472",
+    "#8f7d5c",
+    "#574935",
+    "#16100d",
+    "#352c21"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "two-tone-split",
+  "seed": 83515115,
+  "coverUrl": "https://covers.openlibrary.org/b/id/10339307-L.jpg"
+ },
+ {
+  "id": "demo-13916810",
+  "title": "Lincoln in the Bardo",
+  "displayTitle": "Lincoln in the Bardo",
+  "shortTitle": "Lincoln in the Bardo",
+  "series": null,
+  "seriesPosition": null,
+  "author": "George Saunders",
+  "authorSort": "Saunders, George",
+  "authorShort": "G. Saunders",
+  "isbn": "9788324055425",
+  "pages": 440,
+  "published": null,
+  "binding": "hardcover",
+  "geometry": {
+   "heightMm": 235,
+   "widthMm": 155,
+   "thicknessMm": 32.4,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#d7b365",
+   "accent": "#c9a227",
+   "fg": "#2e240f",
+   "swatches": [
+    "#ebebeb",
+    "#e1e1e1",
+    "#d4d4d4",
+    "#575757",
+    "#b4b4b4"
+   ],
+   "isDark": false,
+   "isGrayscale": true,
+   "source": "grayscale-cloth"
+  },
+  "spineStyle": "classic-serif-centred",
+  "seed": 1481632889,
+  "coverUrl": "https://covers.openlibrary.org/b/id/13916810-L.jpg"
+ },
+ {
+  "id": "demo-8346437",
+  "title": "Tenth of December",
+  "displayTitle": "Tenth of December",
+  "shortTitle": "Tenth of December",
+  "series": null,
+  "seriesPosition": null,
+  "author": "George Saunders",
+  "authorSort": "Saunders, George",
+  "authorShort": "G. Saunders",
+  "isbn": "9781408837351",
+  "pages": 273,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 15.9,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#172f71",
+   "accent": "#afe7f4",
+   "fg": "#afe7f4",
+   "swatches": [
+    "#e4dee4",
+    "#152c6b",
+    "#273b74",
+    "#898497",
+    "#c9c2cd"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "allcaps-sans-top",
+  "seed": 2805614805,
+  "coverUrl": "https://covers.openlibrary.org/b/id/8346437-L.jpg"
+ },
+ {
+  "id": "demo-10607970",
+  "title": "Station Eleven",
+  "displayTitle": "Station Eleven",
+  "shortTitle": "Station Eleven",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Emily St. John Mandel",
+  "authorSort": "Mandel, Emily St. John",
+  "authorShort": "E. S. J. Mandel",
+  "isbn": "9780553398076",
+  "pages": 9,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 6,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#1c182d",
+   "accent": "#e2d3b7",
+   "fg": "#e2d3b7",
+   "swatches": [
+    "#1d182d",
+    "#2b2635",
+    "#3b3536",
+    "#7a6446",
+    "#e2d3b7"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "publisher-footer",
+  "seed": 1442927105,
+  "coverUrl": "https://covers.openlibrary.org/b/id/10607970-L.jpg"
+ },
+ {
+  "id": "demo-13351248",
+  "title": "Cloud Atlas",
+  "displayTitle": "Cloud Atlas",
+  "shortTitle": "Cloud Atlas",
+  "series": null,
+  "seriesPosition": null,
+  "author": "David Mitchell",
+  "authorSort": "Mitchell, David",
+  "authorShort": "D. Mitchell",
+  "isbn": "9785699595174",
+  "pages": 798,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 43.5,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#2b1f1c",
+   "accent": "#dec4b1",
+   "fg": "#dec4b1",
+   "swatches": [
+    "#31231f",
+    "#424a46",
+    "#9a5743",
+    "#a19d8f",
+    "#dec4b1"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "publisher-footer",
+  "seed": 499926,
+  "coverUrl": "https://covers.openlibrary.org/b/id/13351248-L.jpg"
+ },
+ {
+  "id": "demo-8758252",
+  "title": "The Overstory",
+  "displayTitle": "The Overstory",
+  "shortTitle": "The Overstory",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Richard Powers",
+  "authorSort": "Powers, Richard",
+  "authorShort": "R. Powers",
+  "isbn": "1980008639",
+  "pages": 531,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 29.4,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#2b3228",
+   "accent": "#f9f4d8",
+   "fg": "#f9f4d8",
+   "swatches": [
+    "#2a3227",
+    "#2c8565",
+    "#97903a",
+    "#bfd491",
+    "#f9f4d8"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "banded-plate",
+  "seed": 3650437643,
+  "coverUrl": "https://covers.openlibrary.org/b/id/8758252-L.jpg"
+ },
+ {
+  "id": "demo-1472533",
+  "title": "Gilead",
+  "displayTitle": "Gilead",
+  "shortTitle": "Gilead",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Marilynne Robinson",
+  "authorSort": "Robinson, Marilynne",
+  "authorShort": "M. Robinson",
+  "isbn": "0374705038",
+  "pages": 257,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 15,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#f9efaa",
+   "accent": "#080504",
+   "fg": "#080504",
+   "swatches": [
+    "#fcf8d7",
+    "#e9c890",
+    "#ad7b51",
+    "#080504",
+    "#612b19"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "classic-serif-centred",
+  "seed": 1727948042,
+  "coverUrl": "https://covers.openlibrary.org/b/id/1472533-L.jpg"
+ },
+ {
+  "id": "demo-223038",
+  "title": "Housekeeping",
+  "displayTitle": "Housekeeping",
+  "shortTitle": "Housekeeping",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Marilynne Robinson",
+  "authorSort": "Robinson, Marilynne",
+  "authorShort": "M. Robinson",
+  "isbn": "0140098887",
+  "pages": 224,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 13.3,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#bebde1",
+   "accent": "#192637",
+   "fg": "#192637",
+   "swatches": [
+    "#6174a2",
+    "#9499c9",
+    "#c3c3e4",
+    "#192637",
+    "#3c5374"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "classic-serif-centred",
+  "seed": 3441432379,
+  "coverUrl": "https://covers.openlibrary.org/b/id/223038-L.jpg"
+ },
+ {
+  "id": "demo-1006314",
+  "title": "Shogun",
+  "displayTitle": "Shogun",
+  "shortTitle": "Shogun",
+  "series": null,
+  "seriesPosition": null,
+  "author": "James Clavell",
+  "authorSort": "Clavell, James",
+  "authorShort": "J. Clavell",
+  "isbn": "9783442356188",
+  "pages": 1225,
+  "published": null,
+  "binding": "trade-paperback",
+  "geometry": {
+   "heightMm": 180.3,
+   "widthMm": 127,
+   "thicknessMm": 53.3,
+   "source": "openlibrary",
+   "confidence": 0.95
+  },
+  "palette": {
+   "bg": "#cda665",
+   "accent": "#1f0e1a",
+   "fg": "#1f0e1a",
+   "swatches": [
+    "#d94011",
+    "#cba25f",
+    "#e6dda7",
+    "#1f0e1a",
+    "#4d3733"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "banded-plate",
+  "seed": 1183517114,
+  "coverUrl": "https://covers.openlibrary.org/b/id/1006314-L.jpg"
+ },
+ {
+  "id": "demo-8345848",
+  "title": "Wolf Hall",
+  "displayTitle": "Wolf Hall",
+  "shortTitle": "Wolf Hall",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Hilary Mantel",
+  "authorSort": "Mantel, Hilary",
+  "authorShort": "H. Mantel",
+  "isbn": "1408461242",
+  "pages": 653,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 35.9,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#390002",
+   "accent": "#f4afd4",
+   "fg": "#f4afd4",
+   "swatches": [
+    "#420002",
+    "#4d0407",
+    "#e4e0e1",
+    "#521519",
+    "#604d30"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "cloth-stamped",
+  "seed": 1783544930,
+  "coverUrl": "https://covers.openlibrary.org/b/id/8345848-L.jpg"
+ },
+ {
+  "id": "demo-15183762",
+  "title": "Crime and Punishment",
+  "displayTitle": "Crime and Punishment",
+  "shortTitle": "Crime and Punishment",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Fyodor Dostoevsky",
+  "authorSort": "Dostoevsky, Fyodor",
+  "authorShort": "F. Dostoevsky",
+  "isbn": "8119300823",
+  "pages": 608,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 33.5,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#d8c7ad",
+   "accent": "#8e2720",
+   "fg": "#8e2720",
+   "swatches": [
+    "#d9c9af",
+    "#d5c3a9",
+    "#d1ae9a",
+    "#8e2720",
+    "#b05b50"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "two-tone-split",
+  "seed": 2376113189,
+  "coverUrl": "https://covers.openlibrary.org/b/id/15183762-L.jpg"
+ },
+ {
+  "id": "demo-8238803",
+  "title": "Mythos",
+  "displayTitle": "Mythos",
+  "shortTitle": "Mythos",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Stephen Fry",
+  "authorSort": "Fry, Stephen",
+  "authorShort": "S. Fry",
+  "isbn": "B071RLJWHG",
+  "pages": 441,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 24.7,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#8cc5e5",
+   "accent": "#2b71a2",
+   "fg": "#0f232e",
+   "swatches": [
+    "#8ac4e5",
+    "#509fd0",
+    "#4190c2",
+    "#2b71a2",
+    "#3887ba"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "banded-plate",
+  "seed": 2610433032,
+  "coverUrl": "https://covers.openlibrary.org/b/id/8238803-L.jpg"
+ },
+ {
+  "id": "demo-9367956",
+  "title": "Sapiens",
+  "displayTitle": "Sapiens",
+  "shortTitle": "Sapiens",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Yuval Noah Harari",
+  "authorSort": "Harari, Yuval Noah",
+  "authorShort": "Y. N. Harari",
+  "isbn": "9781716994982",
+  "pages": 456,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 25.5,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#f1d8b1",
+   "accent": "#894340",
+   "fg": "#894340",
+   "swatches": [
+    "#fcf5ec",
+    "#fdf4eb",
+    "#fbf1ea",
+    "#894340",
+    "#b7aca5"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "allcaps-sans-top",
+  "seed": 1348785560,
+  "coverUrl": "https://covers.openlibrary.org/b/id/9367956-L.jpg"
+ },
+ {
+  "id": "demo-7884018",
+  "title": "Guns, Germs, and Steel",
+  "displayTitle": "Guns, Germs, and Steel",
+  "shortTitle": "Guns, Germs, and Steel",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Jared Diamond",
+  "authorSort": "Diamond, Jared",
+  "authorShort": "J. Diamond",
+  "isbn": "0224038095",
+  "pages": 480,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 26.8,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#221113",
+   "accent": "#ead3b8",
+   "fg": "#ead3b8",
+   "swatches": [
+    "#010101",
+    "#1b150c",
+    "#332713",
+    "#3c2e16",
+    "#585040"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "two-tone-split",
+  "seed": 782876758,
+  "coverUrl": "https://covers.openlibrary.org/b/id/7884018-L.jpg"
+ },
+ {
+  "id": "demo-133936",
+  "title": "The Selfish Gene",
+  "displayTitle": "The Selfish Gene",
+  "shortTitle": "The Selfish Gene",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Richard Dawkins",
+  "authorSort": "Dawkins, Richard",
+  "authorShort": "R. Dawkins",
+  "isbn": "8535911294",
+  "pages": 352,
+  "published": null,
+  "binding": "trade-paperback",
+  "geometry": {
+   "heightMm": 198,
+   "widthMm": 129,
+   "thicknessMm": 21.3,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#d0ffa3",
+   "accent": "#8f6a68",
+   "fg": "#1e2e0f",
+   "swatches": [
+    "#fffffe",
+    "#fcfcfc",
+    "#8f6a68",
+    "#d6bebc",
+    "#faf3f4"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "allcaps-sans-top",
+  "seed": 1681544387,
+  "coverUrl": "https://covers.openlibrary.org/b/id/133936-L.jpg"
+ },
+ {
+  "id": "demo-10363224",
+  "title": "A Brief History of Time",
+  "displayTitle": "A Brief History of Time",
+  "shortTitle": "A Brief History of Time",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Stephen Hawking",
+  "authorSort": "Hawking, Stephen",
+  "authorShort": "S. Hawking",
+  "isbn": "1439503923",
+  "pages": 256,
+  "published": null,
+  "binding": "hardcover",
+  "geometry": {
+   "heightMm": 235,
+   "widthMm": 155,
+   "thicknessMm": 20.5,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#27332e",
+   "accent": "#dfe6db",
+   "fg": "#dfe6db",
+   "swatches": [
+    "#283530",
+    "#4c7077",
+    "#89906c",
+    "#9eb097",
+    "#dfe6db"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "cloth-stamped",
+  "seed": 602626570,
+  "coverUrl": "https://covers.openlibrary.org/b/id/10363224-L.jpg"
+ },
+ {
+  "id": "demo-8283901",
+  "title": "Cosmos",
+  "displayTitle": "Cosmos",
+  "shortTitle": "Cosmos",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Carl Sagan",
+  "authorSort": "Sagan, Carl",
+  "authorShort": "C. Sagan",
+  "isbn": "1545118019",
+  "pages": 448,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 25.1,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#2d060a",
+   "accent": "#e7c0ba",
+   "fg": "#e7c0ba",
+   "swatches": [
+    "#0a0102",
+    "#47151d",
+    "#8a393a",
+    "#bc6763",
+    "#e7c0ba"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "allcaps-sans-top",
+  "seed": 2828219168,
+  "coverUrl": "https://covers.openlibrary.org/b/id/8283901-L.jpg"
+ },
+ {
+  "id": "demo-10706392",
+  "title": "The Sixth Extinction",
+  "displayTitle": "The Sixth Extinction",
+  "shortTitle": "The Sixth Extinction",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Elizabeth Kolbert",
+  "authorSort": "Kolbert, Elizabeth",
+  "authorShort": "E. Kolbert",
+  "isbn": "1797107445",
+  "pages": 1,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 6,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#fce70b",
+   "accent": "#2b590d",
+   "fg": "#2b590d",
+   "swatches": [
+    "#fce705",
+    "#fce206",
+    "#5f6460",
+    "#aca137",
+    "#f0b41d"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "classic-serif-centred",
+  "seed": 1633204603,
+  "coverUrl": "https://covers.openlibrary.org/b/id/10706392-L.jpg"
+ },
+ {
+  "id": "demo-11371648",
+  "title": "Thinking, Fast and Slow",
+  "displayTitle": "Thinking, Fast and Slow",
+  "shortTitle": "Thinking, Fast and Slow",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Daniel Kahneman",
+  "authorSort": "Kahneman, Daniel",
+  "authorShort": "D. Kahneman",
+  "isbn": "0606275649",
+  "pages": 512,
+  "published": null,
+  "binding": "hardcover",
+  "geometry": {
+   "heightMm": 235,
+   "widthMm": 155,
+   "thicknessMm": 37,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#e6d0bc",
+   "accent": "#555311",
+   "fg": "#555311",
+   "swatches": [
+    "#f8f1eb",
+    "#f7f0ea",
+    "#efe6e1",
+    "#826f68",
+    "#c4ac96"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "classic-serif-centred",
+  "seed": 1742179580,
+  "coverUrl": "https://covers.openlibrary.org/b/id/11371648-L.jpg"
+ },
+ {
+  "id": "demo-12002372",
+  "title": "The Emperor of All Maladies",
+  "displayTitle": "The Emperor of All Maladies",
+  "shortTitle": "The Emperor of All Maladies",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Siddhartha Mukherjee",
+  "authorSort": "Mukherjee, Siddhartha",
+  "authorShort": "S. Mukherjee",
+  "isbn": "9781439170915",
+  "pages": 571,
+  "published": null,
+  "binding": "trade-paperback",
+  "geometry": {
+   "heightMm": 198,
+   "widthMm": 129,
+   "thicknessMm": 33.8,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#ceb494",
+   "accent": "#582d1b",
+   "fg": "#582d1b",
+   "swatches": [
+    "#d0b799",
+    "#c5aa8b",
+    "#b89d7c",
+    "#582d1b",
+    "#806151"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "two-tone-split",
+  "seed": 996618626,
+  "coverUrl": "https://covers.openlibrary.org/b/id/12002372-L.jpg"
+ },
+ {
+  "id": "demo-12735651",
+  "title": "Bad Blood",
+  "displayTitle": "Bad Blood",
+  "shortTitle": "Bad Blood",
+  "series": null,
+  "seriesPosition": null,
+  "author": "John Carreyrou",
+  "authorSort": "Carreyrou, John",
+  "authorShort": "J. Carreyrou",
+  "isbn": "1035006774",
+  "pages": 352,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 20,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#290a0c",
+   "accent": "#f4afdc",
+   "fg": "#f4afdc",
+   "swatches": [
+    "#180607",
+    "#320908",
+    "#440c09",
+    "#54110d",
+    "#392c2d"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "two-tone-split",
+  "seed": 3960765055,
+  "coverUrl": "https://covers.openlibrary.org/b/id/12735651-L.jpg"
+ },
+ {
+  "id": "demo-5290886",
+  "title": "The Soul of a New Machine",
+  "displayTitle": "The Soul of a New Machine",
+  "shortTitle": "The Soul of a New Machine",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Tracy Kidder",
+  "authorSort": "Kidder, Tracy",
+  "authorShort": "T. Kidder",
+  "isbn": "9650302077",
+  "pages": 293,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 16.9,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#dadcc6",
+   "accent": "#453d2d",
+   "fg": "#453d2d",
+   "swatches": [
+    "#e4e6d6",
+    "#453d2d",
+    "#68694a",
+    "#6c836b",
+    "#9d8c65"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "cloth-stamped",
+  "seed": 615353441,
+  "coverUrl": "https://covers.openlibrary.org/b/id/5290886-L.jpg"
+ },
+ {
+  "id": "demo-4168884",
+  "title": "The Making of the Atomic Bomb",
+  "displayTitle": "The Making of the Atomic Bomb",
+  "shortTitle": "The Making of the Atomic Bomb",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Richard Rhodes",
+  "authorSort": "Rhodes, Richard",
+  "authorShort": "R. Rhodes",
+  "isbn": "9780671441333",
+  "pages": 886,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 48.1,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#5d1d1c",
+   "accent": "#f3de94",
+   "fg": "#f3de94",
+   "swatches": [
+    "#621f1e",
+    "#9a3131",
+    "#c04a31",
+    "#ec863a",
+    "#f3de94"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "publisher-footer",
+  "seed": 4222194321,
+  "coverUrl": "https://covers.openlibrary.org/b/id/4168884-L.jpg"
+ },
+ {
+  "id": "demo-4735427",
+  "title": "Hiroshima",
+  "displayTitle": "Hiroshima",
+  "shortTitle": "Hiroshima",
+  "series": null,
+  "seriesPosition": null,
+  "author": "John Hersey",
+  "authorSort": "Hersey, John",
+  "authorShort": "J. Hersey",
+  "isbn": "9780881030259",
+  "pages": 120,
+  "published": null,
+  "binding": "hardcover",
+  "geometry": {
+   "heightMm": 160,
+   "widthMm": 109.2,
+   "thicknessMm": 10.2,
+   "source": "openlibrary",
+   "confidence": 0.95
+  },
+  "palette": {
+   "bg": "#df7844",
+   "accent": "#4e3d2a",
+   "fg": "#2e1a0f",
+   "swatches": [
+    "#df7743",
+    "#c9a169",
+    "#e3d89f",
+    "#4e3d2a",
+    "#7f593a"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "cloth-stamped",
+  "seed": 1421910818,
+  "coverUrl": "https://covers.openlibrary.org/b/id/4735427-L.jpg"
+ },
+ {
+  "id": "demo-836669",
+  "title": "The Right Stuff",
+  "displayTitle": "The Right Stuff",
+  "shortTitle": "The Right Stuff",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Tom Wolfe",
+  "authorSort": "Wolfe, Tom",
+  "authorShort": "T. Wolfe",
+  "isbn": "9781579124588",
+  "pages": 304,
+  "published": null,
+  "binding": "hardcover",
+  "geometry": {
+   "heightMm": 281.9,
+   "widthMm": 236.2,
+   "thicknessMm": 33,
+   "source": "openlibrary",
+   "confidence": 0.95
+  },
+  "palette": {
+   "bg": "#4f5058",
+   "accent": "#c9a227",
+   "fg": "#ffffff",
+   "swatches": [
+    "#1f1f22",
+    "#505159",
+    "#edeeed",
+    "#828285",
+    "#adacae"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "classic-serif-centred",
+  "seed": 4141286183,
+  "coverUrl": "https://covers.openlibrary.org/b/id/836669-L.jpg"
+ },
+ {
+  "id": "demo-241603",
+  "title": "Into Thin Air",
+  "displayTitle": "Into Thin Air",
+  "shortTitle": "Into Thin Air",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Jon Krakauer",
+  "authorSort": "Krakauer, Jon",
+  "authorShort": "J. Krakauer",
+  "isbn": "9780807288283",
+  "pages": 335,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 19.1,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#070d31",
+   "accent": "#edf2f7",
+   "fg": "#edf2f7",
+   "swatches": [
+    "#060b28",
+    "#374465",
+    "#edf2f7",
+    "#7182a3",
+    "#9daece"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "cloth-stamped",
+  "seed": 2012500237,
+  "coverUrl": "https://covers.openlibrary.org/b/id/241603-L.jpg"
+ },
+ {
+  "id": "demo-8957004",
+  "title": "The Immortal Life of Henrietta Lacks",
+  "displayTitle": "The Immortal Life of Henrietta Lacks",
+  "shortTitle": "The Immortal Life of Henrietta Lacks",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Rebecca Skloot",
+  "authorSort": "Skloot, Rebecca",
+  "authorShort": "R. Skloot",
+  "isbn": "0451486315",
+  "pages": 381,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 21.6,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#672c1b",
+   "accent": "#f3eae3",
+   "fg": "#f3eae3",
+   "swatches": [
+    "#26170d",
+    "#652b1b",
+    "#a36440",
+    "#dba984",
+    "#f3eae3"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "publisher-footer",
+  "seed": 4014578098,
+  "coverUrl": "https://covers.openlibrary.org/b/id/8957004-L.jpg"
+ },
+ {
+  "id": "demo-14605484",
+  "title": "Just Mercy",
+  "displayTitle": "Just Mercy",
+  "shortTitle": "Just Mercy",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Bryan Stevenson",
+  "authorSort": "Stevenson, Bryan",
+  "authorShort": "B. Stevenson",
+  "isbn": "0593133935",
+  "pages": 384,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 21.7,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#39312a",
+   "accent": "#fbfbf8",
+   "fg": "#fbfbf8",
+   "swatches": [
+    "#352e27",
+    "#fbfbf8",
+    "#786452",
+    "#9b9a91",
+    "#dae2e2"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "two-tone-split",
+  "seed": 931418353,
+  "coverUrl": "https://covers.openlibrary.org/b/id/14605484-L.jpg"
+ },
+ {
+  "id": "demo-10129368",
+  "title": "The Warmth of Other Suns",
+  "displayTitle": "The Warmth of Other Suns",
+  "shortTitle": "The Warmth of Other Suns",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Isabel Wilkerson",
+  "authorSort": "Wilkerson, Isabel",
+  "authorShort": "I. Wilkerson",
+  "isbn": "0141995157",
+  "pages": 638,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 35.1,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#211812",
+   "accent": "#cfc2b1",
+   "fg": "#cfc2b1",
+   "swatches": [
+    "#18110d",
+    "#4e3d2e",
+    "#6e5c48",
+    "#92816a",
+    "#cfc2b1"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "foil-rule",
+  "seed": 3647036908,
+  "coverUrl": "https://covers.openlibrary.org/b/id/10129368-L.jpg"
+ },
+ {
+  "id": "demo-14844154",
+  "title": "Educated",
+  "displayTitle": "Educated",
+  "shortTitle": "Educated",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Tara Westover",
+  "authorSort": "Westover, Tara",
+  "authorShort": "T. Westover",
+  "isbn": "9722533797",
+  "pages": 376,
+  "published": null,
+  "binding": "trade-paperback",
+  "geometry": {
+   "heightMm": 198,
+   "widthMm": 129,
+   "thicknessMm": 22.7,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#cdd6d2",
+   "accent": "#32261a",
+   "fg": "#32261a",
+   "swatches": [
+    "#ccd5d1",
+    "#b5a48e",
+    "#aa6e36",
+    "#32261a",
+    "#864515"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "classic-serif-centred",
+  "seed": 3295045071,
+  "coverUrl": "https://covers.openlibrary.org/b/id/14844154-L.jpg"
+ },
+ {
+  "id": "demo-917578",
+  "title": "H Is for Hawk",
+  "displayTitle": "H Is for Hawk",
+  "shortTitle": "H Is for Hawk",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Helen Macdonald",
+  "authorSort": "Macdonald, Helen",
+  "authorShort": "H. Macdonald",
+  "isbn": "1861892381",
+  "pages": 208,
+  "published": null,
+  "binding": "trade-paperback",
+  "geometry": {
+   "heightMm": 185.4,
+   "widthMm": 137.2,
+   "thicknessMm": 15.2,
+   "source": "openlibrary",
+   "confidence": 0.95
+  },
+  "palette": {
+   "bg": "#181b1b",
+   "accent": "#6f88d9",
+   "fg": "#6f88d9",
+   "swatches": [
+    "#131615",
+    "#313c59",
+    "#637dd6",
+    "#6680da",
+    "#6f88d9"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "allcaps-sans-top",
+  "seed": 2264383411,
+  "coverUrl": "https://covers.openlibrary.org/b/id/917578-L.jpg"
+ },
+ {
+  "id": "demo-11456451",
+  "title": "Pachinko",
+  "displayTitle": "Pachinko",
+  "shortTitle": "Pachinko",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Min Jin Lee",
+  "authorSort": "Lee, Min Jin",
+  "authorShort": "M. J. Lee",
+  "isbn": "1478945486",
+  "pages": 512,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 28.4,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#e1dfc2",
+   "accent": "#644935",
+   "fg": "#644935",
+   "swatches": [
+    "#ebead7",
+    "#d1d7b6",
+    "#b1ba99",
+    "#644935",
+    "#8c8c71"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "banded-plate",
+  "seed": 2531719280,
+  "coverUrl": "https://covers.openlibrary.org/b/id/11456451-L.jpg"
+ },
+ {
+  "id": "demo-13798846",
+  "title": "Exhalation",
+  "displayTitle": "Exhalation",
+  "shortTitle": "Exhalation",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Ted Chiang",
+  "authorSort": "Chiang, Ted",
+  "authorShort": "T. Chiang",
+  "isbn": "9788381168731",
+  "pages": 400,
+  "published": null,
+  "binding": "hardcover",
+  "geometry": {
+   "heightMm": 235,
+   "widthMm": 155,
+   "thicknessMm": 29.8,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#100b28",
+   "accent": "#eef8fa",
+   "fg": "#eef8fa",
+   "swatches": [
+    "#080513",
+    "#252c45",
+    "#566a82",
+    "#9faebc",
+    "#eef8fa"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "stacked-slab",
+  "seed": 3190682697,
+  "coverUrl": "https://covers.openlibrary.org/b/id/13798846-L.jpg"
+ },
+ {
+  "id": "demo-15179830",
+  "title": "Stories of Your Life and Others",
+  "displayTitle": "Stories of Your Life and Others",
+  "shortTitle": "Stories of Your Life and Others",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Ted Chiang",
+  "authorSort": "Chiang, Ted",
+  "authorShort": "T. Chiang",
+  "isbn": "4150114587",
+  "pages": 528,
+  "published": null,
+  "binding": "trade-paperback",
+  "geometry": {
+   "heightMm": 198,
+   "widthMm": 129,
+   "thicknessMm": 31.4,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#dcd2c6",
+   "accent": "#040305",
+   "fg": "#040305",
+   "swatches": [
+    "#58636e",
+    "#979ca6",
+    "#e4ddd4",
+    "#040305",
+    "#171410"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "classic-serif-centred",
+  "seed": 1303669106,
+  "coverUrl": "https://covers.openlibrary.org/b/id/15179830-L.jpg"
+ },
+ {
+  "id": "demo-15208263",
+  "title": "Project Hail Mary",
+  "displayTitle": "Project Hail Mary",
+  "shortTitle": "Project Hail Mary",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Andy Weir",
+  "authorSort": "Weir, Andy",
+  "authorShort": "A. Weir",
+  "isbn": "0593395565",
+  "pages": 794,
+  "published": null,
+  "binding": "trade-paperback",
+  "geometry": {
+   "heightMm": 198,
+   "widthMm": 129,
+   "thicknessMm": 46.6,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#422e19",
+   "accent": "#e1d9cf",
+   "fg": "#e1d9cf",
+   "swatches": [
+    "#10100f",
+    "#402c19",
+    "#e1d9cf",
+    "#946922",
+    "#ad9364"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "stacked-slab",
+  "seed": 3056765202,
+  "coverUrl": "https://covers.openlibrary.org/b/id/15208263-L.jpg"
+ },
+ {
+  "id": "demo-10331621",
+  "title": "The Martian",
+  "displayTitle": "The Martian",
+  "shortTitle": "The Martian",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Andy Weir",
+  "authorSort": "Weir, Andy",
+  "authorShort": "A. Weir",
+  "isbn": "9789045210841",
+  "pages": 407,
+  "published": null,
+  "binding": "trade-paperback",
+  "geometry": {
+   "heightMm": 198,
+   "widthMm": 129,
+   "thicknessMm": 24.5,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#250e10",
+   "accent": "#d8e0d6",
+   "fg": "#d8e0d6",
+   "swatches": [
+    "#090404",
+    "#58443f",
+    "#9c887b",
+    "#c3b0a0",
+    "#d8e0d6"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "classic-serif-centred",
+  "seed": 1407488851,
+  "coverUrl": "https://covers.openlibrary.org/b/id/10331621-L.jpg"
+ },
+ {
+  "id": "demo-14637730",
+  "title": "Children of Time",
+  "displayTitle": "Children of Time",
+  "shortTitle": "Children of Time",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Adrian Tchaikovsky",
+  "authorSort": "Tchaikovsky, Adrian",
+  "authorShort": "A. Tchaikovsky",
+  "isbn": "9780316452496",
+  "pages": 616,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 33.9,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#171c19",
+   "accent": "#cfe5d5",
+   "fg": "#cfe5d5",
+   "swatches": [
+    "#0e110f",
+    "#2f4c45",
+    "#cfe5d5",
+    "#459f83",
+    "#9fa864"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "classic-serif-centred",
+  "seed": 1159869247,
+  "coverUrl": "https://covers.openlibrary.org/b/id/14637730-L.jpg"
+ },
+ {
+  "id": "demo-10171661",
+  "title": "A Memory Called Empire",
+  "displayTitle": "A Memory Called Empire",
+  "shortTitle": "A Memory Called Empire",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Arkady Martine",
+  "authorSort": "Martine, Arkady",
+  "authorShort": "A. Martine",
+  "isbn": "9781250186447",
+  "pages": 480,
+  "published": null,
+  "binding": "trade-paperback",
+  "geometry": {
+   "heightMm": 198,
+   "widthMm": 129,
+   "thicknessMm": 28.6,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#1c1a19",
+   "accent": "#efe1a6",
+   "fg": "#efe1a6",
+   "swatches": [
+    "#191817",
+    "#413f3c",
+    "#8a8374",
+    "#c3b58e",
+    "#efe1a6"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "two-tone-split",
+  "seed": 4057589169,
+  "coverUrl": "https://covers.openlibrary.org/b/id/10171661-L.jpg"
+ },
+ {
+  "id": "demo-12215742",
+  "title": "The Fifth Season",
+  "displayTitle": "The Fifth Season",
+  "shortTitle": "The Fifth Season",
+  "series": null,
+  "seriesPosition": null,
+  "author": "N.K. Jemisin",
+  "authorSort": "Jemisin, N.K.",
+  "authorShort": "N. Jemisin",
+  "isbn": "9786050946598",
+  "pages": 492,
+  "published": null,
+  "binding": "trade-paperback",
+  "geometry": {
+   "heightMm": 198,
+   "widthMm": 129,
+   "thicknessMm": 29.3,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#182427",
+   "accent": "#bce6d8",
+   "fg": "#bce6d8",
+   "swatches": [
+    "#172427",
+    "#505f5b",
+    "#85958d",
+    "#a7b5a1",
+    "#d9e0da"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "allcaps-sans-top",
+  "seed": 264274134,
+  "coverUrl": "https://covers.openlibrary.org/b/id/12215742-L.jpg"
+ },
+ {
+  "id": "demo-12468631",
+  "title": "Babel",
+  "displayTitle": "Babel",
+  "shortTitle": "Babel",
+  "series": null,
+  "seriesPosition": null,
+  "author": "R.F. Kuang",
+  "authorSort": "Kuang, R.F.",
+  "authorShort": "R. Kuang",
+  "isbn": "9780008501815",
+  "pages": 577,
+  "published": null,
+  "binding": "unknown",
+  "geometry": {
+   "heightMm": 203,
+   "widthMm": 133,
+   "thicknessMm": 31.9,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#26123c",
+   "accent": "#e4dfe6",
+   "fg": "#e4dfe6",
+   "swatches": [
+    "#25113b",
+    "#28133e",
+    "#28143e",
+    "#7d7683",
+    "#e4dfe6"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "two-tone-split",
+  "seed": 3713380220,
+  "coverUrl": "https://covers.openlibrary.org/b/id/12468631-L.jpg"
+ },
+ {
+  "id": "demo-14353785",
+  "title": "Circe",
+  "displayTitle": "Circe",
+  "shortTitle": "Circe",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Madeline Miller",
+  "authorSort": "Miller, Madeline",
+  "authorShort": "M. Miller",
+  "isbn": "9146235507",
+  "pages": 392,
+  "published": null,
+  "binding": "hardcover",
+  "geometry": {
+   "heightMm": 235,
+   "widthMm": 155,
+   "thicknessMm": 29.3,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#ee8c29",
+   "accent": "#c9ccd1",
+   "fg": "#2e1f0f",
+   "swatches": [
+    "#fb7526",
+    "#ed8923",
+    "#f8d328",
+    "#fb6f29",
+    "#fe7328"
+   ],
+   "isDark": false,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "classic-serif-centred",
+  "seed": 1767336282,
+  "coverUrl": "https://covers.openlibrary.org/b/id/14353785-L.jpg"
+ },
+ {
+  "id": "demo-15160445",
+  "title": "The Song of Achilles",
+  "displayTitle": "The Song of Achilles",
+  "shortTitle": "The Song of Achilles",
+  "series": null,
+  "seriesPosition": null,
+  "author": "Madeline Miller",
+  "authorSort": "Miller, Madeline",
+  "authorShort": "M. Miller",
+  "isbn": "9789041714879",
+  "pages": 384,
+  "published": null,
+  "binding": "trade-paperback",
+  "geometry": {
+   "heightMm": 198,
+   "widthMm": 129,
+   "thicknessMm": 23.1,
+   "source": "heuristic",
+   "confidence": 0.6
+  },
+  "palette": {
+   "bg": "#067ca8",
+   "accent": "#eafcf8",
+   "fg": "#ffffff",
+   "swatches": [
+    "#0679a4",
+    "#0190c6",
+    "#0891c5",
+    "#99cad1",
+    "#eafcf8"
+   ],
+   "isDark": true,
+   "isGrayscale": false,
+   "source": "image"
+  },
+  "spineStyle": "cloth-stamped",
+  "seed": 318310312,
+  "coverUrl": "https://covers.openlibrary.org/b/id/15160445-L.jpg"
+ }
+]

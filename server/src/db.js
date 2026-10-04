@@ -9,7 +9,8 @@ PRAGMA foreign_keys = ON;
 
 CREATE TABLE IF NOT EXISTS users (
   id                INTEGER PRIMARY KEY AUTOINCREMENT,
-  email             TEXT UNIQUE NOT NULL,
+  username          TEXT UNIQUE,
+  email             TEXT,
   password_hash     TEXT NOT NULL,
   goodreads_user_id TEXT,
   goodreads_rss_key TEXT,
@@ -152,6 +153,41 @@ CREATE TABLE IF NOT EXISTS host_cooldowns (
 CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY, value TEXT NOT NULL);
 `;
 
+/**
+ * Small forward-only migrations. The DDL above uses CREATE TABLE IF NOT EXISTS,
+ * which does nothing to a table that already exists, so anything added after a
+ * deployment has to be applied here too.
+ */
+function migrate(database) {
+  const cols = (table) =>
+    database.prepare(`PRAGMA table_info(${table})`).all().map((c) => c.name);
+
+  const userCols = cols('users');
+
+  // Accounts moved from invite-only email signup to open username signup.
+  if (!userCols.includes('username')) {
+    database.exec('ALTER TABLE users ADD COLUMN username TEXT');
+    // Backfill from the email local part so existing accounts keep working,
+    // de-duplicating if two addresses share one.
+    const rows = database.prepare('SELECT id, email FROM users ORDER BY id').all();
+    const taken = new Set();
+    const upd = database.prepare('UPDATE users SET username = ? WHERE id = ?');
+    for (const r of rows) {
+      let base = String(r.email ?? `user${r.id}`).split('@')[0]
+        .toLowerCase().replace(/[^a-z0-9_-]/g, '') || `user${r.id}`;
+      let name = base;
+      let n = 2;
+      while (taken.has(name)) { name = `${base}${n}`; n += 1; }
+      taken.add(name);
+      upd.run(name, r.id);
+    }
+    database.exec('CREATE UNIQUE INDEX IF NOT EXISTS idx_users_username ON users(username)');
+    // Whoever set the instance up is the administrator.
+    database.exec('UPDATE users SET is_admin = 1 WHERE id = (SELECT MIN(id) FROM users)');
+  }
+  database.exec('CREATE UNIQUE INDEX IF NOT EXISTS idx_users_username ON users(username)');
+}
+
 let db = null;
 
 export function openDb(path = config.dbPath) {
@@ -159,6 +195,7 @@ export function openDb(path = config.dbPath) {
   if (path !== ':memory:') mkdirSync(dirname(path), { recursive: true });
   db = new DatabaseSync(path);
   db.exec(DDL);
+  migrate(db);
   return db;
 }
 
