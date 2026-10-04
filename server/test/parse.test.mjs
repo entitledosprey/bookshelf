@@ -95,6 +95,28 @@ test('placeholder detection', () => {
   assert.ok(!isPlaceholderCover('https://i.gr-assets.com/books/34.jpg'));
 });
 
+test('an EMPTY shelf is a valid feed, not a format change', () => {
+  // Plenty of people have nothing currently-reading. Goodreads answers with a
+  // well-formed feed containing a channel and no items; treating that as a
+  // broken feed failed the whole sync for an ordinary account.
+  const emptyXml = readFileSync(join(here, 'fixtures', 'list_rss_empty.xml'), 'utf8');
+  const r = parseFeedXml(emptyXml);
+  assert.equal(r.items.length, 0);
+  assert.equal(r.valid, true, 'an empty shelf must still report a valid feed');
+  assert.match(r.channelTitle, /currently-reading/);
+});
+
+test('a non-feed document is reported as invalid', () => {
+  // This is what an actual format change, an error page or a captcha looks like.
+  for (const bad of ['<html><body>Goodreads is down</body></html>', 'not xml at all', '']) {
+    assert.equal(parseFeedXml(bad).valid, false);
+  }
+});
+
+test('a populated feed reports valid', () => {
+  assert.equal(parseFeedXml(xml).valid, true);
+});
+
 test('garbage input returns empty rather than throwing', () => {
   assert.deepEqual(parseFeedXml('not xml at all').items, []);
   assert.deepEqual(parseFeedXml('').items, []);

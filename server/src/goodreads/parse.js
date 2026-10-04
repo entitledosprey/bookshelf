@@ -65,12 +65,17 @@ function isoDate(v) {
  * An item with no book_id is skipped rather than thrown on: one malformed row
  * must never cost us the other 199 on the page.
  *
- * @returns {{items: RawBook[], skipped: number, channelTitle: string}}
+ * `valid` reports whether this was an RSS feed at all, which is what separates
+ * "this shelf is empty" from "Goodreads stopped returning a feed". An empty
+ * shelf is a completely normal state and returns a well-formed feed with a
+ * channel and no items; only a missing channel means the format changed.
+ *
+ * @returns {{items: RawBook[], skipped: number, channelTitle: string, valid: boolean}}
  */
 export function parseFeedXml(xml) {
   const doc = parser.parse(xml ?? '');
   const channel = doc?.rss?.channel;
-  if (!channel) return { items: [], skipped: 0, channelTitle: '' };
+  if (!channel) return { items: [], skipped: 0, channelTitle: '', valid: false };
 
   const raw = channel.item == null ? [] : Array.isArray(channel.item) ? channel.item : [channel.item];
   const items = [];
@@ -120,5 +125,5 @@ export function parseFeedXml(xml) {
     });
   }
 
-  return { items, skipped, channelTitle: text(channel.title) };
+  return { items, skipped, channelTitle: text(channel.title), valid: true };
 }

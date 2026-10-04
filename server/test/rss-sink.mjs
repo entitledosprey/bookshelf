@@ -16,8 +16,9 @@ const here = dirname(fileURLToPath(import.meta.url));
 const EMPTY = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"><channel><title>empty</title></channel></rss>`;
 
-export function startRssSink({ failWith = null, items = null } = {}) {
+export function startRssSink({ failWith = null, items = null, emptyShelves = [] } = {}) {
   const fixture = readFileSync(join(here, 'fixtures', 'list_rss_read.xml'), 'utf8');
+  const empty = readFileSync(join(here, 'fixtures', 'list_rss_empty.xml'), 'utf8');
   let requests = 0;
 
   const server = createServer((req, res) => {
@@ -28,7 +29,11 @@ export function startRssSink({ failWith = null, items = null } = {}) {
       return res.end('nope');
     }
     const page = Number(url.searchParams.get('page') ?? '1');
+    const shelf = url.searchParams.get('shelf') ?? '';
     res.writeHead(200, { 'content-type': 'application/rss+xml' });
+    // A shelf the caller declared empty answers with a well-formed, item-less
+    // feed -- exactly what Goodreads does for, say, an empty currently-reading.
+    if (emptyShelves.includes(shelf)) return res.end(empty);
     res.end(page === 1 ? (items ?? fixture) : EMPTY);
   });
 

@@ -71,11 +71,18 @@ export async function syncUser(user, { trigger = 'schedule' } = {}) {
           notes.push(`${shelf}: HTTP ${page.status} on page ${page.page}`);
           break;
         }
-        if (page.stop === 'parsed-zero') {
-          // HTTP 200 with nothing parseable means the feed format changed.
-          // Append-only means the store is untouched, but this must not look
-          // like success.
-          throw new Error(`${shelf}: HTTP 200 but parsed 0 items -- feed format may have changed`);
+        if (page.stop === 'empty-shelf') {
+          // Nothing on this shelf. Normal, and complete.
+          shelfComplete = true;
+          break;
+        }
+        if (page.stop === 'parse-error') {
+          // Not a feed at all. Note it and carry on to the other shelves rather
+          // than abandoning the run: the shelves that did parse have already
+          // been merged, and throwing here would discard a good sync because
+          // one shelf misbehaved.
+          notes.push(`${shelf}: Goodreads returned something that is not an RSS feed`);
+          break;
         }
         if (page.stop === 'page-ignored') {
           notes.push(`${shelf}: page= was ignored after page ${page.page - 1}; coverage may be partial`);

@@ -62,14 +62,21 @@ export async function* walkShelf({ userId, shelf = ALL_SHELF, key = '', perPage 
       return;
     }
 
-    const { items, skipped } = parseFeedXml(res.body);
+    const { items, skipped, valid } = parseFeedXml(res.body);
 
-    // HTTP 200 but nothing parsed means the format changed. Report it loudly;
-    // never let it be mistaken for "the shelf is empty" -- the merge is
-    // append-only, so a bad parse can't erase the store, but we still want the
-    // run marked failed rather than silently "ok".
+    // A document that is not a feed at all means Goodreads changed something.
+    // Report it; the merge is append-only so nothing can be erased, but the run
+    // must not look successful.
+    if (!valid) {
+      yield { page, items: [], itemCount: 0, skipped: 0, status: 200, stop: 'parse-error', complete: false };
+      return;
+    }
+
+    // A well-formed feed with no items is simply an empty shelf -- plenty of
+    // people have nothing currently-reading. That is a COMPLETE result, not a
+    // failure.
     if (items.length === 0 && skipped === 0) {
-      yield { page, items: [], itemCount: 0, skipped: 0, status: 200, stop: page === 1 ? 'parsed-zero' : 'empty', complete: page > 1 };
+      yield { page, items: [], itemCount: 0, skipped: 0, status: 200, stop: page === 1 ? 'empty-shelf' : 'exhausted', complete: true };
       return;
     }
 
