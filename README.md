@@ -1,11 +1,11 @@
 # Bookshelf
 
-Your Goodreads library, rendered as a bookshelf: spines sized to each book's
-real page count and physical dimensions, coloured from its real cover art. Tap a
-spine to see the cover.
+Your Goodreads library, rendered as a bookcase: spines sized to each book's real
+page count and physical dimensions, coloured from its real cover art. Tap a
+spine to see the cover, rate the book, and keep notes on it.
 
-Multi-user and self-hosted as a single container. Visitors who are not signed
-in get a sample shelf of real books, so the site shows what it is rather than
+Multi-user and self-hosted as a single container. Visitors who are not signed in
+get a sample shelf of real books, so the site shows what it is rather than
 asking for an account first.
 
 ![A bookcase of spines sized to each book's real dimensions, in the warm library theme](docs/shelf.jpg)
@@ -39,39 +39,44 @@ book spines. Each spine's colour is extracted from the real cover art, its
 thickness comes from the real page count, and its height from the real physical
 dimensions where those exist. Every book reports where its numbers came from,
 and the UI says "estimated from 496 pages" rather than implying a measurement.
+Ebooks and audiobooks get a fixed slim form instead of a page count converted
+into millimetres of paper.
+
+**You can rate a book and keep notes on it.** Both are yours, stored per account
+and in separate columns from anything Goodreads sends, so a sync can never
+overwrite them. Notes are searchable alongside titles and authors — a note is
+often the only record of why a book mattered, or who has it.
 
 **The three themes are different furniture, not different paint.** The warm
-library is an enclosed walnut case with thick boards and books packed close;
-the gallery is thin ash planks floating off a pale wall with no case at all;
-dark academia is heavy joinery with a brass rail along each board and a deep
-recess. Headroom, board thickness, upright width and shelf spacing are all
-theme tokens.
-
-**You can rate a book and keep notes on it.** Both are yours, stored per
-account and separate from anything Goodreads sends, so a sync can never
-overwrite them. Notes are searchable alongside titles and authors.
+library is an enclosed walnut case with thick boards and books packed close; the
+gallery is thin ash planks floating off a pale wall with no case at all; dark
+academia is heavy joinery with a brass rail along each board and a deep recess.
+Headroom, board thickness, upright width and shelf spacing are all theme tokens.
 
 **Bibliographic data is shared between accounts, reading state is not.** Two
 users who own the same book share one cover download, one metadata lookup and
-one palette extraction; their ratings and shelves stay separate, and no user can
-read another's library.
+one palette extraction; their ratings, notes and shelves stay separate, and no
+user can read another's library.
 
 ## Running it
 
 ```bash
-cp .env.example .env     # set ADMIN_API_KEY at minimum
+cp .env.example .env     # nothing is strictly required; see Configuration
 docker compose up -d
 ```
 
-Then open the site and create an account with a username and a password. **The
-first account created becomes the administrator**, so make it yours before
-sharing the URL.
+Then open the site and create an account with a username and a password. An
+email address works as the username. **The first account created becomes the
+administrator**, so make it yours before sharing the URL.
 
 Goodreads details are optional at signup and can be added later from the account
 panel. The user id is the number in `goodreads.com/user/show/`**`152185079`**`-name`
-— a display name will not work. A private profile also needs the RSS key from the
-feed link at the bottom of its My Books page. Both fields accept a pasted URL and
-pull the value out of it.
+— a display name will not work, and is rejected with a message saying so. A
+private profile also needs the RSS key from the feed link at the bottom of its
+My Books page. Both fields accept a pasted URL and pull the value out of it.
+
+The container expects to sit behind a reverse proxy; `nginx/bookshelf.conf` is a
+server block for an existing nginx edge stack.
 
 ### Administration
 
@@ -86,35 +91,38 @@ Any administrator gets an **Admin** button in the top bar:
   the running system has measured about the Goodreads feed, and a switch to
   close new signups.
 
-Deleting an account removes that person's shelf and sessions but keeps the
-shared `books` rows, since other accounts may shelve the same titles and
+Deleting an account removes that person's shelf, notes and sessions but keeps
+the shared `books` rows, since other accounts may shelve the same titles and
 re-fetching covers and palettes is expensive.
-
-The container expects to sit behind a reverse proxy; `nginx/bookshelf.conf` is a
-server block for an existing nginx edge stack.
 
 ### Configuration
 
-Everything in `.env.example` is optional except `ADMIN_API_KEY`, and every empty
-value leaves its subsystem inert rather than crashing:
+Everything in `.env.example` is optional, and every empty value leaves its
+subsystem inert rather than crashing. The app logs what is inactive at boot.
 
 | Variable | Effect when empty |
 | --- | --- |
-| `ADMIN_API_KEY` | admin routes still work for signed-in administrators; only the break-glass header is disabled |
+| `ADMIN_API_KEY` | Admin routes still work for signed-in administrators; only the break-glass header is disabled |
 | `GOOGLE_BOOKS_API_KEY` | Google Books rate-limits almost immediately; Open Library carries enrichment |
 | `CONTACT_EMAIL` | Open Library applies its lower anonymous rate limit (identified requests get 3×) |
 | `ENRICH_ENABLED=false` | Spines use Goodreads covers and heuristic geometry only |
+| `GOODREADS_BASE_URL` | Production default; override only to point tests at a local feed |
 
 ## Development
 
 ```bash
 cd server && npm install && npm test
 cd client && npm install && npm run build   # builds into server/public
-GOODREADS_BASE_URL=... ADMIN_API_KEY=dev node server/src/index.js
+ADMIN_API_KEY=dev node server/src/index.js
 ```
 
 `npm test` is plain `node --test` and runs fully offline — `test/rss-sink.mjs`
 serves a captured feed locally, pointed at by `GOODREADS_BASE_URL`.
+
+The demo shelf is baked into `server/src/demo/shelf.json` by
+`scripts/build-demo-fixture.mjs`, so it renders in full colour on a cold
+container with no network. Cover images are fetched in the background on first
+boot and cached to the data volume.
 
 ### No native dependencies, on purpose
 
@@ -130,13 +138,16 @@ SQLite is the built-in `node:sqlite`. Do not add `sharp`, `canvas`,
 ```
 shared/types.ts   the API contract, imported by the client
 docs/API.md       the same contract in prose — write an iOS client against this
+CLAUDE.md         working notes: constraints, measured feed behaviour, deploy
 server/src/
   goodreads/      feed walk, parsing, the single append-only merge
   enrich/         Open Library + Google Books, dimensions, covers, worker
   palette.js      median-cut palette extraction and WCAG contrast
+  demo/           the public sample shelf
   auth/           scrypt, opaque sessions, dual Bearer/cookie middleware
+  routes/         auth, books, covers, sync, admin, demo
 client/src/
-  components/     Spine, Shelf, Bookcase, BookSheet
+  components/     Spine, Shelf, Bookcase, BookSheet, Account, Admin
   styles/         three themes as token sets; only the chrome changes
 ```
 

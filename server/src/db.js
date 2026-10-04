@@ -20,14 +20,6 @@ CREATE TABLE IF NOT EXISTS users (
   last_sync_at      TEXT
 );
 
-CREATE TABLE IF NOT EXISTS invites (
-  code       TEXT PRIMARY KEY,
-  created_at TEXT NOT NULL,
-  expires_at TEXT NOT NULL,
-  used_by    INTEGER REFERENCES users(id) ON DELETE SET NULL,
-  used_at    TEXT
-);
-
 CREATE TABLE IF NOT EXISTS sessions (
   token_sha256 TEXT PRIMARY KEY,
   user_id      INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
@@ -197,7 +189,7 @@ function migrate(database) {
    * a username and email is optional, but SQLite cannot drop a NOT NULL
    * constraint with ALTER, so the table has to be rebuilt.
    *
-   * users is referenced by invites, sessions, user_books and sync_runs, several
+   * users is referenced by sessions, user_books and sync_runs, several
    * with ON DELETE CASCADE -- dropping it with foreign keys enforced would
    * delete every shelf on the instance. Hence the procedure SQLite documents
    * for this: disable foreign keys OUTSIDE a transaction, rebuild inside one,
@@ -247,6 +239,9 @@ function migrate(database) {
     }
   }
   database.exec('CREATE UNIQUE INDEX IF NOT EXISTS idx_users_email ON users(email) WHERE email IS NOT NULL');
+
+  // Invites are gone: signup is open, and nothing has read this table since.
+  database.exec('DROP TABLE IF EXISTS invites');
 
   // Personal rating and notes, kept apart from the Goodreads rating so a sync
   // can never overwrite what you wrote.

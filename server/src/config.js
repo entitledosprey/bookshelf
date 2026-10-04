@@ -13,7 +13,6 @@ export const config = {
 
   adminApiKey: str('ADMIN_API_KEY'),
   sessionTtlDays: num('SESSION_TTL_DAYS', 90),
-  inviteTtlDays: num('INVITE_TTL_DAYS', 14),
   secureCookies: bool('SECURE_COOKIES', true),
   corsOrigins: str('CORS_ORIGINS').split(',').map((s) => s.trim()).filter(Boolean),
 
@@ -43,7 +42,7 @@ export function userAgent() {
 /** Warnings, never crashes: an unset subsystem stays inert by design. */
 export function configWarnings() {
   const w = [];
-  if (!config.adminApiKey) w.push('ADMIN_API_KEY is empty: /api/v1/admin/* returns 404, so no invites can be minted.');
+  if (!config.adminApiKey) w.push('ADMIN_API_KEY is empty: admin routes still work for signed-in administrators, but the break-glass header is disabled.');
   if (!config.googleBooksKey) w.push('GOOGLE_BOOKS_API_KEY is empty: Google Books will rate-limit quickly; Open Library carries enrichment.');
   if (!config.contactEmail) w.push('CONTACT_EMAIL is empty: Open Library applies its lower anonymous rate limit.');
   if (!config.enrichEnabled) w.push('ENRICH_ENABLED is false: spines use Goodreads covers and heuristic geometry only.');

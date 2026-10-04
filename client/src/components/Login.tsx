@@ -4,8 +4,8 @@ import type { Me } from '../types';
 import { GoodreadsUserIdHelp, GoodreadsRssHelp } from './GoodreadsHelp';
 
 /**
- * Accounts are invite-only: there is no open signup, so this screen asks for a
- * code rather than offering to create one.
+ * Signup is open: a username (an email address counts) and a password. The
+ * first account created on an instance becomes its administrator.
  */
 export function Login({ onSignedIn, onCancel }: { onSignedIn: (me: Me) => void; onCancel?: () => void }) {
   const [mode, setMode] = useState<'login' | 'register'>('login');

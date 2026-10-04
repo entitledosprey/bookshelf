@@ -40,7 +40,7 @@ export function scryptVerify(password, stored) {
   }
 }
 
-/** Constant-time compare for admin keys and invite codes. */
+/** Constant-time compare, used for the admin break-glass key. */
 export function safeEqual(a, b) {
   const ba = Buffer.from(String(a ?? ''), 'utf8');
   const bb = Buffer.from(String(b ?? ''), 'utf8');
