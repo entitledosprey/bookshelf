@@ -192,6 +192,62 @@ function migrate(database) {
   }
   database.exec('CREATE UNIQUE INDEX IF NOT EXISTS idx_users_username ON users(username)');
 
+  /*
+   * Email started out as the required, unique login identifier. Signup now uses
+   * a username and email is optional, but SQLite cannot drop a NOT NULL
+   * constraint with ALTER, so the table has to be rebuilt.
+   *
+   * users is referenced by invites, sessions, user_books and sync_runs, several
+   * with ON DELETE CASCADE -- dropping it with foreign keys enforced would
+   * delete every shelf on the instance. Hence the procedure SQLite documents
+   * for this: disable foreign keys OUTSIDE a transaction, rebuild inside one,
+   * verify with foreign_key_check before committing, then re-enable.
+   */
+  const emailCol = database.prepare('PRAGMA table_info(users)').all().find((c) => c.name === 'email');
+  if (emailCol?.notnull === 1) {
+    database.exec('PRAGMA foreign_keys = OFF');
+    try {
+      database.exec('BEGIN');
+      database.exec(`
+        CREATE TABLE users_rebuilt (
+          id                INTEGER PRIMARY KEY AUTOINCREMENT,
+          username          TEXT UNIQUE,
+          email             TEXT,
+          password_hash     TEXT NOT NULL,
+          goodreads_user_id TEXT,
+          goodreads_rss_key TEXT,
+          is_admin          INTEGER NOT NULL DEFAULT 0,
+          prefs_json        TEXT NOT NULL DEFAULT '{}',
+          created_at        TEXT NOT NULL,
+          last_sync_at      TEXT
+        )`);
+      database.exec(`
+        INSERT INTO users_rebuilt
+          (id, username, email, password_hash, goodreads_user_id, goodreads_rss_key,
+           is_admin, prefs_json, created_at, last_sync_at)
+        SELECT id, username, email, password_hash, goodreads_user_id, goodreads_rss_key,
+               is_admin, prefs_json, created_at, last_sync_at
+        FROM users`);
+      database.exec('DROP TABLE users');
+      database.exec('ALTER TABLE users_rebuilt RENAME TO users');
+      database.exec('CREATE UNIQUE INDEX IF NOT EXISTS idx_users_username ON users(username)');
+      // Partial index: emails stay unique, but any number of rows may have none.
+      database.exec('CREATE UNIQUE INDEX IF NOT EXISTS idx_users_email ON users(email) WHERE email IS NOT NULL');
+
+      const broken = database.prepare('PRAGMA foreign_key_check').all();
+      if (broken.length) {
+        throw new Error(`users rebuild left ${broken.length} dangling references`);
+      }
+      database.exec('COMMIT');
+    } catch (err) {
+      database.exec('ROLLBACK');
+      throw err;
+    } finally {
+      database.exec('PRAGMA foreign_keys = ON');
+    }
+  }
+  database.exec('CREATE UNIQUE INDEX IF NOT EXISTS idx_users_email ON users(email) WHERE email IS NOT NULL');
+
   // Personal rating and notes, kept apart from the Goodreads rating so a sync
   // can never overwrite what you wrote.
   const ubCols = cols('user_books');

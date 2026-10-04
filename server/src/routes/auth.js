@@ -26,7 +26,15 @@ export const meJson = (row) => ({
   lastSyncAt: row.last_sync_at ?? null,
 });
 
-export const USERNAME_RE = /^[a-z0-9][a-z0-9_-]{2,31}$/;
+/**
+ * Usernames allow the characters an email address needs, because an email is
+ * what most people reach for as an identifier and rejecting it is a pointless
+ * obstacle. Must start alphanumeric; 3-64 characters.
+ */
+export const USERNAME_RE = /^[a-z0-9][a-z0-9._+@-]{2,63}$/;
+
+/** Good enough to decide whether to also keep this as a contact address. */
+const LOOKS_LIKE_EMAIL = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
 /** Signups can be closed by an administrator without redeploying. */
 export const signupsEnabled = () => (metaGet('signups_enabled') ?? 'true') !== 'false';
@@ -48,7 +56,8 @@ router.post('/register', throttle({ bucket: 'register', max: 5, windowMs: 600_00
     const rssKey = reqStr(req.body, 'goodreadsRssKey', { max: 200, required: false });
 
     if (!USERNAME_RE.test(username)) {
-      throw new HttpError(400, 'usernames are 3-32 characters: letters, numbers, dashes and underscores');
+      throw new HttpError(400,
+        'that can be a name or an email address: 3-64 characters, starting with a letter or number');
     }
     if (password.length < 8) throw new HttpError(400, 'password must be at least 8 characters');
 
@@ -64,10 +73,17 @@ router.post('/register', throttle({ bucket: 'register', max: 5, windowMs: 600_00
     // The first account to exist runs the instance.
     const isFirst = db.prepare('SELECT COUNT(*) n FROM users').get().n === 0;
 
+    // Signing up with an email keeps it as the contact address too, so the
+    // account can be recognised either way.
+    const email = LOOKS_LIKE_EMAIL.test(username) ? username : null;
+    if (email && db.prepare('SELECT 1 FROM users WHERE lower(email) = ?').get(email)) {
+      throw new HttpError(409, 'that username is taken');
+    }
+
     const id = db.prepare(`INSERT INTO users
-        (username, password_hash, goodreads_user_id, goodreads_rss_key, is_admin, prefs_json, created_at)
-        VALUES (?,?,?,?,?,?,?)`)
-      .run(username, scryptHash(password), grId || null, grKey || null,
+        (username, email, password_hash, goodreads_user_id, goodreads_rss_key, is_admin, prefs_json, created_at)
+        VALUES (?,?,?,?,?,?,?,?)`)
+      .run(username, email, scryptHash(password), grId || null, grKey || null,
            isFirst ? 1 : 0, JSON.stringify(DEFAULT_PREFS), isoNow()).lastInsertRowid;
 
     const { token, expiresAt } = issueSession(id, req.get('user-agent'));

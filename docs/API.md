@@ -35,8 +35,11 @@ administrator**; an administrator can close signups afterwards.
 | `PATCH` | `/auth/account` | session | `{ goodreadsUserId?, goodreadsRssKey? }` → `Me`. Both accept a pasted URL. |
 | `POST` | `/auth/password` | session | `{ currentPassword, newPassword }`. Revokes every OTHER session. |
 
-Usernames are 3–32 characters of letters, numbers, `-` and `_`, lowercased and
-unique. Passwords must be at least 8 characters. Login returns the same message
+Usernames are 3–64 characters, lowercased and unique, starting with a letter or
+number. They may contain `. _ + @ -`, so **an email address is a valid
+username** — which is what most people type. Signing up with one keeps it as the
+account's contact address, and either form signs in. Passwords must be at least
+8 characters. Login returns the same message
 for a wrong password and an unknown account, so account existence is not leaked.
 
 A Goodreads user id must be the **number** from the profile URL; a display name

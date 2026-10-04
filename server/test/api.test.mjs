@@ -80,6 +80,35 @@ test('anyone can sign up with a username and password', async () => {
   token = body.token;
 });
 
+test('an email address works as a username', async () => {
+  resetThrottle();
+  // People reach for their email as an identifier; rejecting it is a pointless
+  // obstacle, and the signup form was doing exactly that.
+  const { status, body } = await json('/api/v1/auth/register', {
+    method: 'POST',
+    body: JSON.stringify({ username: 'alex.fagan97@gmail.com', password: 'a-good-passphrase' }),
+  });
+  assert.equal(status, 201);
+  assert.equal(body.user.username, 'alex.fagan97@gmail.com');
+  assert.equal(body.user.email, 'alex.fagan97@gmail.com', 'an email username is kept as the contact address');
+
+  // ...and it signs in.
+  assert.equal((await json('/api/v1/auth/login', {
+    method: 'POST', body: JSON.stringify({ username: 'alex.fagan97@gmail.com', password: 'a-good-passphrase' }),
+  })).status, 200);
+});
+
+test('signing up without an email works', async () => {
+  resetThrottle();
+  // Regression: users.email was NOT NULL on instances created before usernames,
+  // so a plain username signup failed with a constraint error.
+  const { status, body } = await json('/api/v1/auth/register', {
+    method: 'POST', body: JSON.stringify({ username: 'plainname', password: 'a-good-passphrase' }),
+  });
+  assert.equal(status, 201);
+  assert.equal(body.user.email, null);
+});
+
 test('usernames are validated and unique', async () => {
   resetThrottle();
   const dupe = await json('/api/v1/auth/register', {
@@ -87,7 +116,10 @@ test('usernames are validated and unique', async () => {
   });
   assert.equal(dupe.status, 409);
 
-  for (const bad of ['ab', '-nope', 'has space', 'no!']) {
+  for (const bad of ['ab', '-nope', 'has space', 'no!', 'semi;colon']) {
+    // The signup rate limit is real and correct; it is just not what this test
+    // is about, and six attempts would trip it.
+    resetThrottle();
     const r = await json('/api/v1/auth/register', {
       method: 'POST', body: JSON.stringify({ username: bad, password: 'a-good-passphrase' }),
     });
