@@ -86,6 +86,8 @@ export interface Book {
   /** Stable per-book integer driving every "varied but deterministic" choice. */
   seed: number;
   hasCover: boolean;
+  /** True while the cover is still being fetched, as opposed to not existing. */
+  coverPending?: boolean;
   /** width/height of the cached cover art, so it can be shown uncropped. */
   coverAspect: number | null;
   coverUrl: string;

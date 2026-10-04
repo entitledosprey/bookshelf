@@ -80,9 +80,16 @@ router.post('/register', throttle({ bucket: 'register', max: 5, windowMs: 600_00
   }));
 
 router.post('/login', throttle({ bucket: 'login', max: 10 }), wrap(async (req, res) => {
-  const username = reqStr(req.body, 'username', { max: 200 }).toLowerCase();
+  const ident = reqStr(req.body, 'username', { max: 200 }).toLowerCase();
   const password = reqStr(req.body, 'password', { max: 200 });
-  const row = getDb().prepare('SELECT * FROM users WHERE username = ?').get(username);
+
+  // Accept an email as well as a username. Accounts created before usernames
+  // existed were migrated by deriving one from their email address, and their
+  // owners quite reasonably still type the email they signed up with.
+  const row = getDb().prepare(
+    'SELECT * FROM users WHERE username = ? OR (email IS NOT NULL AND lower(email) = ?) ORDER BY (username = ?) DESC LIMIT 1',
+  ).get(ident, ident, ident);
+
   // Same message either way: do not reveal which accounts exist.
   if (!row || !scryptVerify(password, row.password_hash)) {
     throw new HttpError(401, 'incorrect username or password');

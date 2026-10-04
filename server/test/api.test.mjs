@@ -129,6 +129,25 @@ test('login rejects a wrong password with the same message as an unknown user', 
   assert.equal(wrong.body.error, missing.body.error, 'must not reveal which accounts exist');
 });
 
+test('signing in works with a username or with an email', async () => {
+  resetThrottle();
+  // Accounts migrated from the old email-only scheme kept their address, and
+  // their owners still type it. Both routes must work.
+  const { getDb } = await import('../src/db.js');
+  getDb().prepare("UPDATE users SET email = 'alice@example.test' WHERE username = 'alice'").run();
+
+  const byName = await json('/api/v1/auth/login', {
+    method: 'POST', body: JSON.stringify({ username: 'alice', password: 'a-good-passphrase' }),
+  });
+  assert.equal(byName.status, 200);
+
+  const byEmail = await json('/api/v1/auth/login', {
+    method: 'POST', body: JSON.stringify({ username: 'ALICE@example.test', password: 'a-good-passphrase' }),
+  });
+  assert.equal(byEmail.status, 200, 'an email address should sign the same account in');
+  assert.equal(byEmail.body.user.username, 'alice');
+});
+
 test('the Bearer token authenticates', async () => {
   const { status, body } = await json('/api/v1/auth/me', { headers: { Authorization: `Bearer ${token}` } });
   assert.equal(status, 200);

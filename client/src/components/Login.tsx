@@ -41,11 +41,16 @@ export function Login({ onSignedIn, onCancel }: { onSignedIn: (me: Me) => void; 
         {error && <p className="error">{error}</p>}
 
         <label>
-          Username
+          {mode === 'login' ? 'Username or email' : 'Username'}
+          {/* The format rule constrains what a NEW username may be. Applying it
+              when signing in blocks people whose account predates usernames,
+              or who simply type the email they signed up with. */}
           <input className="field" value={username} required
                  autoComplete="username" spellCheck={false}
-                 pattern="[A-Za-z0-9][A-Za-z0-9_\-]{2,31}"
-                 placeholder="3-32 letters, numbers, - or _"
+                 {...(mode === 'register'
+                   ? { pattern: '[A-Za-z0-9][A-Za-z0-9_\\-]{2,31}',
+                       placeholder: '3-32 letters, numbers, - or _' }
+                   : { placeholder: 'your username or email' })}
                  onChange={(e) => setUsername(e.target.value)} />
         </label>
 

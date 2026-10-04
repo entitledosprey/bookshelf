@@ -83,7 +83,9 @@ export function BookSheet({ book, neighbours, onClose, onNavigate }: Props) {
             />
           ) : (
             <div className="opened-cover" role="img"
-                 aria-label={`No cover art available for ${book.displayTitle}`} />
+                 aria-label={book.coverPending
+                   ? `Cover art for ${book.displayTitle} is still downloading`
+                   : `No cover art available for ${book.displayTitle}`} />
           )}
         </div>
       </div>
@@ -124,7 +126,9 @@ export function BookSheet({ book, neighbours, onClose, onNavigate }: Props) {
           )}
           {!book.hasCover && (
             <><dt>Cover</dt><dd className="provenance">
-              No cover art found, so this spine uses a seeded cloth binding.
+              {book.coverPending
+                ? 'Cover art is still downloading. The spine colour below is already from the real jacket.'
+                : 'No cover art found, so this spine uses a seeded cloth binding.'}
             </dd></>
           )}
         </dl>

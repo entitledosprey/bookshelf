@@ -74,6 +74,9 @@ export function demoShelf(limit = 48) {
       dateAdded: null,
       palettePending: false,
       hasCover: r.cover_state === 'ok',
+      // Distinguish "still being fetched" from "there is none", so the UI does
+      // not claim a cover is missing while it is on its way.
+      coverPending: r.cover_state === 'pending',
       coverUrl: `/api/v1/demo/covers/${b.id}`,
       goodreadsUrl: `https://www.goodreads.com/search?q=${encodeURIComponent(`${b.title} ${b.author}`)}`,
     };
