@@ -1,0 +1,185 @@
+/*
+ * Three themes. Only the CHROME changes between them: ground, boards, ink,
+ * accent. The books never change, because their colour is real data extracted
+ * from real cover art, and it is the only chroma on the page. Every surface
+ * here is deliberately near-monochrome so 400 spine colours stay the subject.
+ *
+ * No component may hardcode a colour. If a value is not a token, it is a bug.
+ */
+
+:root {
+  /* Bookish system stack. Palatino is a Zapf book face, Iowan Old Style ships
+     on Apple platforms, Book Antiqua on Windows -- so the chrome reads as print
+     without shipping a single font byte. */
+  --font-serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+  /* Spine lettering: system UI hints far better than any webfont at 7-15px. */
+  --font-spine: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  --step--1: 0.8125rem;
+  --step-0:  1rem;
+  --step-1:  1.1875rem;
+  --step-2:  1.4375rem;
+  --step-3:  1.875rem;
+
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-6: 1.5rem;
+  --sp-8: 2rem;
+
+  /* Structure, not colour. Each theme sets these to a different piece of
+     furniture: an enclosed warm case, floating gallery planks, a heavy dark
+     library case. Changing only colours is what made the themes feel the same. */
+  --board-thickness: 12px;
+  --upright-w: 13px;
+  --case-radius: 3px;
+  /* How much taller a shelf opening is than its tallest book. Headroom is the
+     single biggest cue that books are standing INSIDE a case rather than
+     balancing on a line. */
+  --headroom: 1.12;
+  --shelf-gap-v: 0;
+  --board-radius: 0 0 2px 2px;
+
+  --shelf-gap: 2px;
+  --radius-sheet: 6px;
+
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* ── Warm wooden library (default) ───────────────────────────────────────────
+   A dim warm room with the books lit, not a cream page with a clay accent.
+   Brass is the only accent; there is deliberately no terracotta anywhere. */
+:root,
+:root[data-theme='wood'] {
+  --ground:        #241c16;
+  --ground-2:      #2e241c;
+  --board:         #4a3528;
+  --board-top:     #5c4334;
+  --board-edge:    #6b4e3a;
+  --board-shade:   #1a130e;
+  --ink:           #efe7db;
+  --ink-dim:       #b3a493;
+  --ink-faint:     #7d6f61;
+  --accent:        #b08848;
+  --hairline:      #3a2c22;
+  --contact-shadow: rgba(14, 9, 6, 0.55);
+  --room-light:    radial-gradient(120% 70% at 50% -10%, rgba(255, 228, 176, 0.11), transparent 70%);
+  --board-grain:   repeating-linear-gradient(90deg, rgba(0,0,0,.10) 0 1px, transparent 1px 7px);
+  --sheet-bg:      #2b2219;
+  --spine-rim:     rgba(255, 246, 230, 0.10);
+
+  /* A deep cabinet: thick boards, chunky uprights, books packed close. */
+  --back-panel:    #1d1510;
+  --back-panel-2:  #251b14;
+  --upright:       #43301f;
+  --upright-edge:  #6b4e3a;
+  --recess:        rgba(0, 0, 0, 0.62);
+  --plank-shadow:  none;
+  --rail:          none;
+}
+
+/* ── Clean modern gallery ──────────────────────────────────────────────────
+   Pale ash shelves on warm off-white, no grain, more air. All visual weight
+   goes to the book colours. */
+:root[data-theme='gallery'] {
+  --ground:        #f1efea;
+  --ground-2:      #e9e6df;
+  --board:         #d6d0c4;
+  --board-top:     #e2ddd2;
+  --board-edge:    #c3bcae;
+  --board-shade:   #b8b1a2;
+  --ink:           #1d1a16;
+  --ink-dim:       #5f594f;
+  --ink-faint:     #8d867a;
+  --accent:        #6a5c3f;
+  --hairline:      #d9d4c9;
+  --contact-shadow: rgba(60, 54, 44, 0.22);
+  --room-light:    none;
+  --board-grain:   none;
+  --sheet-bg:      #faf8f4;
+  --spine-rim:     rgba(0, 0, 0, 0.07);
+
+  /* Not a case: thin ash planks floating off a pale wall, with air around
+     them. No uprights, no back panel, no recess. */
+  --back-panel:    transparent;
+  --back-panel-2:  transparent;
+  --upright:       transparent;
+  --upright-edge:  transparent;
+  --recess:        transparent;
+  --plank-shadow:  0 12px 20px -8px rgba(60, 54, 44, 0.55);
+  --rail:          none;
+
+  --board-thickness: 9px;
+  --upright-w: 0px;
+  --headroom: 1.18;
+  --shelf-gap-v: 1.5rem;
+  --board-radius: 2px;
+}
+
+/* ── Dark academia ────────────────────────────────────────────────────────
+   Deep walnut, pooled light, brass. Spines get a stronger rim light here so
+   dark bindings do not disappear into the ground. */
+:root[data-theme='academia'] {
+  --ground:        #110d0a;
+  --ground-2:      #181209;
+  --board:         #2c2017;
+  --board-top:     #3a2b1f;
+  --board-edge:    #4a3828;
+  --board-shade:   #080605;
+  --ink:           #e6dcc6;
+  --ink-dim:       #9d9179;
+  --ink-faint:     #6b6153;
+  --accent:        #c9a227;
+  --hairline:      #241a12;
+  --contact-shadow: rgba(0, 0, 0, 0.75);
+  --room-light:    radial-gradient(90% 55% at 50% -5%, rgba(255, 214, 140, 0.13), transparent 72%);
+  --board-grain:   repeating-linear-gradient(90deg, rgba(0,0,0,.16) 0 1px, transparent 1px 6px);
+  --sheet-bg:      #1a1410;
+  --spine-rim:     rgba(255, 238, 205, 0.16);
+
+  /* Heavy joinery: thick uprights, deep recess, a brass rail along each board
+     and only a little headroom, so the case feels full and close. */
+  --back-panel:    #0b0806;
+  --back-panel-2:  #130d08;
+  --upright:       #241a12;
+  --upright-edge:  #4a3828;
+  --recess:        rgba(0, 0, 0, 0.9);
+  --plank-shadow:  none;
+  --rail:          #c9a227;
+
+  --board-thickness: 14px;
+  --upright-w: 17px;
+  --headroom: 1.1;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: var(--step-0);
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+button { font: inherit; color: inherit; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

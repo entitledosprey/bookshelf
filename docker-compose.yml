@@ -1,0 +1,39 @@
+services:
+  # Named "bookshelf", not "app", so the nginx DNS alias on the shared edge
+  # network is unambiguous.
+  bookshelf:
+    image: ghcr.io/entitledosprey/bookshelf:latest
+    container_name: bookshelf
+    restart: unless-stopped
+    # Loopback only: the edge nginx reaches this by compose service name.
+    # Published here purely for host-side debugging. 8081 because the
+    # babysitting stack already holds 127.0.0.1:8080 on this host.
+    ports:
+      - "127.0.0.1:8081:8080"
+    environment:
+      PORT: "8080"
+      DB_PATH: /app/data/bookshelf.db
+      COVER_DIR: /app/data/covers
+      SECURE_COOKIES: "true"
+      TZ: ${TZ:-America/Los_Angeles}
+    env_file:
+      - path: .env
+        required: false
+    volumes:
+      - bookshelf-data:/app/data
+    networks:
+      - edge
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8080/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  bookshelf-data:
+
+networks:
+  edge:
+    external: true
+    name: calorie-app_default

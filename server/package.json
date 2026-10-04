@@ -1,0 +1,25 @@
+{
+  "name": "bookshelf-server",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node --test test/*.test.mjs"
+  },
+  "comment:deps": [
+    "Every dependency here MUST be pure JavaScript. The Dockerfile builds in a",
+    "--platform=$BUILDPLATFORM stage and copies node_modules into the target-arch",
+    "runtime stage, so a native binary would be the wrong architecture on arm64.",
+    "Do NOT add: sharp, canvas, @napi-rs/canvas, better-sqlite3, bcrypt, or",
+    "node-vibrant / get-image-colors (which depend on sharp or canvas).",
+    "Image decoding uses jpeg-js + pngjs; password hashing uses node:crypto scrypt."
+  ],
+  "dependencies": {
+    "express": "^4.21.2",
+    "fast-xml-parser": "^4.5.1",
+    "jpeg-js": "^0.4.4",
+    "pngjs": "^7.0.0"
+  }
+}
