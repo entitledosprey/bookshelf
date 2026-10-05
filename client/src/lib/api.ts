@@ -1,4 +1,4 @@
-import type { Book, Me, Prefs, ShelfResponse, SyncStatus } from '../types';
+import type { Book, Decoration, Me, Prefs, ShelfResponse, SyncStatus } from '../types';
 
 export interface AdminOverview {
   users: number; admins: number; sessions: number; books: number; shelvings: number;
@@ -98,6 +98,15 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ currentPassword, newPassword }),
     }),
+
+  decorations: {
+    list: () => call<Decoration[]>('/decorations'),
+    add: (body: { kind?: string; caption?: string; shelfIndex: number; position: number; image?: string }) =>
+      call<Decoration>('/decorations', { method: 'POST', body: JSON.stringify(body) }),
+    move: (id: number, body: { shelfIndex?: number; position?: number; caption?: string; heightMm?: number }) =>
+      call<Decoration>(`/decorations/${id}`, { method: 'PATCH', body: JSON.stringify(body) }),
+    remove: (id: number) => call<{ ok: true }>(`/decorations/${id}`, { method: 'DELETE' }),
+  },
 
   syncStatus: () => call<SyncStatus>('/sync/status'),
 

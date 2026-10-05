@@ -1,16 +1,13 @@
 /*
- * A spine is a <button> so it gets a real tap target, a real focus ring, a real
- * accessible name and keyboard traversal for free. Canvas would mean rebuilding
- * all four by hand.
+ * A spine is a composed object, not a coloured rectangle with text down it.
  *
- * Flat 2D on purpose. transform-style: preserve-3d per book would create one
- * compositor layer per book -- 400 layers destroys a phone, and iOS Safari has
- * long-standing preserve-3d-inside-overflow-scroll bugs. The only 3D on the
- * page is the single opened-book element in sheet.css.
+ * Every layout divides the same vertical anatomy: a title block filling the
+ * upper portion, an author block beneath it, and an imprint mark at the foot.
+ * Rules, bands and plates separate those zones. That anatomy, far more than the
+ * wood behind it, is what makes a shelf read as books.
  *
- * Each book supplies --spine-bg / --spine-accent / --spine-text as inline
- * custom properties from the server's extracted palette. The eight style
- * classes only rearrange and recolour those three values.
+ * Flat 2D on purpose. transform-style: preserve-3d per book would make one
+ * compositor layer per book, and 400 layers destroys a phone.
  */
 
 .book {
@@ -21,244 +18,231 @@
   padding: 0;
   border: 0;
   cursor: pointer;
-  background: var(--spine-bg);
-  color: var(--spine-text);
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--fg);
   font-family: var(--font-spine);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  overflow: hidden;
   /* Shading is painted into the spine's own gradient rather than added as a
-     per-element box-shadow, so 400 books cost 400 background paints, not 400
-     shadow blurs. */
-  background-image:
-    linear-gradient(90deg,
-      rgba(0, 0, 0, 0.28) 0,
-      rgba(0, 0, 0, 0.06) 12%,
-      rgba(255, 255, 255, 0.07) 42%,
-      rgba(0, 0, 0, 0.08) 78%,
-      rgba(0, 0, 0, 0.3) 100%);
+     per-element box-shadow, so 400 books cost 400 background paints. */
+  background-image: linear-gradient(90deg,
+    rgba(0,0,0,.30) 0,
+    rgba(0,0,0,.07) 11%,
+    rgba(255,255,255,.08) 40%,
+    rgba(0,0,0,.07) 76%,
+    rgba(0,0,0,.33) 100%);
   transition: transform 140ms var(--ease);
   transform-origin: bottom center;
 }
 
-/* Thin books stay honest about their width but get a padded hit area, so a
-   6mm spine renders ~10px wide yet is still reliably tappable. Inflating the
-   visual width to 44px would destroy the proportional accuracy that is the
-   whole point of the product. */
+/* Thin books keep their true width but get a padded hit area: a 6mm spine is
+   ~10px wide and must still be tappable without lying about its thickness. */
 .book::after {
   content: '';
   position: absolute;
-  top: 0;
-  bottom: 0;
+  inset: 0;
   left: 50%;
   width: max(100%, 44px);
   transform: translateX(-50%);
 }
-
 .book:hover { transform: translateY(-3px); }
 .book[aria-expanded='true'] { transform: translateY(-6px); }
 
-/* Rim light on the page-block edge keeps dark bindings legible, which matters
-   most in the academia theme. */
+/* Page-block edge catching light down the fore-edge side. */
 .book::before {
   content: '';
   position: absolute;
   inset: 0 0 0 auto;
   width: 1px;
   background: var(--spine-rim);
+  z-index: 3;
 }
 
-/* ── Text block ──────────────────────────────────────────────────────────── */
+/* ── The type stack ───────────────────────────────────────────────────────── */
 
-/*
- * A BLOCK container with inline children, deliberately not a flex container:
- * text-overflow: ellipsis only applies to block containers with inline content,
- * so making this flex silently breaks truncation and the text runs off the end
- * of the spine.
- *
- * In vertical-rl the inline axis runs top-to-bottom, so the line length is the
- * element's HEIGHT and max-height is what actually clips it.
- */
-/*
- * --text-span is the fraction of the spine's height this style leaves for
- * lettering, set inline from TEXT_SPAN in lib/spine-style.ts. Styles that paint
- * a plate, a rule or a colophon reserve space by lowering it, and the clip, the
- * font-size calculation and the choice of title variant all read that one
- * number -- otherwise type sized against the full spine runs out of its box.
- */
-.book { --text-span: 0.9; }
-
-.spine-text {
+.spine-stack {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  /* In vertical-rl the INLINE axis runs top to bottom, so `row` is what stacks
+     the title above the author down the spine. `column` lays them out along the
+     block axis instead, i.e. side by side as two columns -- which looks like a
+     bug and is the easiest mistake to make here. */
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  padding: 0.5rem 0;
   writing-mode: vertical-rl;
   text-orientation: mixed;
+}
+.book[data-updown='up'] .spine-stack { writing-mode: vertical-lr; transform: rotate(180deg); }
+
+.spine-title,
+.spine-author {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-height: calc(100% * var(--text-span));
-  max-width: 100%;
-  /* Auto-fit with no JS measurement and no layout thrash: --spine-len is the
-     spine's pixel height and --chars the character count, both known up front.
-     0.62 is the average advance width of the stack at these sizes. */
-  font-size: clamp(7px, calc(var(--spine-len) * var(--text-span) / (var(--chars) * 0.62)), 15px);
-  letter-spacing: 0.01em;
-  line-height: 1.05;
+  max-height: 100%;
+}
+.spine-title {
+  font-weight: 600;
+  letter-spacing: .005em;
+  /* Sized against the space the layout leaves, not the whole spine, so type in
+     a plate or between rules never runs out of its box. */
+  font-size: clamp(7px, calc(var(--len) * var(--title-span) / (var(--title-chars) * .60)), 16px);
+}
+.spine-author {
+  font-weight: 400;
+  opacity: .78;
+  font-size: clamp(6px, calc(var(--len) * .055), 11px);
+  letter-spacing: .02em;
 }
 
-/* Along the text flow, not across it: in vertical-rl the inline-start margin
-   is the gap that appears between title and author on the same line. */
-.spine-author { margin-inline-start: 0.7em; }
+/* ── Imprint marks at the foot ────────────────────────────────────────────── */
 
-/* European convention, bottom-to-top, on a seeded minority of books. Real
-   shelves are mixed, and uniformity is the giveaway that this is generated. */
-.book[data-updown='up'] .spine-text { writing-mode: vertical-lr; transform: rotate(180deg); }
-
-.spine-title { font-weight: 600; }
-.spine-author { font-weight: 400; opacity: 0.8; font-size: 0.88em; }
-
-/* ── The eight treatments ────────────────────────────────────────────────── */
-
-.s-classic-serif-centred .spine-text {
-  font-family: var(--font-serif);
-  font-weight: 500;
-}
-.s-classic-serif-centred .spine-title { font-weight: 600; }
-
-.s-allcaps-sans-top {
-  align-items: flex-start;
-  padding-top: 0.75rem;
-}
-.s-allcaps-sans-top .spine-title {
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-weight: 700;
-  font-size: 0.9em;
-}
-
-.s-stacked-slab .spine-text {
-  font-weight: 800;
-  letter-spacing: -0.01em;
-}
-
-/* The Penguin/Vintage plate: a lighter panel with dark type inside it. */
-.s-banded-plate .plate {
-  position: absolute;
-  inset: 18% 1px;
-  background: var(--spine-accent);
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.14);
-}
-.s-banded-plate .spine-text {
+.imprint {
   position: relative;
-  z-index: 1;
-  color: var(--plate-text);
+  z-index: 2;
+  flex: 0 0 auto;
+  margin-bottom: 6px;
+  background: var(--ac);
+  opacity: .88;
 }
+.imprint-square  { width: 7px; height: 7px; }
+.imprint-circle  { width: 7px; height: 7px; border-radius: 50%; }
+.imprint-diamond { width: 7px; height: 7px; transform: rotate(45deg); }
+.imprint-rule    { width: 55%; height: 1px; margin-bottom: 9px; }
+/* A small oval device, after the obvious one. */
+.imprint-penguin { width: 6px; height: 9px; border-radius: 50% / 40%; }
 
-.s-foil-rule .rule {
+/* ── The eight layouts ────────────────────────────────────────────────────── */
+
+/* Colour band across the head, carrying series or imprint colour. */
+.sl-banded-head .band {
   position: absolute;
-  left: 15%;
-  right: 15%;
+  inset: 0 0 auto 0;
+  height: 17%;
+  background: var(--ac);
+  box-shadow: inset 0 -1px 0 rgba(0,0,0,.2);
+}
+.sl-banded-head .spine-stack { padding-top: 19%; }
+
+/* Centred serif title between two foil rules. */
+.sl-foil-rules .spine-title { font-family: var(--font-serif); font-weight: 500; }
+.sl-foil-rules .rule {
+  position: absolute;
+  left: 18%;
+  right: 18%;
   height: 1px;
-  background: var(--spine-accent);
-  opacity: 0.9;
+  background: var(--ac);
+  opacity: .9;
 }
-.s-foil-rule .rule.top { top: 9%; }
-.s-foil-rule .rule.bottom { bottom: 9%; }
-.s-foil-rule .spine-text { color: var(--spine-accent); }
+.sl-foil-rules .rule-head { top: 11%; }
+.sl-foil-rules .rule-foot { bottom: 16%; }
+.sl-foil-rules .spine-stack { padding: 13% 0 18%; }
+.sl-foil-rules .spine-title { color: var(--ac); }
 
-.s-publisher-footer .colophon {
+/* Heavy caps, the modern nonfiction look. */
+.sl-allcaps-block .spine-title {
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  font-weight: 800;
+  font-size: clamp(7px, calc(var(--len) * var(--title-span) / (var(--title-chars) * .84)), 14px);
+}
+
+/* A light panel with dark type set inside it. */
+.sl-plate .plate {
   position: absolute;
-  left: 50%;
-  bottom: 6px;
-  width: 58%;
-  height: 0;
-  padding-bottom: 58%;
-  max-height: 14px;
-  transform: translateX(-50%);
-  background: var(--spine-accent);
-  opacity: 0.92;
+  inset: 16% 2px;
+  background: var(--ac);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.16);
 }
+.sl-plate .spine-stack { color: var(--plate-ink); padding: 18% 0; }
+.sl-plate .spine-author { opacity: .72; }
 
-.s-publisher-footer { align-items: flex-start; padding-top: 0.6rem; }
-
-.s-two-tone-split .tone {
+/* The spine split into two colour fields. */
+.sl-two-field .field {
   position: absolute;
-  inset: 0 0 68% 0;
-  background: var(--spine-accent);
+  inset: 0 0 62% 0;
+  background: var(--ac);
 }
-.s-two-tone-split { align-items: flex-end; padding-bottom: 0.7rem; }
+.sl-two-field .spine-stack { justify-content: flex-end; padding-bottom: 8%; }
 
-.s-cloth-stamped {
-  /* Woven cloth, one repeating gradient, no image. */
+/* Cloth binding: woven texture, gilt rules and lettering. */
+.sl-cloth-gilt {
   background-image:
-    repeating-linear-gradient(0deg, rgba(0,0,0,.05) 0 1px, transparent 1px 3px),
-    repeating-linear-gradient(90deg, rgba(255,255,255,.04) 0 1px, transparent 1px 3px),
-    linear-gradient(90deg, rgba(0,0,0,.3) 0, rgba(0,0,0,.05) 14%, rgba(255,255,255,.06) 44%, rgba(0,0,0,.08) 80%, rgba(0,0,0,.32) 100%);
+    repeating-linear-gradient(0deg, rgba(0,0,0,.055) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.045) 0 1px, transparent 1px 3px),
+    linear-gradient(90deg, rgba(0,0,0,.32) 0, rgba(0,0,0,.05) 13%, rgba(255,255,255,.07) 43%, rgba(0,0,0,.07) 79%, rgba(0,0,0,.34) 100%);
 }
-.s-cloth-stamped .spine-text { color: var(--spine-accent); font-family: var(--font-serif); }
+.sl-cloth-gilt .spine-title { font-family: var(--font-serif); color: var(--ac); font-weight: 600; }
+.sl-cloth-gilt .spine-author { color: var(--ac); opacity: .7; }
+.sl-cloth-gilt .gilt {
+  position: absolute;
+  left: 14%;
+  right: 14%;
+  height: 1px;
+  background: var(--ac);
+  opacity: .55;
+}
+.sl-cloth-gilt .gilt-head { top: 8%; }
+.sl-cloth-gilt .gilt-foot { bottom: 13%; }
 
-/* ── Binding, made visible ───────────────────────────────────────────────── */
+/* Title at the head, author at the foot, nothing in between. */
+.sl-modern-sans .spine-stack { justify-content: space-between; padding: 8% 0 10%; }
+.sl-modern-sans .spine-title { font-weight: 700; letter-spacing: -.01em; }
 
-/* Cased binding: board overhang top and bottom, plus headbands. */
+/* The common trade paperback: title high, author low, imprint at the foot. */
+.sl-title-author-imprint .spine-stack { justify-content: center; }
+
+/* ── Binding, made visible ────────────────────────────────────────────────── */
+
 .book[data-binding='hardcover'],
-.book[data-binding='oversize'] {
-  border-radius: 2px 3px 3px 2px;
-}
-.book[data-binding='hardcover'] .headband,
-.book[data-binding='oversize'] .headband {
+.book[data-binding='oversize'] { border-radius: 2px 3px 3px 2px; }
+.headband {
   position: absolute;
   left: 0;
   right: 0;
   height: 3px;
+  z-index: 1;
+  opacity: .5;
   background: linear-gradient(90deg,
-    color-mix(in srgb, var(--spine-accent) 70%, #000) 0,
-    var(--spine-accent) 45%,
-    color-mix(in srgb, var(--spine-accent) 55%, #000) 100%);
-  opacity: 0.55;
+    color-mix(in srgb, var(--ac) 65%, #000) 0, var(--ac) 45%,
+    color-mix(in srgb, var(--ac) 50%, #000) 100%);
 }
-.book[data-binding='hardcover'] .headband.top { top: 0; }
-.book[data-binding='hardcover'] .headband.bottom { bottom: 0; }
-.book[data-binding='oversize'] .headband.top { top: 0; }
-.book[data-binding='oversize'] .headband.bottom { bottom: 0; }
+.headband-top { top: 0; }
+.headband-bottom { bottom: 0; }
 
-/* Trade paperback: square, flatter, one laminate sheen. */
 .book[data-binding='trade-paperback'] { border-radius: 1px; }
-.book[data-binding='trade-paperback'] .sheen {
+.laminate {
   position: absolute;
   inset: 0;
-  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,.13) 48%, transparent 56%);
+  z-index: 1;
+  background: linear-gradient(104deg, transparent 40%, rgba(255,255,255,.12) 48%, transparent 56%);
 }
 
-/* Mass market: shorter, desaturated, and a seeded reading crease. That one
-   detail sells the realism more than anything else on the shelf. */
-.book[data-binding='mass-market'] { border-radius: 1px; filter: saturate(0.88); }
-.book[data-binding='mass-market'] .crease {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: rgba(0, 0, 0, 0.26);
-}
+.book[data-binding='mass-market'] { border-radius: 1px; filter: saturate(.9); }
+.crease { position: absolute; top: 0; bottom: 0; width: 1px; z-index: 1; background: rgba(0,0,0,.26); }
 
-/* Ebook / audiobook: honestly not a physical object. Thin, matte, recessed
-   into the board with a dashed top edge, rather than a fabricated 23mm of
-   paper presented as real. */
+/* Not a physical object: thin, matte, recessed, with a dashed head. */
 .book[data-binding='ebook'],
 .book[data-binding='audiobook'] {
   background-image: none;
-  opacity: 0.86;
-  border-top: 1px dashed color-mix(in srgb, var(--spine-text) 45%, transparent);
+  opacity: .86;
+  border-top: 1px dashed color-mix(in srgb, var(--fg) 45%, transparent);
   box-shadow: inset 2px 0 4px -2px rgba(0,0,0,.5), inset -2px 0 4px -2px rgba(0,0,0,.5);
 }
 
-/* The last book or two on a partly filled shelf lean into the gap, as real ones
-   do. The pivot is the bottom-RIGHT corner: that is the edge that stays in
-   contact with the board as the book tips right. Pivoting on the left lifts the
-   book off the shelf and lets it overlap its neighbour. */
+/* The last book or two on a partly filled shelf lean into the gap. The pivot is
+   the bottom-right corner, the edge that stays on the board as it tips. */
 .book[data-lean] {
   transform: rotate(var(--lean));
   transform-origin: bottom right;
-  /* Room for the tilted top edge so it never crosses the book beside it. */
   margin-left: 0.5rem;
 }
 .book[data-lean]:hover { transform: rotate(var(--lean)) translateY(-3px); }
-

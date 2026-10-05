@@ -31,7 +31,7 @@ administrator**; an administrator can close signups afterwards.
 | `POST` | `/auth/login` | — | `{ username, password }` → `{ token, expiresAt, user }`. Also sets the cookie. |
 | `POST` | `/auth/logout` | session | `204`. Revokes the token server-side. |
 | `GET` | `/auth/me` | session | The `Me` object. |
-| `PATCH` | `/auth/prefs` | session | `{ theme?, order?, scale? }` → the merged `Prefs`. |
+| `PATCH` | `/auth/prefs` | session | `{ shelf?, backdrop?, stacks?, order?, scale? }` → the merged `Prefs`. Unknown values are `400`. |
 | `PATCH` | `/auth/account` | session | `{ goodreadsUserId?, goodreadsRssKey? }` → `Me`. Both accept a pasted URL. |
 | `POST` | `/auth/password` | session | `{ currentPassword, newPassword }`. Revokes every OTHER session. |
 
@@ -129,6 +129,20 @@ A `Book` looks like this:
   is a seeded fallback so the book is still renderable.
 * **`binding`** `ebook` and `audiobook` get a fixed slim thickness, never a page
   count converted to paper. Render them visibly non-physical.
+
+## Shelf objects
+
+Framed photographs and other things standing among the books. Private to their
+owner; images arrive as data URLs rather than multipart, since they are small
+and it keeps the client free of upload middleware.
+
+| Method | Path | Notes |
+| --- | --- | --- |
+| `GET` | `/decorations` | This user's objects. |
+| `POST` | `/decorations` | `{ kind?, caption?, shelfIndex, position, image? }` → `201`. Image must be PNG, JPEG or WebP under 4 MB; the real aspect ratio is kept. Up to 40 per account. |
+| `PATCH` | `/decorations/:id` | `{ shelfIndex?, position?, caption?, heightMm? }`. |
+| `DELETE` | `/decorations/:id` | Removes the record and its file. |
+| `GET` | `/decorations/:id/image` | The picture, owner only. |
 
 ## Sync
 

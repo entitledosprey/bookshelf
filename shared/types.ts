@@ -114,10 +114,34 @@ export interface ShelfResponse {
   };
 }
 
+export type ShelfMaterial = 'pine' | 'oak' | 'walnut' | 'white' | 'black';
+export type Backdrop = 'foliage' | 'plaster' | 'walnut-panel' | 'ink' | 'sunroom';
+
+/**
+ * How this reader wants their shelf to look. Deliberately separate axes rather
+ * than a few fixed themes: the point is that it ends up looking like theirs.
+ */
 export interface Prefs {
-  theme: 'wood' | 'gallery' | 'academia';
+  shelf: ShelfMaterial;
+  backdrop: Backdrop;
+  /** Lay some books flat instead of standing every one upright. */
+  stacks: boolean;
   order: ShelfOrder;
   scale: number;
+}
+
+/** Something on a shelf that is not a book. */
+export interface Decoration {
+  id: number;
+  kind: 'frame' | 'plant' | 'print';
+  caption: string;
+  shelfIndex: number;
+  /** 0..1 along the shelf. */
+  position: number;
+  widthMm: number;
+  heightMm: number;
+  hasImage: boolean;
+  imageUrl: string;
 }
 
 export interface Me {

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { Book, ShelfResponse } from '../types';
-import { arrange, packShelves, type Order } from '../lib/geometry';
+import type { Book, Decoration, ShelfResponse } from '../types';
+import { arrange, packShelves, spineDims, type Order } from '../lib/geometry';
 import { Shelf } from './Shelf';
 
 interface Props {
@@ -8,6 +8,11 @@ interface Props {
   order: Order;
   scale: number;
   query: string;
+  /** Lay some books flat, rather than standing every one upright. */
+  stacks: boolean;
+  decorations: Decoration[];
+  /** Reports how many shelves there are, so objects can be assigned to one. */
+  onShelfCount?: (n: number) => void;
   openId: string | null;
   onOpen: (book: Book, el: HTMLElement) => void;
 }
@@ -41,7 +46,7 @@ function useBoardWidth() {
  * separate labelled "To read" section. Keeping them apart is a deliberate
  * product choice -- an unread book is a different kind of object on a shelf.
  */
-export function Bookcase({ data, order, scale, query, openId, onOpen }: Props) {
+export function Bookcase({ data, order, scale, query, stacks, decorations, onShelfCount, openId, onOpen }: Props) {
   const [ref, boardWidth] = useBoardWidth();
 
   const { library, toRead } = useMemo(() => {
@@ -73,26 +78,56 @@ export function Bookcase({ data, order, scale, query, openId, onOpen }: Props) {
     [toRead, bucket, scale],
   );
 
-  // Each section is its own case: uprights, back panel and a top and bottom
-  // cap wrap the whole run of shelves, rather than each row floating alone.
-  const section = (rows: Book[][], count: number) => (
-    <div className="case">
-      {rows.map((row, i) => (
+  /**
+   * Each row is a plank. When stacks are on, the last few books of a full row
+   * are laid flat at its end instead of standing — which is how a real shelf
+   * absorbs the ones that do not quite fit, and stops every row reading as an
+   * identical picket fence.
+   */
+  const section = (rows: Book[][], count: number) =>
+    rows.map((row, i) => {
+      const lastRow = i === rows.length - 1;
+      // Seeded off the first book so a given shelf always decides the same way,
+      // and roughly half of them end with a flat stack rather than every other
+      // one, which would read as a pattern.
+      const seeded = ((rows[i][0]?.seed ?? i) % 10) < 5;
+
+      // A stack lying flat is as wide as its books are tall, which is far wider
+      // than the two upright spines it replaces. Only lay one down if the row
+      // actually has the slack for it, or it overhangs the end of the shelf.
+      const last2 = row.slice(-2);
+      const spineW = (b: Book) => spineDims(b, scale).width + 2;
+      const rowW = row.reduce((a, b) => a + spineW(b), 0);
+      const stackW = last2.length
+        ? Math.max(...last2.map((b) => spineDims(b, scale).height)) * 0.55
+        : 0;
+      const fits = rowW - last2.reduce((a, b) => a + spineW(b), 0) + stackW + 10 <= boardWidth;
+
+      const wantsStack = stacks && !lastRow && row.length > 6 && seeded && fits;
+      const stack = wantsStack ? last2 : [];
+      const upright = wantsStack ? row.slice(0, -2) : row;
+      return (
         <Shelf
           key={`${i}-${row[0]?.id}`}
-          row={row}
+          row={upright}
+          stack={stack}
+          objects={decorations.filter((d) => d.shelfIndex === i)}
           scale={scale}
-          partial={i === rows.length - 1 && count > row.length}
+          partial={lastRow && count > row.length}
           openId={openId}
           onOpen={onOpen}
         />
-      ))}
-    </div>
-  );
+      );
+    });
+
+  // Report the shelf count so the object picker can offer real shelves.
+  useEffect(() => {
+    onShelfCount?.(libraryRows.length + toReadRows.length);
+  }, [libraryRows.length, toReadRows.length, onShelfCount]);
 
   return (
     <div className="bookcase">
-      <div className="case case-probe" ref={ref} aria-hidden="true" />
+      <div className="case-probe" ref={ref} aria-hidden="true" />
       {library.length > 0 && section(libraryRows, library.length)}
 
       {toRead.length > 0 && (

@@ -47,11 +47,19 @@ and in separate columns from anything Goodreads sends, so a sync can never
 overwrite them. Notes are searchable alongside titles and authors — a note is
 often the only record of why a book mattered, or who has it.
 
-**The three themes are different furniture, not different paint.** The warm
-library is an enclosed walnut case with thick boards and books packed close; the
-gallery is thin ash planks floating off a pale wall with no case at all; dark
-academia is heavy joinery with a brass rail along each board and a deep recess.
-Headroom, board thickness, upright width and shelf spacing are all theme tokens.
+**The shelf is yours to arrange.** Shelf material and backdrop are separate
+choices rather than a handful of fixed themes, so pine planks against foliage
+and black planks against ink are both a couple of clicks away. Some books can
+lie flat in stacks instead of every one standing upright, and you can stand
+framed photographs and other objects among the spines. Anyone browsing the
+sample shelf can play with all of it too; their choices are kept locally until
+there is an account to save them to.
+
+**Spines are composed, not filled.** A real spine has an anatomy: the title
+dominating the upper portion, the author below it, and an imprint mark at the
+foot, divided by whatever rules, bands or plates the design calls for. Eight
+layouts follow those conventions, weighted by binding so hardcovers lean toward
+cloth and foil and paperbacks toward plates and bands.
 
 **Bibliographic data is shared between accounts, reading state is not.** Two
 users who own the same book share one cover download, one metadata lookup and

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { api, ApiError } from './lib/api';
 import { arrange, type Order } from './lib/geometry';
-import type { Book, Me, Prefs, ShelfResponse, SyncStatus as Status } from './types';
+import type { Book, Decoration, Me, Prefs, ShelfResponse, SyncStatus as Status } from './types';
 import { Login } from './components/Login';
 import { Bookcase } from './components/Bookcase';
 import { BookSheet } from './components/BookSheet';
@@ -9,6 +9,7 @@ import { Controls } from './components/Controls';
 import { SyncStatus } from './components/SyncStatus';
 import { Account } from './components/Account';
 import { Admin } from './components/Admin';
+import { DecorationManager } from './components/Decorations';
 
 export function App() {
   const [me, setMe] = useState<Me | null>(null);
@@ -22,15 +23,39 @@ export function App() {
   const [showLogin, setShowLogin] = useState(false);
   const [showAccount, setShowAccount] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
+  const [decorations, setDecorations] = useState<Decoration[]>([]);
+  const [showObjects, setShowObjects] = useState(false);
+  const [shelfCount, setShelfCount] = useState(1);
   const isDemo = !me;
   const lastFocused = useRef<HTMLElement | null>(null);
 
-  const prefs: Prefs = me?.prefs ?? { theme: 'wood', order: 'author', scale: 1.6 };
+  const DEFAULT_PREFS: Prefs = {
+    shelf: 'pine', backdrop: 'foliage', stacks: true, order: 'author', scale: 1.6,
+  };
 
-  // Theme is an attribute on <html>, so every token swap is one repaint.
+  /**
+   * Someone browsing the sample shelf has no account to save against, but
+   * rearranging it is the most persuasive thing about the demo. So prefs live
+   * locally until there is somewhere to put them, and follow the account
+   * afterwards.
+   */
+  const [localPrefs, setLocalPrefs] = useState<Prefs>(() => {
+    try {
+      const raw = localStorage.getItem('bookshelf.prefs');
+      return raw ? { ...DEFAULT_PREFS, ...JSON.parse(raw) } : DEFAULT_PREFS;
+    } catch {
+      return DEFAULT_PREFS;
+    }
+  });
+
+  const prefs: Prefs = me?.prefs ?? localPrefs;
+
+  // Both axes are attributes on <html>, so a change is one token swap and one
+  // repaint rather than a re-render of four hundred books.
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', prefs.theme);
-  }, [prefs.theme]);
+    document.documentElement.setAttribute('data-shelf', prefs.shelf);
+    document.documentElement.setAttribute('data-backdrop', prefs.backdrop);
+  }, [prefs.shelf, prefs.backdrop]);
 
   useEffect(() => {
     api.me()
@@ -61,11 +86,16 @@ export function App() {
     }
   }, []);
 
+  const loadDecorations = useCallback(async () => {
+    if (!me) { setDecorations([]); return; }
+    try { setDecorations(await api.decorations.list()); } catch { /* shelf still renders */ }
+  }, [me]);
+
   useEffect(() => {
     if (booting) return;
-    if (me) void load();
+    if (me) { void load(); void loadDecorations(); }
     else void loadDemo();
-  }, [me, booting, load, loadDemo]);
+  }, [me, booting, load, loadDemo, loadDecorations]);
 
   // While a sync or enrichment is in flight, refresh so spines fill in.
   useEffect(() => {
@@ -77,8 +107,16 @@ export function App() {
   }, [me, status?.running, data?.totals.enrichPending, load]);
 
   const savePrefs = async (patch: Partial<Prefs>) => {
+    if (!me) {
+      const next = { ...localPrefs, ...patch };
+      setLocalPrefs(next);
+      try { localStorage.setItem('bookshelf.prefs', JSON.stringify(next)); } catch { /* private mode */ }
+      return;
+    }
+    // Applied immediately, then persisted: the shelf should not wait on a round
+    // trip to change colour.
     setMe((m) => (m ? { ...m, prefs: { ...m.prefs, ...patch } } : m));
-    try { await api.savePrefs(patch); } catch { /* local change already applied */ }
+    try { await api.savePrefs(patch); } catch { /* the local change still stands */ }
   };
 
   // Ordered list the sheet navigates along, matching what is on screen.
@@ -155,7 +193,24 @@ export function App() {
         )}
       </header>
 
-      <Controls query={query} onQuery={setQuery} prefs={prefs} onPrefs={savePrefs} />
+      <Controls
+        query={query}
+        onQuery={setQuery}
+        prefs={prefs}
+        onPrefs={savePrefs}
+        canDecorate={!!me}
+        onDecorate={() => setShowObjects((v) => !v)}
+        decorating={showObjects}
+      />
+
+      {me && showObjects && (
+        <DecorationManager
+          items={decorations}
+          shelfCount={shelfCount}
+          onChanged={loadDecorations}
+          onClose={() => setShowObjects(false)}
+        />
+      )}
 
       {error && <p className="notice">{error}</p>}
 
@@ -191,6 +246,9 @@ export function App() {
           order={prefs.order as Order}
           scale={prefs.scale}
           query={query}
+          stacks={prefs.stacks}
+          decorations={decorations}
+          onShelfCount={setShelfCount}
           openId={openId}
           onOpen={onOpen}
         />

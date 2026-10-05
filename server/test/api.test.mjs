@@ -244,16 +244,76 @@ test('a second sync adds no new books', async () => {
 });
 
 test('preferences round-trip and are validated', async () => {
+  const A = { Authorization: `Bearer ${token}` };
   const ok = await json('/api/v1/auth/prefs', {
-    method: 'PATCH', headers: { Authorization: `Bearer ${token}` },
-    body: JSON.stringify({ theme: 'academia', order: 'colour' }),
+    method: 'PATCH', headers: A,
+    body: JSON.stringify({ shelf: 'walnut', backdrop: 'sunroom', stacks: false, order: 'colour' }),
   });
   assert.equal(ok.status, 200);
-  assert.equal(ok.body.theme, 'academia');
+  assert.equal(ok.body.shelf, 'walnut');
+  assert.equal(ok.body.backdrop, 'sunroom');
+  assert.equal(ok.body.stacks, false);
+  assert.equal(ok.body.order, 'colour');
 
-  const bad = await json('/api/v1/auth/prefs', {
-    method: 'PATCH', headers: { Authorization: `Bearer ${token}` },
-    body: JSON.stringify({ theme: 'neon' }),
+  for (const bad of [{ shelf: 'glass' }, { backdrop: 'neon' }, { order: 'vibes' }]) {
+    const r = await json('/api/v1/auth/prefs', { method: 'PATCH', headers: A, body: JSON.stringify(bad) });
+    assert.equal(r.status, 400, `${JSON.stringify(bad)} should be rejected`);
+  }
+});
+
+test('things can be put on shelves, moved and removed', async () => {
+  const A = { Authorization: `Bearer ${token}` };
+  // A 1x1 PNG is enough to exercise decode, storage and serving.
+  const png = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==';
+
+  const made = await json('/api/v1/decorations', {
+    method: 'POST', headers: A,
+    body: JSON.stringify({ kind: 'frame', caption: 'Vlada loves Sasha', shelfIndex: 1, position: 0.4, image: png }),
+  });
+  assert.equal(made.status, 201);
+  assert.equal(made.body.caption, 'Vlada loves Sasha');
+  assert.equal(made.body.shelfIndex, 1);
+  assert.ok(made.body.hasImage);
+
+  const img = await call(made.body.imageUrl, { headers: A });
+  assert.equal(img.status, 200, 'the picture should be served back');
+
+  const moved = await json(`/api/v1/decorations/${made.body.id}`, {
+    method: 'PATCH', headers: A, body: JSON.stringify({ shelfIndex: 0, position: 0.9 }),
+  });
+  assert.equal(moved.body.shelfIndex, 0);
+  assert.equal(moved.body.position, 0.9);
+
+  assert.equal((await json('/api/v1/decorations', { headers: A })).body.length, 1);
+  assert.equal((await json(`/api/v1/decorations/${made.body.id}`, { method: 'DELETE', headers: A })).status, 200);
+  assert.equal((await json('/api/v1/decorations', { headers: A })).body.length, 0);
+});
+
+test('shelf objects are private to their owner and validated', async () => {
+  resetThrottle();
+  const A = { Authorization: `Bearer ${token}` };
+  const png = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==';
+  const mine = (await json('/api/v1/decorations', {
+    method: 'POST', headers: A, body: JSON.stringify({ shelfIndex: 0, position: 0.5, image: png }),
+  })).body;
+
+  const other = await json('/api/v1/auth/register', {
+    method: 'POST', body: JSON.stringify({ username: 'nosy2', password: 'a-good-passphrase' }),
+  });
+  const B = { Authorization: `Bearer ${other.body.token}` };
+
+  assert.deepEqual((await json('/api/v1/decorations', { headers: B })).body, [],
+    'another account must not see your things');
+  assert.equal((await json(`/api/v1/decorations/${mine.id}`, { method: 'DELETE', headers: B })).status, 404);
+  assert.equal((await call(mine.imageUrl, { headers: B })).status, 404);
+
+  // Anonymous access is refused outright.
+  assert.equal((await json('/api/v1/decorations')).status, 401);
+
+  // A non-image is refused.
+  const bad = await json('/api/v1/decorations', {
+    method: 'POST', headers: A,
+    body: JSON.stringify({ shelfIndex: 0, position: 0.5, image: 'data:text/plain;base64,aGk=' }),
   });
   assert.equal(bad.status, 400);
 });

@@ -37,73 +37,31 @@
 
 .topbar-spacer { flex: 1; }
 
-/* ── The case ────────────────────────────────────────────────────────────────
-   A bookcase is a BOX, not a line under some books. What makes it read as
-   furniture: uprights down both sides, a back panel visible behind and above
-   the books, headroom inside each opening, boards with real front-edge
-   thickness, and shadow pooling in the recess. */
+/* ── The shelf ───────────────────────────────────────────────────────────────
+   Thin planks against a backdrop, not a heavy carcass. The books stand on a
+   board with a lit top arris and a darker front edge, and the room shows
+   through in the gaps — which is most of why it reads as a place rather than a
+   diagram. */
 
-.bookcase { padding: var(--sp-6) var(--sp-4) var(--sp-8); }
-
-.case {
+.bookcase {
   position: relative;
-  background: linear-gradient(180deg, var(--back-panel) 0%, var(--back-panel-2) 100%);
-  border-left: var(--upright-w) solid var(--upright);
-  border-right: var(--upright-w) solid var(--upright);
-  border-radius: var(--case-radius);
-  /* The uprights are lit on their inner face, like planed timber. */
-  box-shadow:
-    inset  1px 0 0 var(--upright-edge),
-    inset -1px 0 0 var(--upright-edge);
+  padding: var(--sp-4) var(--sp-4) var(--sp-8);
+  background-image: var(--backdrop);
+  background-size: var(--backdrop-size);
+  background-repeat: repeat;
 }
 
-/* Top cap and plinth, so the case is closed rather than an open-ended strip. */
-.case::before,
-.case::after {
-  content: '';
-  position: absolute;
-  left: calc(var(--upright-w) * -1);
-  right: calc(var(--upright-w) * -1);
-  height: var(--board-thickness);
-  background: var(--board);
-  background-image: var(--board-grain);
-  box-shadow: inset 0 1px 0 var(--board-top);
-}
-.case::before { top: calc(var(--board-thickness) * -1); border-radius: var(--case-radius) var(--case-radius) 0 0; }
-.case::after  { bottom: calc(var(--board-thickness) * -1); border-radius: 0 0 var(--case-radius) var(--case-radius); }
-
-.case { margin: var(--board-thickness) 0; }
-
-/* A hidden, out-of-flow .case used only to measure the usable book width. It
-   must keep the class so it picks up each theme's upright width. */
 .case-probe {
   position: absolute;
   left: var(--sp-4);
   right: var(--sp-4);
   height: 0;
-  margin: 0;
   visibility: hidden;
   pointer-events: none;
 }
-.case-probe::before,
-.case-probe::after { display: none; }
 
-.bookcase { position: relative; }
-
-/* The gallery theme is not a case at all: planks floating off a wall. */
-:root[data-theme='gallery'] .case {
-  background: none;
-  border: 0;
-  box-shadow: none;
-  margin: 0;
-}
-:root[data-theme='gallery'] .case::before,
-:root[data-theme='gallery'] .case::after { display: none; }
-
-/* Section heading styled as a shelf label card, which is a real library
-   object -- structure from furniture, not from rounded cards. */
 .section-label {
-  margin: var(--sp-8) 0 var(--sp-2);
+  margin: var(--sp-6) 0 var(--sp-2);
   font-size: var(--step-0);
   font-style: italic;
   font-weight: 400;
@@ -111,13 +69,9 @@
   display: flex;
   align-items: center;
   gap: var(--sp-3);
+  text-shadow: 0 1px 3px rgba(0,0,0,.4);
 }
-.section-label::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--hairline);
-}
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--hairline); }
 .section-label .n {
   font-style: normal;
   font-size: var(--step--1);
@@ -125,86 +79,82 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* ── One shelf: an opening plus the board it stands on ───────────────────── */
-
 .shelf {
-  /* The single highest-leverage performance line: the browser skips layout and
-     paint for off-screen shelves with no JS at all. contain-intrinsic-size is
-     set inline per row from its real height so the scrollbar stays honest. */
   content-visibility: auto;
-  margin-bottom: var(--shelf-gap-v);
+  margin-bottom: var(--sp-6);
 }
 
-/* The opening is taller than its tallest book by --headroom, so you can see
-   the back of the case above the books. Without this the books look like they
-   are balanced on a rule. */
-.shelf-opening {
-  position: relative;
-  height: calc(var(--row-h) * var(--headroom));
-  display: flex;
-  align-items: flex-end;
-  overflow: hidden;
-  /* Light falls in from the front: the back of the shelf is darker, and the
-     corners pool. */
-  box-shadow:
-    inset 0  18px 22px -16px var(--recess),
-    inset  10px 0 18px -14px var(--recess),
-    inset -10px 0 18px -14px var(--recess);
-}
-
-.shelf-books {
+/* Books stand on the plank; there is no ceiling above them, so the backdrop
+   carries straight up behind the next shelf. */
+.shelf-row {
   position: relative;
   display: flex;
   align-items: flex-end;
   gap: var(--shelf-gap);
-  width: 100%;
-  /* A packing rounding error must never make the whole page scroll sideways. */
+  min-height: 2rem;
   overflow: hidden;
 }
 
 /* Contact shadow where the books meet the board, drawn once per row rather
-   than as 400 separate box-shadows. */
-.shelf-books::after {
+   than as a box-shadow on each of 400 books. */
+.shelf-row::after {
   content: '';
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 7px;
+  left: 0; right: 0; bottom: 0;
+  height: 8px;
   background: linear-gradient(to top, var(--contact-shadow), transparent);
   pointer-events: none;
 }
 
-/* The board itself: a lit top edge, the body of the timber, and a darker
-   front edge underneath, so it has visible thickness. */
-.shelf-board {
+/* The plank: a lit top arris, the body of the board, a darker front edge, and
+   a soft shadow thrown down onto whatever is below. */
+.plank {
   position: relative;
-  height: var(--board-thickness);
-  border-radius: var(--board-radius);
+  height: var(--plank-h);
   background:
     linear-gradient(180deg,
-      var(--board-top) 0 1px,
-      var(--board) 1px 62%,
-      var(--board-edge) 62% 100%);
-  background-image: var(--board-grain), none;
-  background-color: var(--board);
+      var(--plank-top) 0 1px,
+      var(--plank-face) 1px 58%,
+      var(--plank-edge) 58% 100%);
   box-shadow:
-    inset 0 1px 0 var(--board-top),
-    0 2px 3px -1px var(--board-shade),
-    var(--plank-shadow);
+    inset 0 1px 0 var(--plank-top),
+    0 3px 7px -2px var(--plank-under),
+    0 10px 18px -10px var(--plank-under);
+  border-radius: 0 0 2px 2px;
 }
-
-/* Academia only: a brass retaining rail along the front of every board. */
-.shelf-board::after {
+/* Faint grain along the board, so it is not a flat bar of colour. */
+.plank::before {
   content: '';
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 1px;
-  height: 2px;
-  background: var(--rail);
-  opacity: 0.75;
+  inset: 1px 0 auto 0;
+  height: 58%;
+  background-image: repeating-linear-gradient(90deg,
+    rgba(0,0,0,.09) 0 1px, transparent 1px 9px,
+    rgba(255,255,255,.05) 9px 10px, transparent 10px 23px);
+  pointer-events: none;
 }
+
+/* ── Books lying flat, as a stack ────────────────────────────────────────────
+   Nobody shelves everything upright. A short stack at the end of a row breaks
+   the rhythm and is how a real shelf absorbs the books that do not fit. */
+.stack {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-start;
+  margin-left: 0.4rem;
+}
+.stack .book {
+  width: var(--stack-w);
+  height: var(--w);
+  border-radius: 1px;
+  flex-direction: row;
+  background-image: linear-gradient(180deg,
+    rgba(255,255,255,.1) 0, rgba(0,0,0,.06) 42%, rgba(0,0,0,.3) 100%);
+}
+.stack .book .spine-stack { writing-mode: horizontal-tb; flex-direction: row; transform: none; padding: 0 .4rem; }
+.stack .book .imprint { margin: 0 6px 0 0; }
+.stack .book::before { inset: auto 0 0 0; width: auto; height: 1px; }
 
 /* ── Controls ────────────────────────────────────────────────────────────── */
 
@@ -284,3 +234,154 @@ select.field { flex: 0 0 auto; }
   border-left-width: 3px;
   color: var(--ink);
 }
+
+/* ── Making it yours ─────────────────────────────────────────────────────── */
+
+.controls-row { display: flex; flex-wrap: wrap; gap: var(--sp-2); align-items: center; }
+
+.look {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-6);
+  margin-top: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  background: color-mix(in srgb, var(--ground) 80%, #000);
+  border: 1px solid var(--hairline);
+  border-radius: 3px;
+}
+.look-group h3 {
+  margin: 0 0 var(--sp-2);
+  font-size: var(--step--1);
+  font-weight: 600;
+  color: var(--ink-dim);
+}
+.swatches { display: flex; gap: var(--sp-2); }
+
+/* Each option shows the material it selects, rather than naming it. */
+.swatch {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 3px;
+  border: 1px solid var(--hairline);
+  cursor: pointer;
+  padding: 0;
+}
+.swatch[aria-pressed='true'] { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.sw-pine   { background: linear-gradient(180deg, #e3c698 0 20%, #c9a36a 20% 70%, #8f6c3d 70%); }
+.sw-oak    { background: linear-gradient(180deg, #cd9a5c 0 20%, #a9763d 20% 70%, #70491f 70%); }
+.sw-walnut { background: linear-gradient(180deg, #7d5433 0 20%, #5a3b23 20% 70%, #35200f 70%); }
+.sw-white  { background: linear-gradient(180deg, #ffffff 0 20%, #efece6 20% 70%, #c2bcb0 70%); }
+.sw-black  { background: linear-gradient(180deg, #3a3531 0 20%, #211e1b 20% 70%, #0d0b09 70%); }
+
+.bd-foliage {
+  background:
+    radial-gradient(10px 16px at 30% 30%, rgba(54,94,62,.9), transparent 70%),
+    radial-gradient(12px 18px at 70% 65%, rgba(38,74,48,.9), transparent 70%),
+    linear-gradient(170deg, #16201a, #0f1713);
+}
+.bd-plaster { background: linear-gradient(165deg, #e8e2d6, #d9d2c2); }
+.bd-walnut-panel {
+  background:
+    repeating-linear-gradient(90deg, rgba(0,0,0,.3) 0 2px, transparent 2px 10px),
+    linear-gradient(175deg, #1e140c, #120b06);
+}
+.bd-ink { background: linear-gradient(170deg, #15181c, #0c0d10); }
+.bd-sunroom {
+  background:
+    radial-gradient(70% 50% at 30% 0%, rgba(255,226,160,.8), transparent 70%),
+    linear-gradient(168deg, #f6eeda, #e6d9bd);
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--step--1);
+  color: var(--ink-dim);
+  cursor: pointer;
+}
+
+/* ── Things that are not books ───────────────────────────────────────────── */
+
+/* A framed photograph standing among the spines. The frame, mount and drop
+   shadow are what make it read as an object on the shelf rather than an image
+   pasted over it. */
+.shelf-object {
+  position: relative;
+  flex: 0 0 auto;
+  width: var(--ow);
+  height: var(--oh);
+  margin: 0 0.3rem;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  align-self: flex-end;
+  background: none;
+  display: block;
+}
+.so-frame img,
+.so-frame .so-blank {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Gilt frame, linen mount, glass. */
+  border: 4px solid var(--plank-top);
+  outline: 1px solid var(--plank-edge);
+  background: var(--ground-2);
+  box-shadow:
+    0 2px 0 var(--plank-edge),
+    0 7px 12px -5px var(--contact-shadow),
+    inset 0 0 0 3px #f2ece0;
+}
+.so-frame::after {
+  /* A sheen across the glass, so it is clearly behind something. */
+  content: '';
+  position: absolute;
+  inset: 4px;
+  pointer-events: none;
+  background: linear-gradient(118deg, rgba(255,255,255,.16) 0 28%, transparent 46%);
+}
+.shelf-object:hover { transform: translateY(-2px); }
+.shelf-object:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.so-caption {
+  position: absolute;
+  left: 50%;
+  bottom: -1.15rem;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: var(--step--1);
+  font-style: italic;
+  color: var(--ink-faint);
+  pointer-events: none;
+}
+
+/* ── Arranging them ──────────────────────────────────────────────────────── */
+
+.look-group.grow { flex: 1; min-width: 18rem; }
+.shelf-picker { display: flex; align-items: center; gap: var(--sp-2); }
+.shelf-picker select { background: none; border: 0; color: var(--ink); font: inherit; }
+
+.object-list {
+  list-style: none;
+  margin: var(--sp-3) 0;
+  padding: 0;
+  display: grid;
+  gap: var(--sp-2);
+}
+.object-list li {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--step--1);
+  color: var(--ink-dim);
+  border-top: 1px solid var(--hairline);
+  padding-top: var(--sp-2);
+}
+.object-list img { width: 2rem; height: 2rem; object-fit: cover; border-radius: 2px; }
+.object-list .grow { flex: 1; color: var(--ink); }
+.object-list label { display: flex; align-items: center; gap: var(--sp-1); }
+.object-list select { background: var(--ground-2); color: var(--ink); border: 1px solid var(--hairline); border-radius: 2px; }
+.object-list input[type='range'] { width: 7rem; accent-color: var(--accent); }

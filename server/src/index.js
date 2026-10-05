@@ -11,6 +11,7 @@ import { router as coversRouter } from './routes/covers.js';
 import { router as syncRouter } from './routes/sync.js';
 import { router as adminRouter } from './routes/admin.js';
 import { router as demoRouter } from './routes/demo.js';
+import { router as decorationsRouter } from './routes/decorations.js';
 import { seedDemo } from './demo/seed.js';
 import { startScheduler, requestSync, syncRunning, nextSyncAt } from './scheduler.js';
 import { pendingCount } from './enrich/worker.js';
@@ -22,7 +23,8 @@ export function createApp() {
   const app = express();
   app.set('trust proxy', 1);
   app.disable('x-powered-by');
-  app.use(express.json({ limit: '1mb' }));
+  // 6mb, because a framed photograph arrives as a base64 data URL.
+  app.use(express.json({ limit: '6mb' }));
 
   app.locals.requestSync = requestSync;
   app.locals.syncRunning = syncRunning;
@@ -63,6 +65,7 @@ export function createApp() {
   app.use('/api/v1/books', booksRouter);
   app.use('/api/v1/covers', coversRouter);
   app.use('/api/v1/sync', syncRouter);
+  app.use('/api/v1/decorations', decorationsRouter);
   app.use('/api/v1/admin', adminRouter);
   // Public: the shelf a visitor sees before they have an account.
   app.use('/api/v1/demo', demoRouter);

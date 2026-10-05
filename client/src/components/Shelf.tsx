@@ -1,52 +1,78 @@
-import type { Book } from '../types';
+import { Fragment } from 'react';
+import type { Book, Decoration } from '../types';
 import { Spine } from './Spine';
-import { rowHeight } from '../lib/geometry';
+import { ShelfObject } from './Decorations';
+import { rowHeight, spineDims } from '../lib/geometry';
 
 interface Props {
   row: Book[];
+  /** Books lying flat at the end of this row, if any. */
+  stack: Book[];
+  /** Framed photographs and objects standing on this particular shelf. */
+  objects: Decoration[];
   scale: number;
-  /** True for a partly filled final board, where the last books lean. */
   partial: boolean;
   openId: string | null;
   onOpen: (book: Book, el: HTMLElement) => void;
 }
 
-/** One board and the books standing on it. */
-export function Shelf({ row, scale, partial, openId, onOpen }: Props) {
-  const h = rowHeight(row, scale);
-  // Books only lean when there are enough of them for leaning to look like
-  // resting rather than collapsing. On a nearly empty shelf a real person uses
-  // a bookend, so the books simply stand.
-  const canLean = partial && row.length >= 8;
+/** One plank and the books standing on it. */
+export function Shelf({ row, stack, objects, scale, partial, openId, onOpen }: Props) {
+  const h = Math.max(rowHeight(row, scale), ...stack.map((b) => spineDims(b, scale).width), 0);
+  // Books only lean where there are enough of them for it to read as resting
+  // rather than collapsing. On a nearly empty shelf a real person uses a
+  // bookend, so they simply stand.
+  const canLean = partial && stack.length === 0 && row.length >= 8;
   const leanFrom = canLean ? Math.max(0, row.length - 2) : row.length;
+
+  // A flat stack is as wide as its widest book is tall.
+  const stackW = stack.length
+    ? Math.max(...stack.map((b) => spineDims(b, scale).height)) * 0.55
+    : 0;
 
   return (
     <div
       className="shelf"
-      // --row-h is the tallest book; CSS multiplies it by the theme's --headroom
-      // to size the opening, which is what puts visible case behind and above
-      // the books. contain-intrinsic-size pairs with content-visibility: auto so
-      // off-screen shelves skip layout while the scrollbar stays honest.
-      style={{
-        '--row-h': `${h}px`,
-        containIntrinsicSize: `auto ${Math.round(h * 1.3) + 24}px`,
-      } as React.CSSProperties}
+      style={{ containIntrinsicSize: `auto ${h + 24}px` } as React.CSSProperties}
     >
-      <div className="shelf-opening">
-        <div className="shelf-books">
-          {row.map((book, i) => (
-            <Spine
-              key={book.id}
-              book={book}
-              scale={scale}
-              leaning={i >= leanFrom}
-              isOpen={openId === book.id}
-              onOpen={onOpen}
-            />
-          ))}
-        </div>
+      <div className="shelf-row" style={{ minHeight: h }}>
+        {row.map((book, i) => {
+          // Objects stand between books, at their position along the shelf.
+          const at = row.length ? i / row.length : 0;
+          const next = row.length ? (i + 1) / row.length : 1;
+          const here = objects.filter((o) => o.position >= at && o.position < next);
+          return (
+            <Fragment key={book.id}>
+              <Spine
+                book={book}
+                scale={scale}
+                leaning={i >= leanFrom}
+                isOpen={openId === book.id}
+                onOpen={onOpen}
+              />
+              {here.map((o) => <ShelfObject key={o.id} item={o} scale={scale} />)}
+            </Fragment>
+          );
+        })}
+        {/* Anything positioned past the last book stands at the end. */}
+        {objects.filter((o) => o.position >= 1 || row.length === 0)
+          .map((o) => <ShelfObject key={o.id} item={o} scale={scale} />)}
+
+        {stack.length > 0 && (
+          <div className="stack" style={{ '--stack-w': `${Math.round(stackW)}px` } as React.CSSProperties}>
+            {stack.map((book) => (
+              <Spine
+                key={book.id}
+                book={book}
+                scale={scale}
+                isOpen={openId === book.id}
+                onOpen={onOpen}
+              />
+            ))}
+          </div>
+        )}
       </div>
-      <div className="shelf-board" aria-hidden="true" />
+      <div className="plank" aria-hidden="true" />
     </div>
   );
 }

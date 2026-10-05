@@ -141,6 +141,23 @@ CREATE TABLE IF NOT EXISTS sync_runs (
 );
 CREATE INDEX IF NOT EXISTS idx_runs_user ON sync_runs(user_id, started_at DESC);
 
+-- Things that are not books: framed photographs, small objects, whatever the
+-- reader wants standing between the spines. Per user, like their shelf.
+CREATE TABLE IF NOT EXISTS decorations (
+  id          INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id     INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  kind        TEXT NOT NULL DEFAULT 'frame',   -- frame | plant | print
+  caption     TEXT NOT NULL DEFAULT '',
+  image_path  TEXT NOT NULL DEFAULT '',
+  content_type TEXT NOT NULL DEFAULT '',
+  shelf_index INTEGER NOT NULL DEFAULT 0,      -- which shelf it stands on
+  position    REAL NOT NULL DEFAULT 0.5,       -- 0..1 along that shelf
+  width_mm    REAL NOT NULL DEFAULT 120,
+  height_mm   REAL NOT NULL DEFAULT 160,
+  created_at  TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_decorations_user ON decorations(user_id, shelf_index);
+
 CREATE TABLE IF NOT EXISTS host_cooldowns (
   host   TEXT PRIMARY KEY,
   until  TEXT NOT NULL,

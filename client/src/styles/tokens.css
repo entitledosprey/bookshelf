@@ -47,110 +47,137 @@
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-/* ── Warm wooden library (default) ───────────────────────────────────────────
-   A dim warm room with the books lit, not a cream page with a clay accent.
-   Brass is the only accent; there is deliberately no terracotta anywhere. */
-:root,
-:root[data-theme='wood'] {
-  --ground:        #241c16;
-  --ground-2:      #2e241c;
-  --board:         #4a3528;
-  --board-top:     #5c4334;
-  --board-edge:    #6b4e3a;
-  --board-shade:   #1a130e;
-  --ink:           #efe7db;
-  --ink-dim:       #b3a493;
-  --ink-faint:     #7d6f61;
-  --accent:        #b08848;
-  --hairline:      #3a2c22;
-  --contact-shadow: rgba(14, 9, 6, 0.55);
-  --room-light:    radial-gradient(120% 70% at 50% -10%, rgba(255, 228, 176, 0.11), transparent 70%);
-  --board-grain:   repeating-linear-gradient(90deg, rgba(0,0,0,.10) 0 1px, transparent 1px 7px);
-  --sheet-bg:      #2b2219;
-  --spine-rim:     rgba(255, 246, 230, 0.10);
+/* ── Shelf material ──────────────────────────────────────────────────────────
+   Thin planks, not a heavy carcass. A real shelf is a board with a lit top
+   arris and a darker front edge, and the room shows through between books. */
 
-  /* A deep cabinet: thick boards, chunky uprights, books packed close. */
-  --back-panel:    #1d1510;
-  --back-panel-2:  #251b14;
-  --upright:       #43301f;
-  --upright-edge:  #6b4e3a;
-  --recess:        rgba(0, 0, 0, 0.62);
-  --plank-shadow:  none;
-  --rail:          none;
+:root, :root[data-shelf='pine'] {
+  --plank-face:  #c9a36a;
+  --plank-top:   #e3c698;
+  --plank-edge:  #8f6c3d;
+  --plank-under: rgba(40, 24, 10, .55);
+  --plank-h: 13px;
+}
+:root[data-shelf='oak'] {
+  --plank-face:  #a9763d;
+  --plank-top:   #cd9a5c;
+  --plank-edge:  #70491f;
+  --plank-under: rgba(30, 17, 6, .6);
+  --plank-h: 15px;
+}
+:root[data-shelf='walnut'] {
+  --plank-face:  #5a3b23;
+  --plank-top:   #7d5433;
+  --plank-edge:  #35200f;
+  --plank-under: rgba(14, 8, 3, .72);
+  --plank-h: 14px;
+}
+:root[data-shelf='white'] {
+  --plank-face:  #efece6;
+  --plank-top:   #ffffff;
+  --plank-edge:  #c2bcb0;
+  --plank-under: rgba(60, 54, 44, .3);
+  --plank-h: 12px;
+}
+:root[data-shelf='black'] {
+  --plank-face:  #211e1b;
+  --plank-top:   #3a3531;
+  --plank-edge:  #0d0b09;
+  --plank-under: rgba(0, 0, 0, .7);
+  --plank-h: 12px;
 }
 
-/* ── Clean modern gallery ──────────────────────────────────────────────────
-   Pale ash shelves on warm off-white, no grain, more air. All visual weight
-   goes to the book colours. */
-:root[data-theme='gallery'] {
-  --ground:        #f1efea;
-  --ground-2:      #e9e6df;
-  --board:         #d6d0c4;
-  --board-top:     #e2ddd2;
-  --board-edge:    #c3bcae;
-  --board-shade:   #b8b1a2;
-  --ink:           #1d1a16;
-  --ink-dim:       #5f594f;
-  --ink-faint:     #8d867a;
-  --accent:        #6a5c3f;
-  --hairline:      #d9d4c9;
-  --contact-shadow: rgba(60, 54, 44, 0.22);
-  --room-light:    none;
-  --board-grain:   none;
-  --sheet-bg:      #faf8f4;
-  --spine-rim:     rgba(0, 0, 0, 0.07);
+/* ── Backdrop ────────────────────────────────────────────────────────────────
+   What shows between and above the books. This is most of why a shelf feels
+   like it is in a room rather than on a page. Patterns are drawn in CSS so
+   there is nothing to download. */
 
-  /* Not a case: thin ash planks floating off a pale wall, with air around
-     them. No uprights, no back panel, no recess. */
-  --back-panel:    transparent;
-  --back-panel-2:  transparent;
-  --upright:       transparent;
-  --upright-edge:  transparent;
-  --recess:        transparent;
-  --plank-shadow:  0 12px 20px -8px rgba(60, 54, 44, 0.55);
-  --rail:          none;
-
-  --board-thickness: 9px;
-  --upright-w: 0px;
-  --headroom: 1.18;
-  --shelf-gap-v: 1.5rem;
-  --board-radius: 2px;
+:root, :root[data-backdrop='foliage'] {
+  --ground:    #16201a;
+  --ground-2:  #1b2a21;
+  --ink:       #eceadf;
+  --ink-dim:   #a2ab9d;
+  --ink-faint: #717c6e;
+  --accent:    #c9a227;
+  --hairline:  #25362b;
+  --sheet-bg:  #16201a;
+  --spine-rim: rgba(255, 250, 235, .11);
+  --contact-shadow: rgba(6, 12, 8, .66);
+  --backdrop:
+    radial-gradient(42px 72px at 18% 22%, rgba(54,94,62,.55), transparent 70%),
+    radial-gradient(56px 92px at 73% 54%, rgba(38,74,48,.5), transparent 70%),
+    radial-gradient(34px 58px at 44% 81%, rgba(60,102,66,.42), transparent 70%),
+    radial-gradient(48px 80px at 90% 16%, rgba(44,82,54,.45), transparent 70%),
+    linear-gradient(170deg, #16201a 0%, #0f1713 100%);
+  --backdrop-size: 300px 340px;
 }
 
-/* ── Dark academia ────────────────────────────────────────────────────────
-   Deep walnut, pooled light, brass. Spines get a stronger rim light here so
-   dark bindings do not disappear into the ground. */
-:root[data-theme='academia'] {
-  --ground:        #110d0a;
-  --ground-2:      #181209;
-  --board:         #2c2017;
-  --board-top:     #3a2b1f;
-  --board-edge:    #4a3828;
-  --board-shade:   #080605;
-  --ink:           #e6dcc6;
-  --ink-dim:       #9d9179;
-  --ink-faint:     #6b6153;
-  --accent:        #c9a227;
-  --hairline:      #241a12;
-  --contact-shadow: rgba(0, 0, 0, 0.75);
-  --room-light:    radial-gradient(90% 55% at 50% -5%, rgba(255, 214, 140, 0.13), transparent 72%);
-  --board-grain:   repeating-linear-gradient(90deg, rgba(0,0,0,.16) 0 1px, transparent 1px 6px);
-  --sheet-bg:      #1a1410;
-  --spine-rim:     rgba(255, 238, 205, 0.16);
+:root[data-backdrop='plaster'] {
+  --ground:    #e8e2d6;
+  --ground-2:  #ded7c8;
+  --ink:       #1f1b15;
+  --ink-dim:   #5f584b;
+  --ink-faint: #8c8477;
+  --accent:    #7a5c28;
+  --hairline:  #d2cabb;
+  --sheet-bg:  #f6f2e9;
+  --spine-rim: rgba(0, 0, 0, .07);
+  --contact-shadow: rgba(70, 62, 48, .28);
+  --backdrop:
+    radial-gradient(1px 1px at 20% 30%, rgba(0,0,0,.05), transparent),
+    radial-gradient(1px 1px at 70% 60%, rgba(0,0,0,.05), transparent),
+    linear-gradient(165deg, #e8e2d6 0%, #d9d2c2 100%);
+  --backdrop-size: 90px 90px;
+}
 
-  /* Heavy joinery: thick uprights, deep recess, a brass rail along each board
-     and only a little headroom, so the case feels full and close. */
-  --back-panel:    #0b0806;
-  --back-panel-2:  #130d08;
-  --upright:       #241a12;
-  --upright-edge:  #4a3828;
-  --recess:        rgba(0, 0, 0, 0.9);
-  --plank-shadow:  none;
-  --rail:          #c9a227;
+:root[data-backdrop='walnut-panel'] {
+  --ground:    #170f09;
+  --ground-2:  #1e140c;
+  --ink:       #e9dcc6;
+  --ink-dim:   #a0917a;
+  --ink-faint: #6e6354;
+  --accent:    #c9a227;
+  --hairline:  #241810;
+  --sheet-bg:  #1a1209;
+  --spine-rim: rgba(255, 238, 205, .15);
+  --contact-shadow: rgba(0, 0, 0, .78);
+  --backdrop:
+    repeating-linear-gradient(90deg, rgba(0,0,0,.26) 0 2px, transparent 2px 86px),
+    repeating-linear-gradient(90deg, rgba(190,140,80,.07) 3px 5px, transparent 5px 86px),
+    linear-gradient(175deg, #1e140c 0%, #120b06 100%);
+  --backdrop-size: auto;
+}
 
-  --board-thickness: 14px;
-  --upright-w: 17px;
-  --headroom: 1.1;
+:root[data-backdrop='ink'] {
+  --ground:    #101114;
+  --ground-2:  #171a1e;
+  --ink:       #e7e9ec;
+  --ink-dim:   #9aa0a8;
+  --ink-faint: #6b717a;
+  --accent:    #c2763f;
+  --hairline:  #21252a;
+  --sheet-bg:  #15181c;
+  --spine-rim: rgba(255, 255, 255, .1);
+  --contact-shadow: rgba(0, 0, 0, .7);
+  --backdrop: linear-gradient(170deg, #15181c 0%, #0c0d10 100%);
+  --backdrop-size: auto;
+}
+
+:root[data-backdrop='sunroom'] {
+  --ground:    #f2ead9;
+  --ground-2:  #e8dec8;
+  --ink:       #231c12;
+  --ink-dim:   #655a46;
+  --ink-faint: #928671;
+  --accent:    #9a6b23;
+  --hairline:  #ded3bd;
+  --sheet-bg:  #fbf5e8;
+  --spine-rim: rgba(0, 0, 0, .08);
+  --contact-shadow: rgba(90, 74, 46, .3);
+  --backdrop:
+    radial-gradient(60% 40% at 30% 0%, rgba(255,226,160,.5), transparent 70%),
+    linear-gradient(168deg, #f6eeda 0%, #e6d9bd 100%);
+  --backdrop-size: auto;
 }
 
 * { box-sizing: border-box; }

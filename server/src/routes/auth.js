@@ -9,7 +9,7 @@ import { requireUser, throttle, tokenFromRequest } from '../auth/middleware.js';
 
 export const router = express.Router();
 
-const DEFAULT_PREFS = { theme: 'wood', order: 'author', scale: 1.6 };
+const DEFAULT_PREFS = { shelf: 'pine', backdrop: 'foliage', stacks: true, order: 'author', scale: 1.6 };
 
 const prefsOf = (row) => {
   try { return { ...DEFAULT_PREFS, ...JSON.parse(row.prefs_json || '{}') }; }
@@ -130,11 +130,20 @@ router.get('/me', requireUser, wrap(async (req, res) => res.json(meJson(req.user
 router.patch('/prefs', requireUser, wrap(async (req, res) => {
   const current = prefsOf(req.user);
   const next = { ...current };
-  const { theme, order, scale } = req.body ?? {};
-  if (theme !== undefined) {
-    if (!['wood', 'gallery', 'academia'].includes(theme)) throw new HttpError(400, 'unknown theme');
-    next.theme = theme;
+  const { shelf, backdrop, stacks, order, scale } = req.body ?? {};
+  if (shelf !== undefined) {
+    if (!['pine', 'oak', 'walnut', 'white', 'black'].includes(shelf)) {
+      throw new HttpError(400, 'unknown shelf material');
+    }
+    next.shelf = shelf;
   }
+  if (backdrop !== undefined) {
+    if (!['foliage', 'plaster', 'walnut-panel', 'ink', 'sunroom'].includes(backdrop)) {
+      throw new HttpError(400, 'unknown backdrop');
+    }
+    next.backdrop = backdrop;
+  }
+  if (stacks !== undefined) next.stacks = !!stacks;
   if (order !== undefined) {
     if (!['author', 'added', 'title', 'colour', 'pages'].includes(order)) throw new HttpError(400, 'unknown order');
     next.order = order;
