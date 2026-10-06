@@ -8,7 +8,7 @@ Multi-user and self-hosted as a single container. Visitors who are not signed in
 get a sample shelf of real books, so the site shows what it is rather than
 asking for an account first.
 
-![A bookcase of spines sized to each book's real dimensions, in the warm library theme](docs/shelf.jpg)
+![A shelf of spines sized to each book's real page count and dimensions](docs/shelf.jpg)
 
 ## How it works
 
@@ -86,6 +86,21 @@ My Books page. Both fields accept a pasted URL and pull the value out of it.
 The container expects to sit behind a reverse proxy; `nginx/bookshelf.conf` is a
 server block for an existing nginx edge stack.
 
+### Making it yours
+
+**Make it yours** in the toolbar opens the look controls: five shelf materials
+(pine, oak, walnut, white, black) and five backdrops (foliage, plaster,
+panelling, ink, sunroom) chosen independently, plus whether some books lie flat
+in stacks rather than every one standing upright. The two axes are separate on
+purpose — a fixed set of themes cannot end up looking like yours.
+
+**Add things** puts objects on the shelves: upload a photograph, pick which
+shelf it stands on, and slide it along. Pictures keep their real aspect ratio,
+are private to your account, and are capped at forty.
+
+Anyone browsing the sample shelf can use the look controls too. Their choices
+live in the browser until there is an account to save them to.
+
 ### Administration
 
 Any administrator gets an **Admin** button in the top bar:
@@ -152,11 +167,11 @@ server/src/
   enrich/         Open Library + Google Books, dimensions, covers, worker
   palette.js      median-cut palette extraction and WCAG contrast
   demo/           the public sample shelf
-  auth/           scrypt, opaque sessions, dual Bearer/cookie middleware
-  routes/         auth, books, covers, sync, admin, demo
+  routes/         auth, books, covers, sync, admin, demo, decorations
 client/src/
-  components/     Spine, Shelf, Bookcase, BookSheet, Account, Admin
-  styles/         three themes as token sets; only the chrome changes
+  components/     Spine, Shelf, Bookcase, BookSheet, Account, Admin, Decorations
+  lib/            api.ts is the only fetch layer; geometry.ts; spine-style.ts
+  styles/         tokens.css holds the shelf and backdrop axes as token sets
 ```
 
 ## Known limits

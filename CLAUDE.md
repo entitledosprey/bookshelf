@@ -39,11 +39,13 @@ server/src/
   demo/             the public sample shelf: seed.js, covers.js, shelf.json
   auth/             scrypt passwords, opaque sessions, Bearer-or-cookie middleware
   net/politeFetch.js  per-host serial queues, backoff, cooldowns
-  routes/           auth, books, covers, sync, admin, demo
+  routes/           auth, books, covers, sync, admin, demo, decorations
 client/src/
-  components/       Spine, Shelf, Bookcase, BookSheet, Account, Admin, Login, …
+  components/       Spine, Shelf, Bookcase, BookSheet, Account, Admin, Login,
+                    Decorations, Stars, Controls, SyncStatus, GoodreadsHelp
   lib/              api.ts (the only fetch layer), geometry.ts, spine-style.ts
-  styles/           tokens.css (3 themes), shelf.css, spines.css, sheet.css
+  styles/           tokens.css (shelf + backdrop axes), shelf.css, spines.css,
+                    sheet.css
 ```
 
 ## Constraints that will bite you
@@ -118,6 +120,42 @@ than implying a measurement. Ebooks and audiobooks get a fixed slim thickness,
 never a page count converted into millimetres of paper. A cover-aspect binding
 heuristic was tried and removed because it produced confidently wrong formats —
 see the note in `enrich/geometry.js` before reinventing it.
+
+**A spine is composed, not filled.** This is the single thing that decides
+whether the shelf reads as books or as a web page, and two rounds of redesign
+were spent on the furniture before working that out. A real spine has an
+anatomy: the title dominating the upper portion, the author beneath it, and an
+imprint mark at the foot, divided by rules, bands or plates. `spine-style.ts`
+picks one of eight layouts weighted by binding; `spines.css` composes the zones.
+Changing the wood, adding 3D, or lighting the scene does not help if the spines
+themselves are coloured rectangles — that was tried, in CSS and in WebGL, and
+neither worked.
+
+**In vertical writing mode the flex axes swap.** `.spine-stack` uses
+`writing-mode: vertical-rl`, where the INLINE axis runs top to bottom. So
+`flex-direction: row` is what stacks the title above the author down the spine;
+`column` lays them out side by side as two columns, which looks like a rendering
+fault. Same trap applies to `max-height` being the thing that clips a line, and
+to `text-overflow: ellipsis` silently doing nothing if the element is a flex
+container rather than a block with inline children.
+
+**Look is two independent axes, not a set of themes.** `data-shelf` (five
+materials) and `data-backdrop` (five grounds) are attributes on `<html>`, so a
+change is one token swap and one repaint rather than re-rendering 400 books.
+They were a fixed trio of themes once; separating them is what lets a shelf end
+up looking like its owner's. Anything a component needs must come from a token,
+never a literal.
+
+**Signed-out visitors can still rearrange the sample shelf**, with prefs kept in
+localStorage until there is an account to save them to. Preference writes used
+to 401 silently for them, so none of the controls did anything — if you add a
+preference, handle both paths in `savePrefs`.
+
+**Shelf objects arrive as data URLs.** Framed photographs POST to
+`/api/v1/decorations` base64-encoded in JSON rather than as multipart, which
+keeps the client free of upload middleware for what are small images. That is
+why `express.json` is set to 6mb and nginx `client_max_body_size` to 8m — both
+must move together if the cap changes.
 
 **Outbound requests go through `politeFetch`.** Per-host serial queues with a
 minimum gap, backoff, and cooldowns persisted to the database. N users syncing
